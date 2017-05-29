@@ -1,0 +1,27 @@
+//javascript comprobacion
+		php comprobacion
+		*gestionar file
+		*formulario compra
+//formulario oferta
+formatear los formularios y poner texto en el cuadrito derecho
+botones de editar y borrar
+//objeto para recibir listas
+//en home quitar comentarios y poner tareas pendientes de todos
+en home en novedades ultimo elemento de cada tabla
+//poner texto en home a la derecha
+//cambiar texto en index
+//poner boton de cerrar sesion
+//en productos en novedades mostrar 5 ultimas
+		accion de ordenar prendas por almacen
+//temporada boton
+		crear temporada select prendas 10
+//temporada listar
+//oferta listar
+		añadir boton para editar/crear comentario
+//adaptar tamaño boton cerrar sesion
+		select en añadir compra con almacenes donde esta esa prenda para eliminar
+		cambiar en el insert ruta de imagenes
+controlar error login
+//en inserts quitar comentarios y probar, añadir redireccion a exito y error
+//paginacion para consultas
+//gestionarOferta y listar en productos

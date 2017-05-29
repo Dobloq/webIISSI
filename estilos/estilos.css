@@ -1,0 +1,247 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather');
+
+* {
+	margin: 0px
+	padding: 0px
+}
+
+h1 {
+	font-family: 'Merriweather', serif;
+	font: bolder 20px;
+}
+
+h2 {
+	font: bold 14px 'Merriweather', serif;
+}
+
+header, section, footer, aside, nav, article, figure, figcaption,
+hgroup {
+	display: block;
+}
+
+
+body {
+	text-align: center;
+}
+
+@media only screen and (min-width: 768px){
+	#agrupar {
+		width: 70%;
+		margin: 15px auto;
+		text-align: left;
+		background: #FFFFFF;
+	}
+	
+	#seccion {
+		float: left;
+		width: 70%;
+		margin: 20px;
+		background: #FFFFFF;
+	}
+
+	#columna {
+		top: 0px;
+		float: left;
+		width: 20%;
+		margin: 20px 0px;
+		padding: 20px;
+		background: #00A98E;
+	}
+	
+}
+
+@media only screen and (min-width: 600px){
+	#agrupar {
+		width: 70%;
+		margin: 15px auto;
+		text-align: left;
+		background: #FFFFFF;
+	}
+	
+	#seccion {
+		float: left;
+		width: 70%;
+		margin: 20px;
+		background: #FFFFFF;
+	}
+
+	#columna {
+		top: 0px;
+		float: left;
+		width: 20%;
+		margin: 20px 0px;
+		padding: 20px;
+		background: #00A98E;
+	}
+}
+
+@media only screen and (max-width: 500px){
+	#agrupar {
+		width: 100%;
+		margin: 15px auto;
+		text-align: left;
+		background: #FFFFFF;
+	}
+	
+	#seccion {
+		float: left;
+		width: 80%;
+		margin: 20px;
+		background: #FFFFFF;
+	}
+
+	#columna {
+		top: 0px;
+		float: left;
+		width: 80%;
+		margin: 20px 0px;
+		padding: 20px;
+		background: #00A98E;
+	}
+}
+
+/*#agrupar {
+	width: 960px;
+	margin: 15px auto;
+	text-align: left;
+	background: #FFFFFF;
+}*/
+
+#cabecera {
+	background: #FFFFFF;
+	border: 1px solid #2e2925;
+	padding: 20px;
+	text-align: center;
+}
+
+#menu {
+	background: #00a98e;
+	padding: 5px 15px;
+	text-align: center;
+	border: 1px solid #2E2925;
+}
+
+#menu li {
+	display: inline-block;
+	list-style: none;
+	padding: 5px;
+	font: bold 16px 'Merriweather', serif;
+}
+
+#menu li a:link, #menu li a:visited {
+	color: #2E2925;
+    text-decoration: none;
+}
+
+#menu li a:hover, #menu li a:active {
+	color: #2E2925;
+    text-decoration: underline;
+}
+
+/*#seccion {
+	float: left;
+	width: 660px;
+	margin: 20px;
+	background: #FFFFFF;
+}
+
+#columna {
+	top: 0px;
+	float: left;
+	width: 220px;
+	margin: 20px 0px;
+	padding: 20px;
+	background: #00A98E;
+	border: 1px solid #000000;
+}
+*/
+#columna p {
+	font: italic 12px 'Merriweather', serif;
+}
+
+#pie {
+	clear: both;
+	text-align: center;
+	padding: 20px;
+	border-top: 2px solid #2E2925;
+}
+
+article {
+	background: #FFFFFF;
+	border: 1px solid #2E2925;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+article h1 {
+	margin-top: 5px;
+}
+
+article footer {
+	text-align: right;
+}
+
+figcaption {
+	font: italic 10px 'Merriweather', serif;
+	text-align: left;
+}
+
+p {
+	font: 12px 'Merriweather', serif;
+	text-align: left;
+}
+#article2 {
+	background: #FFEFD5;
+	padding: 10px;
+	margin-bottom: 15px;
+}
+
+#primerCuadro {
+	display: inline;
+}
+
+#cajaLogin {
+	text-align: center;
+	width: 50%;
+	height: 50%;
+	border: 1px double #2E2925;
+	margin: 25%;
+	padding: 5%;
+	background: #FFFFFF;
+	display: block;
+	box-shadow: 20px 20px 35px #DCDCDC;
+}
+
+#formLogin {
+	font: 12px 'Merriweather', serif;
+	display: block;
+	text-align: left;
+	margin: 2px;
+}
+
+#rackBotones {
+	text-align: center;
+}
+
+#divRadio {
+	text-align: center;
+}
+
+#divListado {
+	width: 70%;
+	text-align: left;
+	border: 1px double #2E2925;
+	padding: 8px;
+}
+
+
+
+/*div {
+	width: 100px;
+	margin: 20px;
+	padding: 10px;
+	border: 1px solid #000000;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}*/

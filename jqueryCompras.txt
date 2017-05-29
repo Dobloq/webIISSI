@@ -1,0 +1,165 @@
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script type="text/javascript">
+$("#selectPrendaCompra1").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra1 option:selected").val()},
+	function(data){
+		$("#selectAlmacen1").append(data);
+		});
+	});
+$("#selectPrendaCompra2").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra2 option:selected").val()},
+	function(data){
+		$("#selectAlmacen2").append(data);
+		});
+	});
+$("#selectPrendaCompra3").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra3 option:selected").val()},
+	function(data){
+		$("#selectAlmacen3").append(data);
+		});
+	});
+$("#selectPrendaCompra4").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra4 option:selected").val()},
+	function(data){
+		$("#selectAlmacen4").append(data);
+		});
+	});
+$("#selectPrendaCompra5").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra5 option:selected").val()},
+	function(data){
+		$("#selectAlmacen5").append(data);
+		});
+	});
+$("#selectPrendaCompra6").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra6 option:selected").val()},
+	function(data){
+		$("#selectAlmacen6").append(data);
+		});
+	});
+$("#selectPrendaCompra7").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra7 option:selected").val()},
+	function(data){
+		$("#selectAlmacen7").append(data);
+		});
+	});
+$("#selectPrendaCompra8").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra8 option:selected").val()},
+	function(data){
+		$("#selectAlmacen8").append(data);
+		});
+	});
+$("#selectPrendaCompra9").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra9 option:selected").val()},
+	function(data){
+		$("#selectAlmacen9").append(data);
+		});
+	});
+$("#selectPrendaCompra10").on("select", function(){
+	$.get("../ThreewGestion/php/controladores/almacenPrenda.php", {prenda: $("#selectPrendaCompra10 option:selected").val()},
+	function(data){
+		$("#selectAlmacen10").append(data);
+		});
+	});
+</script>
+
+<select name="selectAlmacen1" id="selectAlmacen1"></select>
+
+
+
+<div id="articulos">
+				<label> Articulos:</label><br>
+					<select name="selectPrendaCompra1" id="selectPrendaCompra1">
+						<?php foreach($prendas1 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda1" id="ctdPrenda1" placeholder="0">
+                    <br>
+                    <select name="selectPrendaCompra2" id="selectPrendaCompra2">
+                    	<option value="null">-</option>
+						<?php foreach($prendas2 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda2" id="ctdPrenda2" placeholder="0"><br>
+                    <select name="selectPrendaCompra3" id="selectPrendaCompra3">
+                    <option value="null">-</option>
+						<?php foreach($prendas3 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda3" id="ctdPrenda3" placeholder="0"><br>
+                    <select name="selectPrendaCompra4" id="selectPrendaCompra4">
+                    <option value="null">-</option>
+						<?php foreach($prendas4 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda4" id="ctdPrenda4" placeholder="0"><br>
+                    <select name="selectPrendaCompra5" id="selectPrendaCompra5">
+                    <option value="null">-</option>
+						<?php foreach($prendas5 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda5" id="ctdPrenda5" placeholder="0"><br>
+                    <select name="selectPrendaCompra6" id="selectPrendaCompra6">
+                    <option value="null">-</option>
+						<?php foreach($prendas6 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda6" id="ctdPrenda6" placeholder="0"><br>
+                    <select name="selectPrendaCompra7" id="selectPrendaCompra7">
+                    <option value="null">-</option>
+						<?php foreach($prendas7 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda7" id="ctdPrenda7" placeholder="0"><br>
+                    <select name="selectPrendaCompra8" id="selectPrendaCompra8">
+                    <option value="null">-</option>
+						<?php foreach($prendas8 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda8" id="ctdPrenda8" placeholder="0"><br>
+                    <select name="selectPrendaCompra9" id="selectPrendaCompra9">
+                    <option value="null">-</option>
+						<?php foreach($prendas9 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda9" id="ctdPrenda9" placeholder="0"><br>
+                     <select name="selectPrendaCompra10" id="selectPrendaCompra10">
+                     <option value="null">-</option>
+						<?php foreach($prendas10 as $fila){?>
+							<option value="<?php echo $fila["IDPRENDA"]; ?>">
+							<?php echo $fila["URLIMAGEN"]; ?> </option>
+							<?php }?>
+					</select>
+                    <label>Cantidad: </label>
+                    <input type="number" min="0" name="ctdPrenda10" id="ctdPrenda10" placeholder="0"><br>
+					<br><button type="submit" id="botonSubirCompra" name="botonSubirCompra">Enviar</button>
+				</form>
+				<div id="masArticulos">
