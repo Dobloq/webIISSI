@@ -1,4 +1,4 @@
-//javascript comprobacion
+javascript comprobacion
 		php comprobacion
 		*gestionar file
 		*formulario compra
