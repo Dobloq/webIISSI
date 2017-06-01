@@ -39,7 +39,7 @@
 
 		return error;
 	}
-}
+
 </script>
 	
 <form id='formLogin' action='php/controladores/controlador.php' method='post'>
@@ -49,5 +49,5 @@
 	<label>Contraseña:</label>
 		<input type='password' id='passUsr' name='passUsr' placeholder='*****' onblur="passwordConfirmation()">
 		<br>
-	<button type='submit' id='botonFormulario'>Enviar</button>
+	<button type='button' id='botonFormulario' onClick="if(validateForm()==true){$(this).submit}">Enviar</button>
 </form> 
