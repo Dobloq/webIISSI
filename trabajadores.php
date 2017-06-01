@@ -75,7 +75,7 @@ if(!isset($_SESSION['datosUsuario'])){
 						<button id="botonAnyadirTrabajador" name="botonAnyadirTrabajador" type="submit" value="anyadirTrabajador">Añadir Trabajador</button>
 					</div>
 					<div id="botonesAside">
-						<button id="botonAnyadirColaboradorAV" name="botonAnyadirColaboradorAV" type="submit" value="anyadirColaboradorAV">Añadir Colaborador</button>
+						<button id="botonAnyadirColaboradorAV" name="botonAnyadirColaboradorAV" type="submit" value="anyadirColaboradorAV">Añadir Colaborador Audiovisual</button>
 					</div>
 				</form>
 			</div>			

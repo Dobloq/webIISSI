@@ -21,26 +21,25 @@
 		}else{
 			var error = "";
 		}
-		nombre.setCustomValidity(error);
+		nombre.setCustomValidity(error);	
 		
 		return error;
 	}
 	
-	function calificacionValidation(){
-		var calificacion = document.getElementById("calificacionCAV");
-		var cav = calificacion.value;
-		var valid = true;
-		
-		valid = valid && (cav.length <=10) && (cav.length >= 0);
-		
-		if(!valid){
-			var error = "La calificación debe estar comprendida entre 0 y 10";
-		}else{
-			var error = "";
-		}
-		calificacion.setCustomValidity(error);
-		
-		return error;
+	function calificacionValidation() {	
+    	var calificacion2 = document.getElementById("calificacionCAV");
+    	var cav = calificacion2.value;
+		alert(cav);
+    	var valid2 = false;
+    	valid2 = (cav <= 10) && (cav >= 0) && calificacion2.textLength != 0;
+    	if (valid2==false) {
+			alert("cal no valida");
+        	var errorC = "La calificación debe estar comprendida entre 0 y 10";
+    	} else {
+        	var errorC = "";
+    	}
+    	calificacion2.setCustomValidity(errorC);
+    	return errorC;
 	}
 	
 			

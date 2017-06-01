@@ -3,7 +3,7 @@
 session_start();
 $pagina_anterior=$_SERVER['HTTP_REFERER'];
 if(!isset($_SESSION['datosUsuario'])){
-	HEADER("Location: index.php");
+	header("Location: index.php");
 }
 require_once("gestionBD.php");
 $conexion = crearConexionBD();
@@ -17,10 +17,10 @@ if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadir
 	$stmt->bindParam( ':nombreAlmacen', $nombreAlmacen );
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
-		
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
 	//proviene de Cliente
@@ -37,9 +37,10 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam( ':anyoNacimiento', $anyoNacimiento );
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorAV=anyadirColaboradorAV"){
 	//proviene de ColaboradorAudiovisual
@@ -52,9 +53,10 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam(':calColAu', $calColAu);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorTextil=AnyadirColaboradorTextil"){
 	//proviene de ColaboradorTextil
@@ -68,9 +70,10 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam(':calColText', $calColText);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCompra=anyadirCompra"){ //proviene de Compra
 $idCliente = $_POST['selectClienteCompra'];
@@ -98,9 +101,10 @@ $query = $query."END;";*/
 	$stmt->bindParam(':idCliente', $idCliente);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if ($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirOferta=anyadirOferta"){
 $precio = $_POST['precioOfertado'];
@@ -114,9 +118,10 @@ $prenda2 = $_POST['selectPrendaCompra2'];
 	$stmt->bindParam(':prenda2',$prenda2);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirPrenda=anyadirPrenda"){
 	//proviene de Prenda
@@ -150,9 +155,10 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam(':oferta',$oferta);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProveedor=anyadirProveedor"){
 	//proviene de Proveedor
@@ -176,9 +182,10 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam(':tecnicas',$tecnicas);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProyectoAV=anyadirProyectoAV"){
 	//proviene de ProyectoAudiovisual
@@ -189,9 +196,11 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->bindParam(':nombre',$nombre);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTarea=anyadirTarea"){ //proviene de Tarea
 $nombre = $_POST['nombreTarea'];
@@ -207,9 +216,10 @@ $colabAud = null;//$_POST[''];
 	$stmt->bindParam(':colabAud',$colabAud);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTemporada=anyadirTemporada"){ //proviene de Temporada
 $nombre = $_POST['nombreTemporada'];
@@ -221,9 +231,10 @@ $fecha = $_POST['fechaTemporada'];
 	$stmt->bindParam(':fecha',$fecha);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
 	$nombre = $_POST['nombreUsr'];
@@ -244,9 +255,10 @@ if(!isset($_POST['esDirector'])){
 	$stmt->bindParam(':pass',$pass);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../exito.php');
+	header($_SERVER['HTTP_REFERER']);
 }
 /*else if(){ //proviene de Comentario
 $idObjeto = $_POST[''];
@@ -262,9 +274,10 @@ $usuario = $_POST[''];
 	$stmt->bindParam(':usuario',$usuario);
 	$stmt->execute();
 	}catch(PDOException $e) {
-		print($e->getMessage());
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
     }
-	Header('Location: ../../home.php');
+	header($_SERVER['HTTP_REFERER']);
 }*/
 
 cerrarConexionBD($conexion);

@@ -12,7 +12,7 @@
 		var username = document.getElementById("nombreUsr");
 		var valid = true;
 
-		valid = valid && (username.length > 0);
+		valid = valid && (username.value.length > 0);
 		
 		if(!valid){
 			var error = "Por favor introduzca un usuario correcto";
