@@ -5,8 +5,6 @@ require_once("php/controladores/gestionarPrendas.php");
 $conexion = crearConexionBD();
 $clientes = consultaClientes($conexion, 1, 200);
 cerrarConexionBD($conexion);
-
-
 ?>
 
 			<h2> Introduce los datos de la compra: </h2>

@@ -1,7 +1,4 @@
-﻿<script type="text/javascript" src="../../js/validacion_login.js">
-// Funciones de validación
-
-</script>
+﻿<script type="text/javascript" src="js/validacion_login.js"></script>
 	
 <form id='formLogin' action='php/controladores/controlador.php' method='post' onSubmit="return validateForm()">
 	<label>Nombre:</label>

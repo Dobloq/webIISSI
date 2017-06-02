@@ -13,7 +13,7 @@
 		<li> <a href='trabajadores.php'> Trabajadores </a></li>
 		<li> <a href='proveedores.php'> Proveedores </a></li>
 		<li> <a href='datos.php'> Datos </a></li>
-		<li> <form action="home.php" method="post"> <button name="signout" id="signout" value="signout" type="submit" style="width:15%;"> <img src="../../images/shut_down.png" width="100%"/> </button> </form> </li>
+		<li> <form action="home.php" method="post"> <button name="signout" id="signout" value="signout" type="submit" style="width:15%;"> <img src="images/shut_down.png" width="100%"/> </button> </form> </li>
 	</ul>
 </nav>
 
