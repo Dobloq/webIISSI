@@ -70,7 +70,7 @@
 		var passconfirm = document.getElementById("userPassConfirm");
 		var confirmation = passconfirm.value;
 
-		if (pwd.length != confirmation) {
+		if (pwd != confirmation) {
 			var error = "Introduzca una contraseña valida";
 		}else{
 			var error = "";
