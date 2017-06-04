@@ -8,8 +8,6 @@ if(!isset($_SESSION['datosUsuario'])){
 	require_once("php/controladores/gestionarTrabajadores.php");
 	$conexion = crearConexionBD();
 	$resultado = consultaTareasTotales($conexion, 1, 20);
-	$nAlmacenes = contarTrabajadores($conexion);
-	//$existe = comprobarTemporada($conexion, 'Veranito');
 	cerrarConexionBD($conexion);
 ?>
 <!DOCTYPE html>
@@ -29,9 +27,6 @@ if(!isset($_SESSION['datosUsuario'])){
 					<!-- HEADER -->
 		<header id="cabecera">
 			<h1> THREEW CLOTH. CO. </h1>
-            <?php print_r($nAlmacenes);
-				echo $existe;
-			?>
 		</header>
 					<!-- NAV -->
 		<?php include_once('php/_/nav.php')?>
