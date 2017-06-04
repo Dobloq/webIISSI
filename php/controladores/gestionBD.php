@@ -22,20 +22,4 @@ function cerrarConexionBD($conexion){
 	$conexion=null;
 }
 
-function total_consulta( $conn, $query )
- {
-  try {
-   $total_consulta = "SELECT COUNT(*) AS TOTAL FROM ($query)";
- 
-   $stmt = $conn->query($total_consulta);
-   $result = $stmt->fetch();
-   $total = $result['TOTAL'];
-   return  $total;
-  }
-  catch ( PDOException $e ) {
-   $_SESSION['excepcion'] = $e->GetMessage();
-   header("Location: excepcion.php");
-  }
- } 
-
 ?>

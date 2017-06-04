@@ -19,7 +19,8 @@
 			//	$respuesta -> execute();
 			//} 
     	} catch(PDOException $e) {
-			Header("Location: panojita.php");
+			$_SESSION['excepcion'] = $e->GetMessage();
+			header("Location: ../../excepcion.php");
     	}
 		return $stmt->fetchAll();
     }

@@ -183,7 +183,14 @@ foreach($filas as $fila){
 				?>
 					<div id="divListado" name="divListado">
 						<?php echo $fila['PRECIOOFERTADO'];?></br>
-					</div>
+                        <?php 
+						$conexion = crearConexionBD();
+						$prendasOferta = prendasDeOferta($conexion,$fila['IDOFERTA']);
+						cerrarConexionBD($conexion);
+                        foreach($prendasOferta as $prendaOferta){
+						?>
+						<img src="<?php echo $prendaOferta['URLIMAGEN'];?>" width="20%" ><?php }?>
+						</div>
                     <form id="formListado" method="post" action="php/controladores/eliminar.php">
 							<input type="hidden" name="idOferta" id="idOferta" value="<?php echo $fila["IDOFERTA"];?>">
 							<button name="borrarOferta" id="borrarOferta" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar oferta </button>

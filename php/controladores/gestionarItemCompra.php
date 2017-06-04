@@ -1,4 +1,12 @@
 <?php
+	function contarItemCompra($conexion){
+		$query = "SELECT COUNT(*) FROM ITEMCOMPRA";
+		$stmt = $conexion->prepare($query);
+		$stmt->execute();
+		$resultado = $stmt->fetch();
+		return $resultado['COUNT(*)'];
+	}
+
 	function consultaCompras($conexion, $pag_num, $pag_size){
 		$primera = ( $pag_num - 1 ) * $pag_size + 1;
 		$ultima  = $pag_num * $pag_size;

@@ -20,7 +20,8 @@ if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadir
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	//header("Location: ".$_SERVER['HTTP_REFERER']);
+	print("no excepcion");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
 	//proviene de Cliente
@@ -40,7 +41,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorAV=anyadirColaboradorAV"){
 	//proviene de ColaboradorAudiovisual
@@ -56,7 +57,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorTextil=AnyadirColaboradorTextil"){
 	//proviene de ColaboradorTextil
@@ -73,7 +74,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCompra=anyadirCompra"){ //proviene de Compra
 $idCliente = $_POST['selectClienteCompra'];
@@ -104,7 +105,7 @@ $query = $query."END;";*/
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if ($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirOferta=anyadirOferta"){
 $precio = $_POST['precioOfertado'];
@@ -121,7 +122,7 @@ $prenda2 = $_POST['selectPrendaCompra2'];
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirPrenda=anyadirPrenda"){
 	//proviene de Prenda
@@ -158,7 +159,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProveedor=anyadirProveedor"){
 	//proviene de Proveedor
@@ -185,7 +186,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProyectoAV=anyadirProyectoAV"){
 	//proviene de ProyectoAudiovisual
@@ -200,7 +201,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		header("Location: ../../excepcion.php");
     }
 	
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTarea=anyadirTarea"){ //proviene de Tarea
 $nombre = $_POST['nombreTarea'];
@@ -219,7 +220,7 @@ $colabAud = null;//$_POST[''];
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTemporada=anyadirTemporada"){ //proviene de Temporada
 $nombre = $_POST['nombreTemporada'];
@@ -234,7 +235,7 @@ $fecha = $_POST['fechaTemporada'];
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
 	$nombre = $_POST['nombreUsr'];
@@ -258,7 +259,7 @@ if(!isset($_POST['esDirector'])){
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 /*else if(){ //proviene de Comentario
 $idObjeto = $_POST[''];
@@ -277,7 +278,7 @@ $usuario = $_POST[''];
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	header($_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }*/
 
 cerrarConexionBD($conexion);
