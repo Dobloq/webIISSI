@@ -1,38 +1,39 @@
-<?php
-
-session_start();
+<?php session_start();
 if(!isset($_SESSION['datosUsuario'])){
-	HEADER("Location: index.php");
-} else {
-	require_once("php/controladores/gestionBD.php");
-	require_once("php/controladores/gestionarPrendas.php");
-	require_once("php/controladores/gestionarTemporadas.php");
-	require_once("php/controladores/gestionarOfertas.php");
-	$conexion = crearConexionBD();
+	header("Location: index.php");
+	exit();
+} 
+require_once("php/controladores/gestionBD.php");
+require_once("php/controladores/gestionarPrendas.php");
+require_once("php/controladores/gestionarTemporadas.php");
+require_once("php/controladores/gestionarOfertas.php");
+$conexion = crearConexionBD();
 	//if(isset($_REQUEST('botonPorAlmacen'))){
 	
-	if (isset($_SESSION["paginacion"]))
-		$paginacion = $_SESSION["paginacion"];
-	
-	$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : (isset($paginacion) ? (int)$paginacion["PAG_NUM"] : 1);
-	$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
+if (isset($_SESSION["paginacion"])) {
+	$paginacion = $_SESSION["paginacion"];
+}
+		
+$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : (isset($paginacion) ? (int)$paginacion["PAG_NUM"] : 1);
+$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
 
-	if ($pagina_seleccionada < 1) 		$pagina_seleccionada = 1;
-	if ($pag_tam < 1) 		$pag_tam = 5;
-	
-	unset($_SESSION["paginacion"]);
-	
-	$filas = consultaPrendas($conexion, $pagina_seleccionada, $pag_tam);
-	$temporadas = consultaTemporada($conexion, $pagina_seleccionada, $pag_tam);
-	$ofertas = consultaOfertas($conexion, $pagina_seleccionada, $pag_tam);
-	$total_paginas = 10;
+if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
 
-	if ($pagina_seleccionada > $total_paginas)		$pagina_seleccionada = $total_paginas;
+if ($pag_tam < 1) $pag_tam = 5;
+	
+unset($_SESSION["paginacion"]);
+	
+$filas = consultaPrendas($conexion, $pagina_seleccionada, $pag_tam);
+$temporadas = consultaTemporada($conexion, $pagina_seleccionada, $pag_tam);
+$ofertas = consultaOfertas($conexion, $pagina_seleccionada, $pag_tam);
+$total_paginas = 10;
 
-	// Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
-	$paginacion["PAG_NUM"] = $pagina_seleccionada;
-	$paginacion["PAG_TAM"] = $pag_tam;
-	$_SESSION["paginacion"] = $paginacion;
+if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+
+// Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
+$paginacion["PAG_NUM"] = $pagina_seleccionada;
+$paginacion["PAG_TAM"] = $pag_tam;
+$_SESSION["paginacion"] = $paginacion;
 
 	
 	/*if(isset($_GET['PAG_NUM']) && isset($_GET['PAG_TAM'])){
@@ -46,9 +47,9 @@ if(!isset($_SESSION['datosUsuario'])){
 	//else{
 	//	$filas = consultaPrendasPorAlmacen($conexion, 1, 20);
 	//}
-	$novedades = consultaPrendasNovedades($conexion, 1, 5);
-	cerrarConexionBD($conexion);
-}
+$novedades = consultaPrendasNovedades($conexion, 1, 5);
+cerrarConexionBD($conexion);
+
 $camisetas = array();
 $sudaderas = array();
 $gorras = array();
@@ -72,30 +73,27 @@ foreach($filas as $fila){
 <!DOCTYPE html>
 
 <html lang="es">
-	<?php include_once('php/_/cabecera.php')?>
-	<body>
+<?php include_once('php/_/cabecera.php')?>
+<body>
 	<div id="agrupar">
-					<!-- HEADER -->
+		<!-- HEADER -->
 		<header id="cabecera">
 			<h1> THREEW CLOTH. CO. </h1>
 		</header>
-					<!-- NAV -->
-		<?php include_once('php/_/nav.php')?>
-					<!-- SECTION -->	<section id="seccion">
+		<!-- NAV -->
+		<?php include_once('php/_/nav.php');?>
+		<!-- SECTION -->
+		<section id="seccion">
 			<h2> Productos </h2>
 			<article>
 				<h2> Novedades: </h2>
-                <?php
-					foreach($novedades as $fila){
-				?>
-					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
-				<?php }?>
+					<?php foreach($novedades as $fila){ ?>
+						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+					<?php }?>
 			</article>
 			<article>
 				<h2> Camisetas: </h2>
-				<?php
-					foreach($camisetas as $fila){
-				?>
+				<?php foreach($camisetas as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
                     <form id="formListado" method="post" action="php/controladores/eliminar.php">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>">
@@ -105,11 +103,9 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> Sudaderas: </h2>
-				<?php
-					foreach($sudaderas as $fila){
-				?>
+				<?php foreach($sudaderas as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
-                 <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                	<form id="formListado" method="post" action="php/controladores/eliminar.php">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
 						<button name="borrarPrenda" id="borrarPrenda" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar prenda </button>
 					</form>   
@@ -117,9 +113,7 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> HeadWear: </h2>
-				<?php
-					foreach($gorras as $fila){
-				?>
+				<?php foreach($gorras as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
                     <form id="formListado" method="post" action="php/controladores/eliminar.php">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
@@ -129,42 +123,20 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<?php
-
-				for( $pagina = 1; $pagina <= $total_paginas; $pagina++ )
-
-					if ( $pagina == $pagina_seleccionada) { 	?>
-
+				for ($pagina = 1; $pagina <= $total_paginas; $pagina++)
+					if ($pagina == $pagina_seleccionada) {?>
 						<span class="current"><?php echo $pagina; ?></span>
-
-				<?php }	else { ?>
-
+					<?php }	else { ?>
 						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
-
-				<?php } ?>
-				
+					<?php } ?>
 				<form method="get" action="productos.php">
-
-				<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
-
-				Mostrando
-
-				<input id="PAG_TAM" name="PAG_TAM" type="number"
-
-					min="1" max="15"
-
-					value="<?php echo $pag_tam?>" autofocus >
-
-				entradas de 15
-
-				<input type="submit" value="Cambiar">
-
-		</form>
+					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
+					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="15" value="<?php echo $pag_tam?>"> entradas de 15 <input type="submit" value="Cambiar">
+				</form>
 			</article>
 			<article>
 				<h2> Temporada: </h2>
-				<?php
-					foreach($temporadas as $fila){
-				?>
+				<?php foreach($temporadas as $fila){ ?>
 					<div id="divListado" name="divListado">
 						Nombre: <?php echo $fila['NOMBRETEMPORADA'];?></br>
 						Fecha: <?php echo $fila['FECHA'];?>
@@ -178,20 +150,18 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> Ofertas: </h2>
-				<?php
-					foreach($ofertas as $fila){
-				?>
+				<?php foreach($ofertas as $fila){ ?>
 					<div id="divListado" name="divListado">
 						<?php echo $fila['PRECIOOFERTADO'];?></br>
 					</div>
                     <form id="formListado" method="post" action="php/controladores/eliminar.php">
-							<input type="hidden" name="idOferta" id="idOferta" value="<?php echo $fila["IDOFERTA"];?>">
-							<button name="borrarOferta" id="borrarOferta" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar oferta </button>
-						</form></br>
+						<input type="hidden" name="idOferta" id="idOferta" value="<?php echo $fila["IDOFERTA"];?>">
+						<button name="borrarOferta" id="borrarOferta" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar oferta </button>
+					</form></br>
 				<?php }?>
 			</article>
 		</section>
-					<!-- ASIDE -->
+		<!-- ASIDE -->
 		<aside id="columna">
 			<h2>Acciones:</h2>
 			<div id="rackBotones">
@@ -204,19 +174,16 @@ foreach($filas as $fila){
 					<div id="botonesAside">
 						<button id="botonAnyadirAlmacen" name="botonAnyadirAlmacen" type="submit" value="AnyadirAlmacen">Añadir Almacén</button>
 					</div>
-					
 				</form>
 				<form action="productos.php" method="get">
-				<div id="botonesAside">
-<button id="botonPorAlmacen" name="botonPorAlmacen" type="submit" value="ordenarPorAlmacen">Ordenar por almacén</button>					
-				</div>
+					<div id="botonesAside">
+						<button id="botonPorAlmacen" name="botonPorAlmacen" type="submit" value="ordenarPorAlmacen">Ordenar por almacén</button>					
+					</div>
 				</form>
-				
 			</div>			
 		</aside> 
-					<!-- FOOTER -->
-		
-		<?php include_once('php/_/pie.php')?>
+		<!-- FOOTER -->
+		<?php include_once('php/_/pie.php');?>
 	</div>
 	</body>
 </html>
