@@ -1,5 +1,9 @@
 <?php
 
+function limpiar($input) {
+	return htmlspecialchars(stripslashes(trim($input)));
+}
+
 session_start();
 $pagina_anterior=$_SERVER['HTTP_REFERER'];
 if(!isset($_SESSION['datosUsuario'])){
@@ -124,42 +128,91 @@ $prenda2 = $_POST['selectPrendaCompra2'];
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirPrenda=anyadirPrenda"){
+else if(isset($_POST["botonSubirPrenda"])){
 	//proviene de Prenda
-	$color = $_POST['colorPrenda'];
-	$tipo = $_POST['tipoPrenda'];
-	$calidad = $_POST['calidadPrenda'];
-	$talla = $_POST['tallaPrenda'];
+	$errorPrenda = "";
+	if(isset($_POST["colorPrenda"])) {
+		$colorPrenda = limpiar($_POST["colorPrenda"]);
+	} else {
+		$errorPrenda += "Falta el color. ";
+	}
+	if(isset($_POST["tipoPrenda"])) {
+		$tipoPrenda = limpiar($_POST["tipoPrenda"]);
+	} else {
+		$errorPrenda += "Falta el tipo. ";
+	}
+	if(isset($_POST["calidadPrenda"])) {
+		$calidadPrenda = limpiar($_POST["calidadPrenda"]);
+	} else {
+		$errorPrenda += "Falta la calidad. ";
+	}
+	if(isset($_POST["tallaPrenda"])) {
+		$tallaPrenda = limpiar($_POST["tallaPrenda"]);
+	} else {
+		$errorPrenda += "Falta la talla. ";
+	}
+	if(isset($_POST["precioPrenda"])) {
+		$precioPrenda = limpiar($_POST["precioPrenda"]);
+	} else {
+		$errorPrenda += "Falta el precio. ";
+	}
+	//TODO imagenPrenda
+	$imagenPrenda = "ftp://CamisetaVerde.jpg";
+	if(isset($_POST["cantidadPrenda"])) {
+		$cantidadPrenda = limpiar($_POST["cantidadPrenda"]);
+	} else {
+		$errorPrenda += "Falta la cantidad. ";
+	}
+	if(isset($_POST["selectTemporadaPrenda"])) {
+		$temporadaPrenda = limpiar($_POST["selectTemporadaPrenda"]);
+	} else {
+		$errorPrenda += "Falta el la temporada. ";
+	}
+	if(isset($_POST["selectProveedorPrenda"])) {
+		$proveedorPrenda = limpiar($_POST["selectProveedorPrenda"]);
+	} else {
+		$errorPrenda += "Falta el proveedor. ";
+	}
+	if(isset($_POST["selectCollaboradorPrenda"])) {
+		$collaboradorPrenda = limpiar($_POST["selectCollaborardorPrenda"]);
+	} else {
+		$errorPrenda += "Falta el collaborador. ";
+	}
+
 	$ventas = 0;
-	$precio = $_POST['precioPrenda'];
-	$url = "ftp://CamisetaVerde.jpg";//$_POST['imagenPrenda'];
-	$cantidad = $_POST['cantidadPrenda'];
-	$colTextil = null;//$_POST['selectColaboradorPrenda'];
-	$temporada = null;//$_POST['selectTemporadaPrenda'];
-	$proveedor = 1;//$_POST['selectProveedorPrenda'];
 	$oferta = null;
+
+
+	if ($errorPrenda!="") {
+		$_SESSION['excepcion'] = "Faltan datos en el formulario de prenda: " + $errorPrenda;
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_PRENDA(:color, :tipo, :calidad, :talla, :ventas, :precio, :url, :cantidad, :colTextil, :temporada, :proveedor, :oferta); END;";
-	$consulta = "INSERT INTO PRENDA VALUES(oid_prenda.nextval,:color, :tipo, :calidad, :talla, :ventas, :precio, :url, :cantidad, :colTextil, :temporada, :proveedor, :oferta)";
-	$stmt = $conexion->prepare($consulta);
-	$stmt->bindParam(':color', $color);
-	$stmt->bindParam(':tipo',$tipo);
-	$stmt->bindParam(':calidad',$calidad);
-	$stmt->bindParam(':talla',$talla);
-	$stmt->bindParam(':ventas',$ventas);
-	$stmt->bindParam(':precio',$precio);
-	$stmt->bindParam(':url',$url);
-	$stmt->bindParam(':cantidad',$cantidad);
-	$stmt->bindParam(':colTextil',$colTextil);
-	$stmt->bindParam(':temporada',$temporada);
-	$stmt->bindParam(':proveedor',$proveedor);
-	$stmt->bindParam(':oferta',$oferta);
-	$stmt->execute();
+		$consulta = "INSERT INTO PRENDA VALUES(oid_prenda.nextval,:color, :tipo, :calidad, :talla, :ventas, :precio, :url, :cantidad, :colTextil, :temporada, :proveedor, :oferta)";
+		$stmt = $conexion->prepare($consulta);
+		$stmt->bindParam(':color', $colorPrenda);
+		$stmt->bindParam(':tipo',$tipoPrenda);
+		$stmt->bindParam(':calidad',$calidadPrenda);
+		$stmt->bindParam(':talla',$tallaPrenda);
+		$stmt->bindParam(':ventas',$ventas);
+		$stmt->bindParam(':precio',$precioPrenda);
+		$stmt->bindParam(':url',$imagenPrenda);
+		$stmt->bindParam(':cantidad',$cantidadPrenda);
+		$stmt->bindParam(':colTextil',$collaboradorPrenda);
+		$stmt->bindParam(':temporada',$temporadaPrenda);
+		$stmt->bindParam(':proveedor',$proveedorPrenda);
+		$stmt->bindParam(':oferta',$oferta);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
+		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+
+	header("Location: ../../productos.php");
+	exit();
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProveedor=anyadirProveedor"){
 	//proviene de Proveedor

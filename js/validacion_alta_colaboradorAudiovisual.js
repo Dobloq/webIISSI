@@ -29,7 +29,6 @@
 	function calificacionValidation() {	
     	var calificacion2 = document.getElementById("calificacionCAV");
     	var cav = calificacion2.value;
-		alert(cav);
     	var valid2 = false;
     	valid2 = (cav <= 10) && (cav >= 0) && calificacion2.textLength != 0;
     	if (valid2==false) {

@@ -36,16 +36,16 @@
 		var calp = calidad.value;
 		var valid = true;
 		
-		valid = valid && (calp.length <=10) && (calp.length >= 0);
+		valid = valid && (calp <=10) && (calp >= 0) && calp != "";
 		
 		if(!valid){
-			var error = "La calidad debe estar comprendida entre 0 y 10";
+			var error1 = "La calidad debe estar comprendida entre 0 y 10";
 		}else{
-			var error = "";
+			var error1 = "";
 		}
-		calidad.setCustomValidity(error);
+		calidad.setCustomValidity(error1);
 		
-		return error;
+		return error1;
 	}
 
 	
@@ -82,3 +82,5 @@
 		
 		return error;
 	}
+	
+validateForm();
