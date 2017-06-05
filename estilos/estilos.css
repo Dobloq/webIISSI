@@ -223,8 +223,8 @@ p {
 	text-align: center;
 }
 
-#divRadio {
-	text-align: center;
+.altas-form label {
+	font-weight: bold;
 }
 
 #divListado {
