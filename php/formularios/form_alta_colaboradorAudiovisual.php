@@ -6,7 +6,7 @@
 		<label> Nombre: </label><br>
 			<input type="text" name="nombreCAV" id="nombreCAV"><br>
 		<label> Calificación: </label><br>
-			<input type="number" name="calificacionCAV" id="calificacionCAV"><br>
+			<input type="number" step="1" name="calificacionCAV" id="calificacionCAV"><br>
 		<button type="submit" id="botonSubirCAV" name="botonSubirCAV" onClick="validationForm()">Enviar</button>
 	</form>
 </div>

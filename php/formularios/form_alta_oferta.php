@@ -15,9 +15,9 @@ x.ready(validationForm);
 
 <h2> Introduce los datos de la oferta: </h2>
 <div id="divFormAltaOferta">
-	<form id="formAltaOferta" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
-		<label> Precio ofertado: </label>
-			<input type="number" min="0" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()"><br>
+	<form id="formAltaOferta" class="altas-form" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+		<label> Precio ofertado (&euro;): </label><br>
+			<input type="number" step="0.01" min="0" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()"><br>
 		<label> Articulo 1:</label><br>
 			<select name="selectPrendaCompra" id="selectPrendaCompra">
 				<?php foreach($prendas as $fila){?>

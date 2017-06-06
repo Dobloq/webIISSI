@@ -26,9 +26,9 @@ x.ready(validationForm);
 				<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Sudadera"> Sudadera<br>
 				<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear"> Headwear
 			</div>
-		<label> Calidad: </label><br>
+		<label>Calidad: </label><br>
 			<input type="number" min="0" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()"><br>
-		<label> Talla: </label><br>
+		<label>Talla: </label><br>
 			<div id="divRadio" name="divRadio">
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S"> S<br>
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M"> M<br>
@@ -36,26 +36,26 @@ x.ready(validationForm);
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL"> XL<br>
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL"> XXL	
 			</div>
-		<label> Precio: </label><br>
-			<input type="number" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
-		<label> Añade una imagen: </label><br>
+		<label>Precio (&euro;): </label><br>
+			<input type="number" step="0.1" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
+		<label>Añade una imagen: </label><br>
 			<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*"><br>
-		<label> Cantidad: </label><br>
+		<label>Cantidad: </label><br>
 			<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()"><br>
-		<label> ¿Pertenece a alguna de éstas temporadas? </label><br>
+		<label>¿Pertenece a alguna de éstas temporadas? </label><br>
 			<select name="selectTemporadaPrenda" id="selectTemporadaPrenda"><br>
 				<option value="null">No</option>
 				<?php foreach($temporada as $fila){?>
 				<option value="<?php echo $fila["IDTEMPORADA"]; ?>"><?php echo $fila["NOMBRETEMPORADA"]; ?> </option>
 				<?php }?>
 			</select><br>
-		<label> ¿Es de alguno de éstos proveedores? </label><br>
+		<label>¿Es de alguno de éstos proveedores? </label><br>
 			<select name="selectProveedorPrenda" id="selectProveedorPrenda"><br>
 				<?php foreach($proveedores as $fila){?>
 				<option value="<?php echo $fila["IDPROVEEDOR"]; ?>"><?php echo $fila["NOMBREPROVEEDOR"]; ?> </option>
 				<?php }?>
 			</select><br>
-		<label> ¿Es una colaboración textil? </label><br>
+		<label>¿Es una colaboración textil? </label><br>
 			<select name="selectColaboradorPrenda" id="selectColaboradorPrenda">
 				<option value="null">No</option>
 				<?php foreach($colaboradores as $fila){?>

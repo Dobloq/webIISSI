@@ -10,7 +10,7 @@ cerrarConexionBD($conexion);
 <h2> Introduce los datos de la compra: </h2>
 <div id="divFormAltaCompra"><br>
 	<form id="formAltaCompra" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
-		<label> Cliente: </label><br>
+		<label>Cliente:</label><br>
 			<select name="selectClienteCompra" id="selectClienteCompra">
 				<?php foreach($clientes as $fila){?>
 				<option value="<?php echo $fila["IDCLIENTE"]; ?>"><?php echo $fila["NOMBRECLIENTE"]; ?> </option>
