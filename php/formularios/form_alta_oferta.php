@@ -29,7 +29,7 @@ x.ready(validationForm);
 				<?php foreach($prendas1 as $fila){?>
 				<option value="<?php echo $fila["IDPRENDA"]; ?>"><?php echo $fila["URLIMAGEN"]; ?> </option>
 				<?php }?>
-			</select><br>
+			</select><br><br>
 		<button type="submit" id="botonSubirOferta" name="botonSubirOferta">Enviar</button>
 	</form>
 </div>

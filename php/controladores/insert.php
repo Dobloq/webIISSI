@@ -197,7 +197,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 			$temporadaPrenda = null;
 		}
 	} else {
-		$errorPrenda .= "Falta el la temporada. ";
+		$errorPrenda .= "Falta la temporada. ";
 	}
 	if(isset($_POST["selectProveedorPrenda"])) {
 		
@@ -311,20 +311,40 @@ $colabAud = null;//$_POST[''];
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTemporada=anyadirTemporada"){ //proviene de Temporada
-$nombre = $_POST['nombreTemporada'];
-$fecha = $_POST['fechaTemporada'];
+else if(isset($_POST["botonSubirTemporada"])){
+	//proviene de Temporada
+	$errorTemporada = "";
+	if(isset($_POST["nombreTemporada"])) {
+		$nombre = limpiar($_POST["nombreTemporada"]);
+	} else {
+		$errorTemporada .= "Falta el nombre. ";
+	}
+	if(isset($_POST["fechaTemporada"])) {
+		$fecha = $_POST["fechaTemporada"];
+	} else {
+		$errorTemporada .= "Falta la fecha. ";
+	}
+
+	if ($errorTemporada!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_TEMPORADA(:nombre, :fecha); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombre',$nombre);
-	$stmt->bindParam(':fecha',$fecha);
-	$stmt->execute();
-	}catch(PDOException $e) {
+		$query = "BEGIN PROC_TEMPORADA(:nombre, :fecha); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':fecha',$fecha);
+		$stmt->execute();
+	} catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
+		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+
+	header("Location: ../../productos.php");
+	exit();
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
 	$nombre = $_POST['nombreUsr'];
