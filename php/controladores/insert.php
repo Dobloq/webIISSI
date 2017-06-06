@@ -111,83 +111,108 @@ $query = $query."END;";*/
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
-else if ($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirOferta=anyadirOferta"){
-$precio = $_POST['precioOfertado'];
-$prenda1 = $_POST['selectPrendaCompra'];
-$prenda2 = $_POST['selectPrendaCompra2'];
+else if (isset($_POST["botonSubirOferta"])){
+	//proviene de Oferta
+	$errorOferta = "";
+	if(isset($_POST["precioOfertado"]) && is_numeric($_POST["precioOfertado"])) {
+		$precio = (double) $_POST["precioOfertado"];
+		if ($precio < 0.0) {
+			$errorOferta .= "El precio es negativo. ";
+		}
+	} else {
+		$errorOferta .= "Falta el precio. ";
+	}
+
+	$prenda1 = $_POST['selectPrendaCompra'];
+	$prenda2 = $_POST['selectPrendaCompra2'];
+
+	if ($errorOferta!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de oferta: " . $errorOferta;
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_HACEROFERTA(:precio, :prenda1, :prenda2); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':precio',$precio);
-	$stmt->bindParam(':prenda1',$prenda1);
-	$stmt->bindParam(':prenda2',$prenda2);
-	$stmt->execute();
+		$query = "BEGIN PROC_HACEROFERTA(:precio, :prenda1, :prenda2); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':precio',$precio);
+		$stmt->bindParam(':prenda1',$prenda1);
+		$stmt->bindParam(':prenda2',$prenda2);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
+		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
-}
-
-
-
+	header("Location: ../../productos.php");
+	exit();
+} 
 else if(isset($_POST["botonSubirPrenda"])){
 	//proviene de Prenda
 	$errorPrenda = "";
 	if(isset($_POST["colorPrenda"])) {
 		$colorPrenda = limpiar($_POST["colorPrenda"]);
 	} else {
-		$errorPrenda += "Falta el color. ";
+		$errorPrenda .= "Falta el color. ";
 	}
 	if(isset($_POST["tipoPrenda"])) {
 		$tipoPrenda = limpiar($_POST["tipoPrenda"]);
 	} else {
-		$errorPrenda += "Falta el tipo. ";
+		$errorPrenda .= "Falta el tipo. ";
 	}
-	if(isset($_POST["calidadPrenda"])) {
-		$calidadPrenda = limpiar($_POST["calidadPrenda"]);
+	if(isset($_POST["calidadPrenda"]) && is_numeric($_POST["calidadPrenda"])) {
+		$calidadPrenda = (int) $_POST["calidadPrenda"];
+		if ($calidadPrenda < 0 || $calidadPrenda > 10) {
+			$errorPrenda .= "La calidad no está comprendida ente 0 y 10. ";
+		}
 	} else {
-		$errorPrenda += "Falta la calidad. ";
+		$errorPrenda .= "Falta la calidad. ";
 	}
 	if(isset($_POST["tallaPrenda"])) {
 		$tallaPrenda = limpiar($_POST["tallaPrenda"]);
 	} else {
-		$errorPrenda += "Falta la talla. ";
+		$errorPrenda .= "Falta la talla. ";
 	}
-	if(isset($_POST["precioPrenda"])) {
-		$precioPrenda = limpiar($_POST["precioPrenda"]);
+	if(isset($_POST["precioPrenda"]) && is_numeric($_POST["precioPrenda"])) {
+		$precioPrenda = (double) $_POST["precioPrenda"];
+		if ($precioPrenda < 0.0) {
+			$errorPrenda .= "El precio es negativo. ";
+		}
 	} else {
-		$errorPrenda += "Falta el precio. ";
+		$errorPrenda .= "Falta el precio. ";
 	}
 	//TODO imagenPrenda
-	$imagenPrenda = "ftp://CamisetaVerde.jpg";
-	if(isset($_POST["cantidadPrenda"])) {
-		$cantidadPrenda = limpiar($_POST["cantidadPrenda"]);
+	$imagenPrenda = "images/prendas/prenda-nueva.png";
+	if(isset($_POST["cantidadPrenda"]) && is_numeric($_POST["cantidadPrenda"])) {
+		$cantidadPrenda = (int) $_POST["cantidadPrenda"];
+		if ($cantidadPrenda < 0) {
+			$errorPrenda .= "La cantidad es negativa. ";
+		}
 	} else {
-		$errorPrenda += "Falta la cantidad. ";
+		$errorPrenda .= "Falta la cantidad. ";
 	}
 	if(isset($_POST["selectTemporadaPrenda"])) {
 		$temporadaPrenda = limpiar($_POST["selectTemporadaPrenda"]);
 		if($_POST["selectTemporadaPrenda"]="null"){
 			$temporadaPrenda = null;
-			}
+		}
 	} else {
-		$errorPrenda += "Falta el la temporada. ";
+		$errorPrenda .= "Falta el la temporada. ";
 	}
 	if(isset($_POST["selectProveedorPrenda"])) {
 		
 		$proveedorPrenda = limpiar($_POST["selectProveedorPrenda"]);
 		
 	} else {
-		$errorPrenda += "Falta el proveedor. ";
+		$errorPrenda .= "Falta el proveedor. ";
 	}
 	if(isset($_POST["selectColaboradorPrenda"])) {
 		$colaboradorPrenda = limpiar($_POST["selectColaboradorPrenda"]);
 		if($_POST["selectColaboradorPrenda"]="null"){
 			$colaboradorPrenda = null;
-			}
+		}
 	} else {
-		$errorPrenda += "Falta el collaborador. ";
+		$errorPrenda .= "Falta el collaborador. ";
 	}
 
 	$ventas = 0;
@@ -195,7 +220,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 
 
 	if ($errorPrenda!="") {
-		$_SESSION['excepcion'] = "Faltan datos en el formulario de prenda: " + $errorPrenda;
+		$_SESSION['excepcion'] = "Error(es) en formulario de prenda: " . $errorPrenda;
 		header("Location: ../../excepcion.php");
 		exit();
 	}

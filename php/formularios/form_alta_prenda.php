@@ -9,8 +9,7 @@ $proveedores = consultaProveedor($conexion, 1, 200);
 $colaboradores = consultaColaboradoresTextil($conexion, 1, 20);
 cerrarConexionBD($conexion);
 ?>
-<script type="text/javascript" src="js/validacion_alta_prenda.js">
-</script>
+<script type="text/javascript" src="js/validacion_alta_prenda.js"></script>
 <script type="text/javascript">
 var x = $(document);
 x.ready(validationForm);

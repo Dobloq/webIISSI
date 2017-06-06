@@ -8,12 +8,16 @@ $clientes = consultaClientes($conexion, 1, 20);
 cerrarConexionBD($conexion);
 ?>
 <script type="text/javascript" src="js/validacion_alta_oferta.js"></script>
+<script type="text/javascript">
+var x = $(document);
+x.ready(validationForm);
+</script>
 
 <h2> Introduce los datos de la oferta: </h2>
 <div id="divFormAltaOferta">
 	<form id="formAltaOferta" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
 		<label> Precio ofertado: </label>
-			<input type="number" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()"><br>
+			<input type="number" min="0" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()"><br>
 		<label> Articulo 1:</label><br>
 			<select name="selectPrendaCompra" id="selectPrendaCompra">
 				<?php foreach($prendas as $fila){?>
