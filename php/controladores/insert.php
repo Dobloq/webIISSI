@@ -128,6 +128,9 @@ $prenda2 = $_POST['selectPrendaCompra2'];
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
+
+
+
 else if(isset($_POST["botonSubirPrenda"])){
 	//proviene de Prenda
 	$errorPrenda = "";
@@ -165,16 +168,24 @@ else if(isset($_POST["botonSubirPrenda"])){
 	}
 	if(isset($_POST["selectTemporadaPrenda"])) {
 		$temporadaPrenda = limpiar($_POST["selectTemporadaPrenda"]);
+		if($_POST["selectTemporadaPrenda"]="null"){
+			$temporadaPrenda = null;
+			}
 	} else {
 		$errorPrenda += "Falta el la temporada. ";
 	}
 	if(isset($_POST["selectProveedorPrenda"])) {
+		
 		$proveedorPrenda = limpiar($_POST["selectProveedorPrenda"]);
+		
 	} else {
 		$errorPrenda += "Falta el proveedor. ";
 	}
-	if(isset($_POST["selectCollaboradorPrenda"])) {
-		$collaboradorPrenda = limpiar($_POST["selectCollaborardorPrenda"]);
+	if(isset($_POST["selectColaboradorPrenda"])) {
+		$colaboradorPrenda = limpiar($_POST["selectColaboradorPrenda"]);
+		if($_POST["selectColaboradorPrenda"]="null"){
+			$colaboradorPrenda = null;
+			}
 	} else {
 		$errorPrenda += "Falta el collaborador. ";
 	}
@@ -200,7 +211,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 		$stmt->bindParam(':precio',$precioPrenda);
 		$stmt->bindParam(':url',$imagenPrenda);
 		$stmt->bindParam(':cantidad',$cantidadPrenda);
-		$stmt->bindParam(':colTextil',$collaboradorPrenda);
+		$stmt->bindParam(':colTextil',$colaboradorPrenda);
 		$stmt->bindParam(':temporada',$temporadaPrenda);
 		$stmt->bindParam(':proveedor',$proveedorPrenda);
 		$stmt->bindParam(':oferta',$oferta);

@@ -35,7 +35,6 @@
 		var calidad = document.getElementById("calidadPrenda");
 		var calp = calidad.value;
 		var valid = true;
-		
 		valid = valid && (calp <=10) && (calp >= 0) && calp != "";
 		
 		if(!valid){
@@ -82,5 +81,3 @@
 		
 		return error;
 	}
-	
-validateForm();

@@ -9,7 +9,12 @@ $proveedores = consultaProveedor($conexion, 1, 200);
 $colaboradores = consultaColaboradoresTextil($conexion, 1, 20);
 cerrarConexionBD($conexion);
 ?>
-<script type="text/javascript" src="js/validacion_alta_prenda.js"></script>
+<script type="text/javascript" src="js/validacion_alta_prenda.js">
+</script>
+<script type="text/javascript">
+var x = $(document);
+x.ready(validationForm);
+</script>
 
 <h2> Introduce los datos de la prenda: </h2>
 <div id="divFormAltaPrenda">
@@ -47,7 +52,6 @@ cerrarConexionBD($conexion);
 			</select><br>
 		<label> ¿Es de alguno de éstos proveedores? </label><br>
 			<select name="selectProveedorPrenda" id="selectProveedorPrenda"><br>
-				<option value="null">No</option>
 				<?php foreach($proveedores as $fila){?>
 				<option value="<?php echo $fila["IDPROVEEDOR"]; ?>"><?php echo $fila["NOMBREPROVEEDOR"]; ?> </option>
 				<?php }?>
