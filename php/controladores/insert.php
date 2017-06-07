@@ -24,7 +24,7 @@ if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadir
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
     }
-	//header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
 	//proviene de Cliente

@@ -30,15 +30,14 @@ $resultado = consultaTareasDeUnTrabajador($conexion, $pagina_seleccionada, $pag_
 $proyecto = consultaProyectoAudiovisual($conexion, $pagina_seleccionada, $pag_tam);
 cerrarConexionBD($conexion);
 
-$total_paginas = contarTareas($conexion)/$pag_tam + 1;
-
+$total_paginas = contarTareas($conexion)/$pag_tam;
+if(contarTareas($conexion)%$pag_tam>0){$total_paginas++;}
 if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
 
 // Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
 $paginacion["PAG_NUM"] = $pagina_seleccionada;
 $paginacion["PAG_TAM"] = $pag_tam;
 $_SESSION["paginacion"] = $paginacion;
-?>
 ?>
 <!DOCTYPE html>
 
@@ -77,11 +76,12 @@ $_SESSION["paginacion"] = $paginacion;
 					if ($pagina == $pagina_seleccionada) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="tareas.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="tareas.php">
 					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
 					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarTareas($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarTareas($conexion)?> <input type="submit" value="Cambiar">
+                </form>
             </article>
 			<article>
 				<h2> Proyectos: </h2>

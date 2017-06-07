@@ -4,13 +4,37 @@ if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 	exit();
 }
+if (isset($_SESSION["paginacion"])) {
+	$paginacion = $_SESSION["paginacion"];
+}
+		
+$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : (isset($paginacion) ? (int)$paginacion["PAG_NUM"] : 1);
+$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
+
+if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
+
+if ($pag_tam < 1) $pag_tam = 5;
+	
+unset($_SESSION["paginacion"]);
+
+
+
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarTrabajadores.php");
 require_once("php/controladores/gestionarColaboradores.php");
 $conexion = crearConexionBD();
-$filas = consultaTrabajadores($conexion, 1, 20);
-$colaboradores = consultaColaboradoresAudiovisual($conexion, 1, 20);
+$filas = consultaTrabajadores($conexion, $pagina_seleccionada, $pag_tam);
+$colaboradores = consultaColaboradoresAudiovisual($conexion, $pagina_seleccionada, $pag_tam);
 cerrarConexionBD($conexion);
+
+$total_paginas = contarTrabajadores($conexion)/$pag_tam;
+if(contarTrabajadores($conexion)%$pag_tam>0){$total_paginas++;}
+if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+
+// Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
+$paginacion["PAG_NUM"] = $pagina_seleccionada;
+$paginacion["PAG_TAM"] = $pag_tam;
+$_SESSION["paginacion"] = $paginacion;
 ?>
 
 <!DOCTYPE html>
@@ -51,7 +75,7 @@ cerrarConexionBD($conexion);
 					if ($pagina == $pagina_seleccionada) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="trabajadores.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="trabajadores.php">
 					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">

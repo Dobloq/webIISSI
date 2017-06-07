@@ -6,101 +6,180 @@ if(!isset($_SESSION['datosUsuario'])){
 require_once("gestionBD.php");
 $conexion = crearConexionBD();
 if(isset($_POST['borrarTarea'])){
+	try{
 		unset($_POST['borrarTarea']);
 		$id = $_POST['idTarea'];
 		$query = "DELETE FROM TAREA WHERE IDTAREA =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-if(isset($_POST['borrarPrenda'])){
-	unset($_POST['borrarPrenda']);
+elseif(isset($_POST['borrarPrenda'])){
+	try{
+		unset($_POST['borrarPrenda']);
 		$id = $_POST['idPrenda'];
 		$query = "DELETE FROM PRENDA WHERE IDPRENDA =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarTemporada'])){
+elseif(isset($_POST['borrarTemporada'])){
+	try{
 		unset($_POST['borrarTemporada']);
 		$id = $_POST['idTemporada'];
 		$query = "DELETE FROM TEMPORADA WHERE IDTEMPORADA =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
-	}if(isset($_POST['borrarOferta'])){
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
+	}
+elseif(isset($_POST['borrarOferta'])){
+	try{
 		unset($_POST['borrarOferta']);
 		$id = $_POST['idOferta'];
 		$query = "DELETE FROM OFERTA WHERE IDOFERTA =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarTrabajador'])){
+elseif(isset($_POST['borrarTrabajador'])){
+	try{
 		unset($_POST['borrarTrabajador']);
 		$id = $_POST['idTrabajador'];
 		$query = "DELETE FROM TRABAJADOR WHERE IDTRABAJADOR =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarColaborador'])){
+elseif(isset($_POST['borrarColaborador'])){
+	try{
 		unset($_POST['borrarColaborador']);
 		$id = $_POST['idColaborador'];
 		$query = "DELETE FROM COLABORADORAUDIOVISUAL WHERE IDCOLABORADORAUDIOVISUAL =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarProyecto'])){
+elseif(isset($_POST['borrarProyecto'])){
+	try{
 		unset($_POST['borrarProyecto']);
 		$id = $_POST['idProyecto'];
 		$query = "DELETE FROM PROYECTOAUDIOVISUAL WHERE IDPROYECTOAUDIOVISUAL =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarProveedor'])){
+elseif(isset($_POST['borrarProveedor'])){
+	try{
 		unset($_POST['borrarProveedor']);
 		$id = $_POST['idProveedor'];
 		$query = "DELETE FROM PROVEEDOR WHERE IDPROVEEDOR =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarColaboradorTextil'])){
+elseif(isset($_POST['borrarColaboradorTextil'])){
+	try{
 		unset($_POST['borrarColaboradorTextil']);
 		$id = $_POST['idColaboradorTextil'];
 		$query = "DELETE FROM COLABORADORTEXTIL WHERE IDCOLABORADORTEXTIL =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
-	if(isset($_POST['borrarCliente'])){
+elseif(isset($_POST['borrarCliente'])){
+	try{
 		unset($_POST['borrarCliente']);
 		$id = $_POST['idCliente'];
 		$query = "DELETE FROM CLIENTE WHERE IDCLIENTE =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	//header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: panojita.php");
+	exit();
 	}
-	if(isset($_POST['borrarCompra'])){
+elseif(isset($_POST['borrarCompra'])){
+		try{
 		unset($_POST['borrarCompra']);
 		$id = $_POST['idCompra'];
 		$query = "DELETE FROM COMPRA WHERE IDCOMPRA =:id";
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
-		Header('Location: ../../exito.php');
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+		exit();
+    }
+	header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
 ?>

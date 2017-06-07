@@ -9,6 +9,10 @@
 				Comuniqueselo al administrador del sistema y se solucionará cuanto antes";
 		} elseif (strpos($_SESSION["excepcion"],"ORA-01017") !=false){ 
 			$mensaje = "Lo sentimos, la base de datos esta inaccesible temporalmente. Disculpe las molestias";
+		} elseif(strpos($_SESSION["excepcion"],"ORA-02292") !=false){?>
+			<script type="text/javascript">alert("No se puede borrar dicho registro porque otros datos dependen de él")</script>;
+<?php
+			header("Location: ".$_SERVER['HTTP_REFERER']);
 		} else {
 			$mensaje = "Lo sentimos, ha ocurrido el siguiente error: <br>"  . $_SESSION["excepcion"] . "<br>Le rogamos que se lo 
 			comunique al administrador de la web y disculpe las molestias";}

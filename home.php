@@ -28,7 +28,8 @@ $resultado = consultaTareasTotales($conexion, $pagina_seleccionada, $pag_tam);
 cerrarConexionBD($conexion);
 
 
-$total_paginas = contarTareas($conexion)/$pag_tam + 1;
+$total_paginas = contarTareas($conexion)/$pag_tam;
+if(contarTareas($conexion)%$pag_tam>0){$total_paginas++;}
 
 if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
 
@@ -76,7 +77,7 @@ $_SESSION["paginacion"] = $paginacion;
 					if ($pagina == $pagina_seleccionada) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="home.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="home.php">
 					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">

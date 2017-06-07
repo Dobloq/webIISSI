@@ -26,7 +26,8 @@ unset($_SESSION["paginacion"]);
 $filas = consultaPrendas($conexion, $pagina_seleccionada, $pag_tam);
 $temporadas = consultaTemporada($conexion, $pagina_seleccionada, $pag_tam);
 $ofertas = consultaOfertas($conexion, $pagina_seleccionada, $pag_tam);
-$total_paginas = contarPrendas($conexion)/$pag_tam + 1;
+$total_paginas = contarPrendas($conexion)/$pag_tam;
+if(contarPrendas($conexion)%$pag_tam>0){$total_paginas++;}
 
 if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
 
