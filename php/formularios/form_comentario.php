@@ -3,7 +3,7 @@
 <h2>Inserte su comentario: </h2>
 <br>
 <div id="divFormComentario" name="divFormComentario">
-	<form id="formComentario" action='php/controladores/insert.php' name="formComentario" method="post" onSubmit="return validateForm()">
+	<form id="formComentario" action='php/controladores/insert.php' name="formComentario" method="post" onSubmit="return validationForm()">
 		<input type="text" id="idUsuarioHidden" name="idUsuarioHidden" value="">
 		<input type="text" id="idObjetoHidden" name="idObjetoHidden" value="">
 		<input type="text" id="tipoObjetoHidden" name="tipoObjetoHidden" value="">

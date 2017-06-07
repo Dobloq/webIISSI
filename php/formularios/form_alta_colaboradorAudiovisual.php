@@ -2,7 +2,7 @@
 
 <h2> Introduce los datos del colaborador audiovisual: </h2>
 <div id="divFormAltaCAV">
-	<form id="formAltaCAV" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaCAV" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label> Nombre: </label><br>
 			<input type="text" name="nombreCAV" id="nombreCAV"><br>
 		<label> Calificación: </label><br>

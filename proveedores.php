@@ -39,9 +39,9 @@ cerrarConexionBD($conexion);
 						Ciudad: <?php echo $fila["CIUDAD"];?><br>
 						Serigrafía (1 sí, 0 no): <?php echo $fila["SERIGRAFIA"];?><br>
 						Técnicas: <?php echo $fila["TECNICAS"];?><br>
-                        <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                        <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idProveedor" id="idProveedor" value="<?php echo $fila["IDPROVEEDOR"];?>">
-							<button name="borrarProveedor" id="borrarProveedor" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar proveedor </button>
+							<button name="borrarProveedor" id="borrarProveedor" type="submit"> Borrar proveedor </button>
 						</form>
 						<br>
 					</div>
@@ -54,9 +54,9 @@ cerrarConexionBD($conexion);
 					<div id="divListado" name="divListado">
 						Nombre: <?php echo $fila["NOMBRECOLABORADORTEXTIL"];?><br>
 						Calificación: <?php echo $fila["CALIFICACION"];?><br>
-                        <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                        <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idColaboradorTextil" id="idColaboradorTextil" value="<?php echo $fila["IDCOLABORADORTEXTIL"];?>">
-							<button name="borrarColaboradorTextil" id="borrarColaboradorTextil" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar colaborador textil </button>
+							<button name="borrarColaboradorTextil" id="borrarColaboradorTextil" type="submit"> Borrar colaborador textil </button>
 						</form>
 						<br>
 					</div>

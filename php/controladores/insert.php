@@ -25,7 +25,6 @@ if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadir
 		header("Location: ../../excepcion.php");
     }
 	//header("Location: ".$_SERVER['HTTP_REFERER']);
-	print("no excepcion");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
 	//proviene de Cliente
@@ -320,7 +319,7 @@ else if(isset($_POST["botonSubirTemporada"])){
 		$errorTemporada .= "Falta el nombre. ";
 	}
 	if(isset($_POST["fechaTemporada"])) {
-		$fecha = $_POST["fechaTemporada"];
+		$fecha = date('d/m/Y', strtotime($_POST["fechaTemporada"]));
 	} else {
 		$errorTemporada .= "Falta la fecha. ";
 	}

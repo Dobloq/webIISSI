@@ -2,7 +2,7 @@
 
 <h2> Introduce los datos del trabajador: </h2>
 <div id="divFormAltaUsr">
-	<form id="formAltaUsr" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaUsr" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreUsr" id="nombreUsr"><br>
 		<label>Usuario:</label><br>

@@ -5,13 +5,36 @@ if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 	exit();
 }
+if (isset($_SESSION["paginacion"])) {
+	$paginacion = $_SESSION["paginacion"];
+}
+		
+$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : (isset($paginacion) ? (int)$paginacion["PAG_NUM"] : 1);
+$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
+
+if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
+
+if ($pag_tam < 1) $pag_tam = 5;
+	
+unset($_SESSION["paginacion"]);
+
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarCliente.php");
 require_once("php/controladores/gestionarCompras.php");
 $conexion = crearConexionBD();
-$clientes = consultaClientes($conexion, 1, 200);
-$compras = consultaCompras($conexion, 1, 20);
+$clientes = consultaClientes($conexion, $pagina_seleccionada, $pag_tam);
+$compras = consultaCompras($conexion, $pagina_seleccionada, $pag_tam);
 cerrarConexionBD($conexion);
+
+$total_paginas = contarClientes($conexion)/$pag_tam + 1;
+
+if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+
+// Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
+$paginacion["PAG_NUM"] = $pagina_seleccionada;
+$paginacion["PAG_TAM"] = $pag_tam;
+$_SESSION["paginacion"] = $paginacion;
+?>
 ?>
 <!DOCTYPE html>
 
@@ -37,25 +60,36 @@ cerrarConexionBD($conexion);
 							Teléfono: <?php echo $fila["TELEFONO"];?> <br>
 							Correo: <?php echo $fila["CORREO"];?> <br>
 							Año de nacimiento: <?php echo $fila["ANYONACIMIENTO"];?> <br>
-                            <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                            <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 								<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $fila["IDCLIENTE"];?>">
-								<button name="borrarCliente" id="borrarCliente" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')">Borrar cliente </button>
+								<button name="borrarCliente" id="borrarCliente" type="submit">Borrar cliente </button>
 							</form>
 							<br>
 						</div>
                       	<br>
 					<?php }?>
 				</article>
-                	
+               	<article>
+            <?php
+				for ($pagina = 1; $pagina <= $total_paginas; $pagina++)
+					if ($pagina == $pagina_seleccionada) {?>
+						<span class="current"><?php echo $pagina; ?></span>
+					<?php }	else { ?>
+						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+					<?php } ?>
+				<form method="get" action="datos.php">
+					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
+					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarClientes($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarClientes($conexion)?> <input type="submit" value="Cambiar">
+            </article>
 				<article>
 					<h2> Compras: </h2>
 					<?php foreach($compras as $fila){?>
 						<div id="divListado" name="divListado">
 							Nombre del cliente: <?php echo $fila["NOMBRECLIENTE"];?><br>
 							Fecha de la compra: <?php echo $fila["FECHACOMPRA"];?><br>
-                            <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                            <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 								<input type="hidden" name="idCompra" id="idCompra" value="<?php echo $fila["IDCOMPRA"];?>">
-								<button name="borrarCompra" id="borrarCompra" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')">Borrar compra </button>
+								<button name="borrarCompra" id="borrarCompra" type="submit">Borrar compra </button>
 							</form><br>
 						</div>
                         <br>

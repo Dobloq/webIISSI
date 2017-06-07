@@ -26,7 +26,7 @@ unset($_SESSION["paginacion"]);
 $filas = consultaPrendas($conexion, $pagina_seleccionada, $pag_tam);
 $temporadas = consultaTemporada($conexion, $pagina_seleccionada, $pag_tam);
 $ofertas = consultaOfertas($conexion, $pagina_seleccionada, $pag_tam);
-$total_paginas = 10;
+$total_paginas = contarPrendas($conexion)/$pag_tam + 1;
 
 if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
 
@@ -95,9 +95,9 @@ foreach($filas as $fila){
 				<h2> Camisetas: </h2>
 				<?php foreach($camisetas as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
-                    <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                    <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>">
-						<button name="borrarPrenda" id="borrarPrenda" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar prenda </button>
+						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
 					</form>
 				<?php }?>
 			</article>
@@ -105,9 +105,9 @@ foreach($filas as $fila){
 				<h2> Sudaderas: </h2>
 				<?php foreach($sudaderas as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
-                	<form id="formListado" method="post" action="php/controladores/eliminar.php">
+                	<form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
-						<button name="borrarPrenda" id="borrarPrenda" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar prenda </button>
+						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
 					</form>   
 				<?php }?>
 			</article>
@@ -115,9 +115,9 @@ foreach($filas as $fila){
 				<h2> HeadWear: </h2>
 				<?php foreach($gorras as $fila){ ?>
 					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
-                    <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                    <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
-						<button name="borrarPrenda" id="borrarPrenda" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar prenda </button>
+						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
 					</form>   
 				<?php }?>
 			</article>
@@ -131,7 +131,7 @@ foreach($filas as $fila){
 					<?php } ?>
 				<form method="get" action="productos.php">
 					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
-					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="15" value="<?php echo $pag_tam?>"> entradas de 15 <input type="submit" value="Cambiar">
+					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarPrendas($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarPrendas($conexion)?> <input type="submit" value="Cambiar">
 				</form>
 			</article>
 			<article>
@@ -141,9 +141,9 @@ foreach($filas as $fila){
 						Nombre: <?php echo $fila['NOMBRETEMPORADA'];?></br>
 						Fecha: <?php echo $fila['FECHA'];?>
                         </br>
-                        <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                        <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idTemporada" id="idTemporada" value="<?php echo $fila["IDTEMPORADA"];?>">
-							<button name="borrarTemporada" id="borrarTemporada" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar temporada </button>
+							<button name="borrarTemporada" id="borrarTemporada" type="submit"> Borrar temporada </button>
 						</form>
 					</div></br>
 				<?php }?>
@@ -161,9 +161,9 @@ foreach($filas as $fila){
 						?>
 						<img src="<?php echo $prendaOferta['URLIMAGEN'];?>" width="20%" ><?php }?>
 						</div>
-                    <form id="formListado" method="post" action="php/controladores/eliminar.php">
+                    <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idOferta" id="idOferta" value="<?php echo $fila["IDOFERTA"];?>">
-						<button name="borrarOferta" id="borrarOferta" type="submit" onClick="confirm('¿Está seguro de que desea borrar?')"> Borrar oferta </button>
+						<button name="borrarOferta" id="borrarOferta" type="submit"> Borrar oferta </button>
 					</form></br>
 				<?php }?>
 			</article>

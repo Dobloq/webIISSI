@@ -2,7 +2,7 @@
 
 <h2> Introduce los datos del cliente: </h2>
 <div id="divFormAltaCliente">
-	<form id="formAltaCliente" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaCliente" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreCliente" id="nombreCliente" onBlur="nombreValidation()"><br>
 		<label>Teléfono:</label><br>

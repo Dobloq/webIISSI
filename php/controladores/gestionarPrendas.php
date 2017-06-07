@@ -1,6 +1,6 @@
 <?php
 	function contarPrendas($conexion){
-		$consulta = "SELECT * FROM PRENDA";
+		$consulta = "SELECT COUNT(*) FROM PRENDA";
 		$stmt = $conexion->prepare($consulta);
 		$stmt->execute();
 		$resultado = $stmt->fetch();

@@ -2,7 +2,7 @@
 
 <h2> Introduce los datos del colaborador textil: </h2>
 <div id="divFormAltaCT">
-	<form id="formAltaCT" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaCT" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label> Nombre: </label><br>
 			<input type="text" name="nombreCT" id="nombreCT" onBlur="nombreValidation()"><br>
 		<label> Calificación: </label><br>

@@ -2,7 +2,7 @@
 
 <h2> Introduce los datos del proveedor: </h2>
 <div id="divFormAltaProveedor">
-	<form id="formAltaProveedor" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaProveedor" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreProveedor" id="nombreProveedor" onBlur="nombreValidation()"><br>
 		<label>Calificación:</label><br>

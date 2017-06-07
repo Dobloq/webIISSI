@@ -20,7 +20,7 @@
 			//} 
     	} catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
-			header("Location: ../../excepcion.php");
+			header("Location: ../excepcion.php");
     	}
 		return $stmt->fetchAll();
     }

@@ -8,7 +8,7 @@ cerrarConexionBD($conexion);
 
 <h2> Introduce los datos de la tarea: </h2>
 <div id="divFormAltaTemporada">
-	<form id="formAltaTemporada" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaTemporada" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreTarea" id="nombreTarea"><br>
 		<label>Tiempo estimado en minutos:</label><br>

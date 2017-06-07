@@ -53,7 +53,7 @@
 		var prize = precio.value;
 		var valid = true;
 		
-		valid = valid && (prize.length > 0);
+		valid = valid && (prize.length > 0) && prize > 0;
 		
 		if(!valid){
 			var error = "Por favor introduzca un precio de prenda válido";

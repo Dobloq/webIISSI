@@ -10,14 +10,10 @@ $colaboradores = consultaColaboradoresTextil($conexion, 1, 20);
 cerrarConexionBD($conexion);
 ?>
 <script type="text/javascript" src="js/validacion_alta_prenda.js"></script>
-<script type="text/javascript">
-var x = $(document);
-x.ready(validationForm);
-</script>
 
 <h2> Introduce los datos de la prenda: </h2>
 <div id="divFormAltaPrenda">
-	<form id="formAltaPrenda" class="altas-form" enctype="multipart/form-data" action='php/controladores/insert.php' method="post" onSubmit="return validateForm()">
+	<form id="formAltaPrenda" class="altas-form" enctype="multipart/form-data" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Color:</label><br>
 			<input type="text" name="colorPrenda" id="colorPrenda" onBlur="colorValidation()"><br>
 		<label>Tipo:</label><br>
@@ -37,7 +33,7 @@ x.ready(validationForm);
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL"> XXL	
 			</div>
 		<label>Precio (&euro;): </label><br>
-			<input type="number" step="0.1" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
+			<input type="number" step="0.5" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
 		<label>Añade una imagen: </label><br>
 			<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*"><br>
 		<label>Cantidad: </label><br>
