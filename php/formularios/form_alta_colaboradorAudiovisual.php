@@ -4,9 +4,9 @@
 <div id="divFormAltaCAV">
 	<form id="formAltaCAV" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label> Nombre: </label><br>
-			<input type="text" name="nombreCAV" id="nombreCAV"><br>
+			<input type="text" name="nombreCAV" id="nombreCAV" required onBlur="nombreValidation()"><br>
 		<label> Calificación: </label><br>
-			<input type="number" step="1" name="calificacionCAV" id="calificacionCAV"><br>
+			<input type="number" step="1" name="calificacionCAV" id="calificacionCAV" required onBlur="calificacionValidation()"><br>
 		<button type="submit" id="botonSubirCAV" name="botonSubirCAV" onClick="validationForm()">Enviar</button>
 	</form>
 </div>

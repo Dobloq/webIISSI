@@ -13,15 +13,15 @@ cerrarConexionBD($conexion);
 <div id="divFormAltaOferta">
 	<form id="formAltaOferta" class="altas-form" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label> Precio ofertado (&euro;): </label><br>
-			<input type="number" step="0.01" min="0" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()"><br>
+			<input type="number" step="0.01" min="0" name="precioOfertado" id="precioOfertado" onBlur="precioValidation()" required><br>
 		<label> Articulo 1:</label><br>
-			<select name="selectPrendaCompra" id="selectPrendaCompra">
+			<select name="selectPrendaCompra" id="selectPrendaCompra" required>
 				<?php foreach($prendas as $fila){?>
 				<option value="<?php echo $fila["IDPRENDA"]; ?>"><?php echo $fila["URLIMAGEN"]; ?> </option>
 				<?php }?>
 			</select><br>
 		<label> Articulo 2:</label><br>
-			<select name="selectPrendaCompra2" id="selectPrendaCompra2">
+			<select name="selectPrendaCompra2" id="selectPrendaCompra2" required>
 				<?php foreach($prendas1 as $fila){?>
 				<option value="<?php echo $fila["IDPRENDA"]; ?>"><?php echo $fila["URLIMAGEN"]; ?> </option>
 				<?php }?>

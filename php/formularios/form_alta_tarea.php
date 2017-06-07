@@ -10,9 +10,9 @@ cerrarConexionBD($conexion);
 <div id="divFormAltaTemporada">
 	<form id="formAltaTemporada" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
 		<label>Nombre:</label><br>
-			<input type="text" name="nombreTarea" id="nombreTarea"><br>
+			<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()"><br>
 		<label>Tiempo estimado en minutos:</label><br>
-			<input type="number" name="tiempoEstimado" id="tiempoEstimado"><br>
+			<input type="number" name="tiempoEstimado" id="tiempoEstimado" required onBLur="tiempoValidation()"><br>
 		<label>¿Compartes con alguien esta tarea?</label><br>
 			<select>
 				<option value="null">No</option>
