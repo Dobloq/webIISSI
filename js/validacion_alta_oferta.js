@@ -1,6 +1,6 @@
 	function validationForm(){
 		
-		var error2 = precioValidation();
+		var error1 = precioValidation();
 		
 		return (error1.length == 0);
 	}
