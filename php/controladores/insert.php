@@ -12,19 +12,33 @@ if(!isset($_SESSION['datosUsuario'])){
 require_once("gestionBD.php");
 $conexion = crearConexionBD();
 $stmt = null;
-if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirAlmacen=AnyadirAlmacen"){
+if(isset($_POST["botonSubirAlmacen"])){
 	//proviene de Almacén
-	$nombreAlmacen = $_POST['nombreAlmacen'];
+	$errorAlmacen = "";
+	if(isset($_POST["nombreAlmacen"])) {
+		$nombreAlmacen = limpiar($_POST["nombreAlmacen"]);
+	} else {
+		$errorAlmacen .= "Falta el nombre. ";
+	}
+
+	if ($errorAlmacen!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de almacen: " . $errorAlmacen;
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_ALMACEN(:nombreAlmacen); END;";
-	$stmt = $conexion->prepare( $query );
-	$stmt->bindParam( ':nombreAlmacen', $nombreAlmacen );
-	$stmt->execute();
+		$query = "BEGIN PROC_ALMACEN(:nombreAlmacen); END;";
+		$stmt = $conexion->prepare( $query );
+		$stmt->bindParam( ':nombreAlmacen', $nombreAlmacen );
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		header("Location: ../../excepcion.php");
+		exit();
     }
-	//header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../productos.php");
+	exit();
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
 	//proviene de Cliente
