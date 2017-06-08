@@ -1,4 +1,24 @@
 <?php
+	function getPrenda($conexion, $idPrenda){
+		$consulta = "SELECT * FROM PRENDA WHERE IDPRENDA = :idPrenda";
+		$stmt = $conexion->prepare($consulta);
+		$stmt->bindParam(':idPrenda', $idPrenda);
+		$stmt->execute();
+		$resultado = $stmt->fetch();
+		return $resultado['PRECIO'];
+	}
+	
+	if(isset($_GET["idPrenda"])){
+		$conexion = crearConexionBD();
+		$resultado = getPrenda($conexion, $_GET["idPrenda"]);
+		foreach($resultado as $res){
+			echo $res;
+			break;
+		}
+		cerrarConexionBD($conexion);
+		unset($_GET["idPrenda"]);
+	}
+
 	function contarPrendas($conexion){
 		$consulta = "SELECT COUNT(*) FROM PRENDA";
 		$stmt = $conexion->prepare($consulta);

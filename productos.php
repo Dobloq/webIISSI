@@ -14,7 +14,7 @@ if (isset($_SESSION["paginacion"])) {
 	$paginacion = $_SESSION["paginacion"];
 }
 		
-$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : (isset($paginacion) ? (int)$paginacion["PAG_NUM"] : 1);
+$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : null;
 $pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
 
 if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
@@ -131,7 +131,7 @@ foreach($filas as $fila){
 						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="productos.php">
-					<input id="PAG_NUM" name="PAG_NUM" type="hidden" value="<?php echo $pagina_seleccionada?>">
+					
 					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarPrendas($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarPrendas($conexion)?> <input type="submit" value="Cambiar">
 				</form>
 			</article>
