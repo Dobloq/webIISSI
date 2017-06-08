@@ -1,18 +1,20 @@
 <?php
 	function getPrenda($conexion, $idPrenda){
-		$consulta = "SELECT * FROM PRENDA WHERE IDPRENDA = :idPrenda";
+		$consulta = "SELECT PRECIO FROM PRENDA WHERE IDPRENDA = :idPrenda";
 		$stmt = $conexion->prepare($consulta);
 		$stmt->bindParam(':idPrenda', $idPrenda);
 		$stmt->execute();
-		$resultado = $stmt->fetch();
-		return $resultado['PRECIO'];
+		$resultado = $stmt->fetchAll();
+		return $resultado;
 	}
 	
 	if(isset($_GET["idPrenda"])){
+		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
 		$resultado = getPrenda($conexion, $_GET["idPrenda"]);
+		//return $resultado;
 		foreach($resultado as $res){
-			echo $res;
+			echo $res["PRECIO"];
 			break;
 		}
 		cerrarConexionBD($conexion);

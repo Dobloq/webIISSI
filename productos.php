@@ -14,7 +14,7 @@ if (isset($_SESSION["paginacion"])) {
 	$paginacion = $_SESSION["paginacion"];
 }
 		
-$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : null;
+$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : 1;
 $pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
 
 if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;

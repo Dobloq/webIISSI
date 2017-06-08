@@ -6,6 +6,7 @@ $clientes = consultaClientes($conexion, 1, contarClientes($conexion));
 $prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
 ?>
 <!--falta: <script type="text/javascript" src="js/validacion_alta_compra.js"></script>-->
+
 <script type="text/javascript">
 var x = $(document);
 var nextInput = 2;
@@ -24,11 +25,15 @@ x.ready(function() {
 		nextInput++;
 		});
 	$("#selectPrendaCompra1").on("change", function(){
-	$.get("../ThreewGestion/php/controladores/gestionarPrenda.php", {idPrenda: $("#selectPrendaCompra1 option:selected").val()},
-	function(data){
-		$("#precio1").val(data);
+		$.get("php/controladores/gestionarPrendas.php", {idPrenda: $("#selectPrendaCompra1 option:selected").val()},
+		function(data){
+			$("#precio1").val(data);
+			$("#value1").val(data);
 		});
 	});
+	$("#ctdPrenda1").on("change", function(){
+		$("#precio1").val($("#value1").val()*$(this).val());
+		});
 });
 
 </script>
@@ -41,7 +46,7 @@ x.ready(function() {
 				<option value="<?php echo $fila["IDCLIENTE"]; ?>"><?php echo $fila["NOMBRECLIENTE"]; ?> </option>
 				<?php }?>
 			</select><br>
-            <input type="date" id="fechaCompra" name="fechaCompra" required>
+            <input type="date" id="fechaCompra" name="fechaCompra" required value="<?php echo date("Y-m-d");?>">
          	<br>
             <label> Articulos:</label><br>
             <div id="articulos">
@@ -55,6 +60,7 @@ x.ready(function() {
                     <input type="number" min="0" name="ctdPrenda1" id="ctdPrenda1" placeholder="0">
                     <label>Precio</label>
                     <input type="number" disabled name="precio1" id="precio1" value="">
+                    <input type="hidden" id="value1" name="value1">
                     <br>
             </div>
             <button type="button" name="nuevoArticulo" id="nuevoArticulo">Nuevo articulo</button>

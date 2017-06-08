@@ -162,8 +162,7 @@ elseif(isset($_POST['borrarCliente'])){
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	//header("Location: ".$_SERVER['HTTP_REFERER']);
-	header("Location: panojita.php");
+	header("Location: ".$_SERVER['HTTP_REFERER']);
 	exit();
 	}
 elseif(isset($_POST['borrarCompra'])){
