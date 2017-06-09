@@ -1,4 +1,26 @@
 <?php
+	
+	function actualizarTrabajadorTarea($conexion, $idTrabajador, $idTarea){
+		try{
+			$consulta = 'BEGIN PROC_TRABAJADORTAREA(:idTrabajador,:idTarea); END;';
+			$stmt = $conexion->prepare($consulta);
+			$stmt->bindParam(':idTrabajador', intval($idTrabajador));
+			$stmt->bindParam(':idTarea', intval($idTarea));
+			$stmt->execute();
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	if(isset($_POST["idTraAct"])){
+		require_once("gestionBD.php");
+		$conexion = crearConexionBD();
+		echo actualizarTrabajadorTarea($conexion, $_POST["idTrabajador"], $_POST["idTarea"]);
+		cerrarConexionBD($conexion);
+		unset($_POST["idTraAct"]);
+	}
+
 	function contarTrabajadores($conexion){
 		try {
 			$query = "SELECT COUNT(*) FROM TRABAJADOR";

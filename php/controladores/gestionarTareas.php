@@ -13,6 +13,11 @@
     	}
 	}
 	
+	function getUltimaTarea($conexion){
+			$id = consultaTareasTotales($conexion, contarTareas($conexion),1);
+			echo $id[0]["IDTAREA"];
+		}
+	
 	function contarTareas($conexion){
 		try {
 			$consulta = "SELECT COUNT(*) FROM TAREA";

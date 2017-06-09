@@ -8,11 +8,31 @@
 		return $resultado;
 	}
 	
+	function actualizarTemporadaPrenda($conexion, $id, $idPrenda){
+		try{
+			$consulta = 'UPDATE PRENDA SET TEMPORADA = :id  WHERE IDPRENDA = :idPrenda';
+			$stmt = $conexion->prepare($consulta);
+			$stmt->bindParam(':idPrenda', intval($idPrenda));
+			$stmt->bindParam(':id', intval($id));
+			$stmt->execute();
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	if(isset($_POST["idPrendaAct"])){
+		require_once("gestionBD.php");
+		$conexion = crearConexionBD();
+		echo actualizarTemporadaPrenda($conexion, $_POST["id"], $_POST["idPrendaAct"]);
+		cerrarConexionBD($conexion);
+		unset($_POST["idPrendaAct"]);
+		}
+	
 	if(isset($_GET["idPrenda"])){
 		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
 		$resultado = getPrenda($conexion, $_GET["idPrenda"]);
-		//return $resultado;
 		foreach($resultado as $res){
 			echo $res["PRECIO"];
 			break;

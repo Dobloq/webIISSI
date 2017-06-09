@@ -11,6 +11,11 @@
 			header("Location: ../../excepcion.php");
     	}
 	}
+	
+	function getUltimaTemporada($conexion){
+			$id = consultaTemporada($conexion, contarTemporadas($conexion),1);
+			echo $id[0]["IDTEMPORADA"];
+		}
 
 	function comprobarTemporada($conexion, $nombreTemporada){
 		try {

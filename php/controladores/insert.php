@@ -306,23 +306,34 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTarea=anyadirTarea"){ //proviene de Tarea
+$errorTarea = "";
 $nombre = $_POST['nombreTarea'];
 $tiempo = $_POST['tiempoEstimado'];
-$proyecAud = null;//$_POST[''];
 $colabAud = null;//$_POST[''];
-	try{
+if(isset($_POST["selectProyectTarea"])) {
+		$proyecAud = $_POST["selectProyectTarea"];
+		if($_POST["selectProyectTarea"]="null"){
+			$proyecAud = null;
+		}
+	} else {
+		$errorPrenda .= "Falta el proyecto audiovisual. ";
+	}
+	//try{
 	$query = "BEGIN PROC_TAREA(:nombre, :tiempo, :proyecAud, :colabAud); END;";
 	$stmt = $conexion->prepare($query);
 	$stmt->bindParam(':nombre',$nombre);
 	$stmt->bindParam(':tiempo',$tiempo);
 	$stmt->bindParam(':proyecAud',$proyecAud);
 	$stmt->bindParam(':colabAud',$colabAud);
+	echo "proyc: ".$proyecAud;
 	$stmt->execute();
-	}catch(PDOException $e) {
-		$_SESSION['excepcion'] = $e->GetMessage();
-		header("Location: ../../excepcion.php");
-    }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	//}catch(PDOException $e) {
+	//	$_SESSION['excepcion'] = $e->GetMessage();
+	//	header("Location: ../../excepcion.php");
+    //}
+	require_once("gestionarTareas.php");
+	//echo "tarea n: ".getUltimaTarea($conexion);
+	//header("Location: ".$_SERVER['HTTP_REFERER']);
 }
 else if(isset($_POST["botonSubirTemporada"])){
 	//proviene de Temporada
@@ -355,9 +366,11 @@ else if(isset($_POST["botonSubirTemporada"])){
 		header("Location: ../../excepcion.php");
 		exit();
     }
-
+	if(isset($_POST["mostrar"])){
+		require_once("gestionarTemporadas.php");
+		return getUltimaTemporada($conexion);} else {
 	header("Location: ../../productos.php");
-	exit();
+	exit();}
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
 	$nombre = $_POST['nombreUsr'];
