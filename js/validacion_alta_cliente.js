@@ -33,12 +33,12 @@
 		var tel = telefono.value;
 		var valid = true;
 		
-		var longitud = /+(\d{11})/;
+		var longitud = new RegExp(/^\+\d{2,3}\d{9,10}$/);
 		
 		valid = valid && (tel.length == 12) && (longitud.test(tel));
 		
 		if(!valid){
-			var error = "Introduzca un número de teléfono correcto";
+			var error = "Introduzca un número de teléfono del tipo +34NNNNNNNNN";
 		}else{
 			var error = "";
 		}
@@ -47,7 +47,7 @@
 	}
 	
 	function mailValidation(){
-		var email = document.getElementById("email");
+		var email = document.getElementById("mailCliente");
 		var correo = email.value;
 		var valid = true;
 		

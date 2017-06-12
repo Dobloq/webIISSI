@@ -61,7 +61,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../datos.php");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorAV=anyadirColaboradorAV"){
 	//proviene de ColaboradorAudiovisual
@@ -78,7 +78,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../trabajadores.php");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorTextil=AnyadirColaboradorTextil"){
 	//proviene de ColaboradorTextil
@@ -96,7 +96,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../proveedores.php");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCompra=anyadirCompra"){ //proviene de Compra
 $idCliente = $_POST['selectClienteCompra'];
@@ -128,7 +128,7 @@ $query = $query."END;";*/
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../datos.php");
 }
 else if (isset($_POST["botonSubirOferta"])){
 	//proviene de Oferta
@@ -298,7 +298,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../proveedor.php");
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProyectoAV=anyadirProyectoAV"){
 	//proviene de ProyectoAudiovisual
@@ -314,7 +314,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		header("Location: ../../excepcion.php");
     }
 	
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../trabajadores.php");
 }
 else if(isset($_POST['botonSubirTarea'])){ //proviene de Tarea
 $errorTarea = "";
@@ -339,6 +339,7 @@ if(isset($_POST['selectProyecto'])) {
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	require_once("gestionarTareas.php");
@@ -360,6 +361,7 @@ else if(isset($_POST["botonSubirTemporada"])){
 
 	if ($errorTemporada!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
@@ -406,7 +408,7 @@ if(!isset($_POST['esDirector'])){
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../trabajadores.php");
 }
 /*else if(){ //proviene de Comentario
 $idObjeto = $_POST[''];
@@ -426,7 +428,7 @@ $usuario = $_POST[''];
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+	header("Location: ../../home.php");
 }*/
 
 cerrarConexionBD($conexion);

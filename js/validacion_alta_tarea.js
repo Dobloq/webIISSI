@@ -32,7 +32,7 @@
 		var time = tiempo.value;
 		var valid = true;
 		
-		valid = valid && (time.length > 0);
+		valid = valid && (time.length > 0) && time > 0;
 		
 		if(!valid){
 			var error = "Por favor introduzca un tiempo de tarea correcto";

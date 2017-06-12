@@ -47,7 +47,7 @@ x.ready(function() {
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()"><br>
 		<label>Tiempo estimado en minutos:</label><br>
-			<input type="number" name="tiempoEstimado" id="tiempoEstimado" required onBlur="tiempoValidation()"><br>
+			<input type="number" name="tiempoEstimado" min="1" id="tiempoEstimado" required onBlur="tiempoValidation()"><br>
 		<label>¿Compartes con alguien esta tarea?</label><br>
 			<select name="selectCompartir" id="selectCompartir">
 				<option value="null">No</option>
