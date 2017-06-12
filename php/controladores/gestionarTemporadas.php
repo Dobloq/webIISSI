@@ -8,14 +8,21 @@
 			return $resultado['COUNT(*)'];
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
 	
 	function getUltimaTemporada($conexion){
+		try {
 			$id = consultaTemporada($conexion, contarTemporadas($conexion),1);
 			echo $id[0]["IDTEMPORADA"];
-		}
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
 
 	function comprobarTemporada($conexion, $nombreTemporada){
 		try {
@@ -30,6 +37,7 @@
 			}
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -51,6 +59,7 @@
 			return $stmt->fetchAll();
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
     }

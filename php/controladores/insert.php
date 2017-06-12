@@ -23,6 +23,7 @@ if(isset($_POST["botonSubirAlmacen"])){
 
 	if ($errorAlmacen!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de almacen: " . $errorAlmacen;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
 	}
@@ -34,6 +35,7 @@ if(isset($_POST["botonSubirAlmacen"])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
@@ -56,6 +58,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -72,6 +75,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -89,6 +93,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -120,6 +125,7 @@ $query = $query."END;";*/
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -154,6 +160,7 @@ else if (isset($_POST["botonSubirOferta"])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
@@ -234,6 +241,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 
 	if ($errorPrenda!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de prenda: " . $errorPrenda;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
 	}
@@ -256,6 +264,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
@@ -286,6 +295,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -300,40 +310,39 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	
 	header("Location: ".$_SERVER['HTTP_REFERER']);
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTarea=anyadirTarea"){ //proviene de Tarea
+else if(isset($_POST['botonSubirTarea'])){ //proviene de Tarea
 $errorTarea = "";
 $nombre = $_POST['nombreTarea'];
 $tiempo = $_POST['tiempoEstimado'];
 $colabAud = null;//$_POST[''];
-if(isset($_POST["selectProyectTarea"])) {
-		$proyecAud = $_POST["selectProyectTarea"];
-		if($_POST["selectProyectTarea"]="null"){
-			$proyecAud = null;
-		}
-	} else {
-		$errorPrenda .= "Falta el proyecto audiovisual. ";
+if(isset($_POST['selectProyecto'])) {
+	$proyecAud = $_POST['selectProyecto'];
+	if($_POST['selectProyecto']=="null"){
+		$proyecAud = "abc";
 	}
-	//try{
+	} else {
+		$errorTarea .= "Falta el proyecto audiovisual. ";
+	}
+	try{
 	$query = "BEGIN PROC_TAREA(:nombre, :tiempo, :proyecAud, :colabAud); END;";
 	$stmt = $conexion->prepare($query);
 	$stmt->bindParam(':nombre',$nombre);
 	$stmt->bindParam(':tiempo',$tiempo);
 	$stmt->bindParam(':proyecAud',$proyecAud);
 	$stmt->bindParam(':colabAud',$colabAud);
-	echo "proyc: ".$proyecAud;
 	$stmt->execute();
-	//}catch(PDOException $e) {
-	//	$_SESSION['excepcion'] = $e->GetMessage();
-	//	header("Location: ../../excepcion.php");
-    //}
+	}catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		header("Location: ../../excepcion.php");
+    }
 	require_once("gestionarTareas.php");
-	//echo "tarea n: ".getUltimaTarea($conexion);
-	//header("Location: ".$_SERVER['HTTP_REFERER']);
+	echo getUltimaTarea($conexion);
 }
 else if(isset($_POST["botonSubirTemporada"])){
 	//proviene de Temporada
@@ -351,6 +360,7 @@ else if(isset($_POST["botonSubirTemporada"])){
 
 	if ($errorTemporada!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
 	}
@@ -363,6 +373,7 @@ else if(isset($_POST["botonSubirTemporada"])){
 		$stmt->execute();
 	} catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
@@ -392,6 +403,7 @@ if(!isset($_POST['esDirector'])){
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);
@@ -411,6 +423,7 @@ $usuario = $_POST[''];
 	$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ".$_SERVER['HTTP_REFERER']);

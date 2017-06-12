@@ -8,18 +8,22 @@
 			$stmt->bindParam(':idTarea', intval($idTarea));
 			$stmt->execute();
 		}catch(PDOException $e) {
-			$_SESSION['excepcion'] = $e->GetMessage();
-			header("Location: ../../excepcion.php");
+			//$_SESSION['excepcion'] = $e->GetMessage();
+			//$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			//header("Location: ../../excepcion.php");
     	}
 	}
 	
-	if(isset($_POST["idTraAct"])){
+	if(isset($_GET["idTrabajador"])){
+		echo "hace el if";
+		//header("Location: ../../panojita.php");
 		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
-		echo actualizarTrabajadorTarea($conexion, $_POST["idTrabajador"], $_POST["idTarea"]);
+		actualizarTrabajadorTarea($conexion, $_GET["idTrabajador"], $_GET["idTarea"]);
 		cerrarConexionBD($conexion);
 		unset($_POST["idTraAct"]);
-	}
+	} 
+	//echo "no hace el if";
 
 	function contarTrabajadores($conexion){
 		try {
@@ -30,6 +34,7 @@
 			return $resultado['COUNT(*)'];	
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -48,6 +53,7 @@
 			}
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -69,6 +75,7 @@
 			return $stmt;
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
     }

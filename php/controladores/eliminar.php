@@ -15,10 +15,11 @@ if(isset($_POST['borrarTarea'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarPrenda'])){
@@ -31,10 +32,11 @@ elseif(isset($_POST['borrarPrenda'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarTemporada'])){
@@ -47,10 +49,11 @@ elseif(isset($_POST['borrarTemporada'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarOferta'])){
@@ -63,10 +66,11 @@ elseif(isset($_POST['borrarOferta'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarTrabajador'])){
@@ -79,10 +83,11 @@ elseif(isset($_POST['borrarTrabajador'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarColaborador'])){
@@ -95,10 +100,11 @@ elseif(isset($_POST['borrarColaborador'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarProyecto'])){
@@ -111,6 +117,7 @@ elseif(isset($_POST['borrarProyecto'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
@@ -127,10 +134,11 @@ elseif(isset($_POST['borrarProveedor'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarColaboradorTextil'])){
@@ -143,10 +151,11 @@ elseif(isset($_POST['borrarColaboradorTextil'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
+		header("Location: ".$_SERVER['HTTP_REFERER']);
 		exit();
 	}
 elseif(isset($_POST['borrarCliente'])){
@@ -159,14 +168,15 @@ elseif(isset($_POST['borrarCliente'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }
-	header("Location: ".$_SERVER['HTTP_REFERER']);
-	exit();
+		header("Location: ".$_SERVER['HTTP_REFERER']);
+		exit();
 	}
 elseif(isset($_POST['borrarCompra'])){
-		try{
+	try{
 		unset($_POST['borrarCompra']);
 		$id = $_POST['idCompra'];
 		$query = "DELETE FROM COMPRA WHERE IDCOMPRA =:id";
@@ -175,6 +185,7 @@ elseif(isset($_POST['borrarCompra'])){
 		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
     }

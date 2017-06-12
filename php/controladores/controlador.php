@@ -23,14 +23,15 @@ if (isset($_REQUEST["nombreUsr"])){
 					$_SESSION['datosUsuario'] = $datosUsr[0];
 				} else { 
 					$_SESSION["excepcion"] = "Datos de login erroneos";
-					Header("Location: ../../excepcion.php");
+					header("Location: ".$_SERVER['HTTP_REFERER']);
 				}
 			}catch(Excepcion $e){
 				$_SESSION['excepcion'] = $e->GetMessage();
+				$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 				header("Location: ../../excepcion.php");
 			}
 			if(isset($_SESSION['datosUsuario'])){
-				Header("Location: ../../home.php");
+				header("Location: ../../home.php");
 			}
 			
 			

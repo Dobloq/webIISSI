@@ -1,10 +1,16 @@
 <?php
 	function contarProveedores($conexion){
-		$query = "SELECT COUNT(*) FROM PROVEEDOR";
-		$stmt = $conexion->prepare($query);
-		$stmt->execute();
-		$resultado = $stmt->fetch();
-		return $resultado['COUNT(*)'];	
+		try {
+			$query = "SELECT COUNT(*) FROM PROVEEDOR";
+			$stmt = $conexion->prepare($query);
+			$stmt->execute();
+			$resultado = $stmt->fetch();
+			return $resultado['COUNT(*)'];	
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
 	}
 	
 	function comprobarProveedor($conexion, $nombre){
@@ -20,6 +26,7 @@
 			}
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -41,6 +48,7 @@
 			return $stmt;
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
     }

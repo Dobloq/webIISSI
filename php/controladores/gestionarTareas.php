@@ -9,13 +9,20 @@
 			return $resultado['COUNT(*)'];	
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
 	
 	function getUltimaTarea($conexion){
+		try{
 			$id = consultaTareasTotales($conexion, contarTareas($conexion),1);
-			echo $id[0]["IDTAREA"];
+			return $id[0]["IDTAREA"];
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
 		}
 	
 	function contarTareas($conexion){
@@ -27,6 +34,7 @@
 			return $resultado['COUNT(*)'];	
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -44,6 +52,7 @@
 			}
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -66,6 +75,7 @@
 			return $stmt->fetchAll();
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
     }
@@ -92,6 +102,7 @@
 			return $stmt->fetchAll();
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
     }
