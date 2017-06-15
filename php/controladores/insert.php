@@ -299,52 +299,81 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ../../proveedor.php");
+	exit();
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProyectoAV=anyadirProyectoAV"){
+else if(isset($_POST['botonSubirPAV'])){
 	//proviene de ProyectoAudiovisual
-	$nombre = $_POST['nombreProyAudiovisual'];
+
+	$errorPAV = "";
+	if(isset($_POST["nombreProyAudiovisual"])) {
+		$nombre = limpiar($_POST["nombreProyAudiovisual"]);
+	} else {
+		$errorPAV .= "Falta el nombre. ";
+	}
+
+	if ($errorPAV!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de proyecto: " . $errorPAV;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_PROYECTOAUDIOVISUAL(:nombre); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombre',$nombre);
-	$stmt->execute();
+		$query = "BEGIN PROC_PROYECTOAUDIOVISUAL(:nombre); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
 	
-	header("Location: ../../trabajadores.php");
+	header("Location: ../../tareas.php");
+	exit();
 }
-else if(isset($_POST['botonSubirTarea'])){ //proviene de Tarea
-unset($_POST['botonSubirTarea']);
-$errorTarea = "";
-$nombre = $_POST['nombreTarea'];
-$tiempo = $_POST['tiempoEstimado'];
-$colabAud = null;//$_POST[''];
-if(isset($_POST['selectProyecto'])) {
-	$proyecAud = $_POST['selectProyecto'];
-	if($_POST['selectProyecto']=="null"){
-		$proyecAud = null;
-	}
+else if(isset($_POST['botonSubirTarea'])){
+	//proviene de Tarea
+	unset($_POST['botonSubirTarea']);
+	$errorTarea = "";
+	$nombre = $_POST['nombreTarea'];
+	$tiempo = $_POST['tiempoEstimado'];
+	$colabAud = null;//$_POST[''];
+	if(isset($_POST['selectProyecto'])) {
+		$proyecAud = limpiar($_POST['selectProyecto']);
+		if($_POST['selectProyecto']=="null"){
+			$proyecAud = null;
+		}
 	} else {
 		$errorTarea .= "Falta el proyecto audiovisual. ";
 	}
+
+	if ($errorTarea!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de tarea: " . $errorTarea;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_TAREA(:nombre, :tiempo, :proyecAud, :colabAud); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombre',$nombre);
-	$stmt->bindParam(':tiempo',$tiempo);
-	$stmt->bindParam(':proyecAud',$proyecAud);
-	$stmt->bindParam(':colabAud',$colabAud);
-	$stmt->execute();
-	}catch(PDOException $e) {
+		$query = "BEGIN PROC_TAREA(:nombre, :tiempo, :proyecAud, :colabAud); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':tiempo',$tiempo);
+		$stmt->bindParam(':proyecAud',$proyecAud);
+		$stmt->bindParam(':colabAud',$colabAud);
+		$stmt->execute();
+	} catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
+		exit();
     }
 	require_once("gestionarTareas.php");
 	echo getUltimaTarea($conexion);
+
+	header("Location: ../../tareas.php");
+	exit();
 }
 else if(isset($_POST["botonSubirTemporada"])){
 	//proviene de Temporada
@@ -382,9 +411,11 @@ else if(isset($_POST["botonSubirTemporada"])){
     }
 	if(isset($_POST["mostrar"])){
 		require_once("gestionarTemporadas.php");
-		return getUltimaTemporada($conexion);} else {
-	header("Location: ../../productos.php");
-	exit();}
+		return getUltimaTemporada($conexion);
+	} else {
+		header("Location: ../../productos.php");
+		exit();
+	}
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
 	$nombre = $_POST['nombreUsr'];
