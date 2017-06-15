@@ -23,8 +23,18 @@ unset($_SESSION["paginacion"]);
 
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarTareas.php");
+require_once("php/controladores/gestionarPrendas.php");
+require_once("php/controladores/gestionarTemporadas.php");
+require_once("php/controladores/gestionarOfertas.php");
+require_once("php/controladores/gestionarCliente.php");
+require_once("php/controladores/gestionarCompras.php");
 $conexion = crearConexionBD();
 $resultado = consultaTareasTotales($conexion, $pagina_seleccionada, $pag_tam);
+$prendas = consultaPrendas($conexion, contarPrendas($conexion), 1);
+$temporadas = consultaTemporada($conexion, contarTemporadas($conexion), 1);
+$ofertas = consultaOfertas($conexion, contarOfertas($conexion), 1);
+$clientes = consultaClientes($conexion, contarClientes($conexion), 1);
+$compras = consultaCompras($conexion, contarCompras($conexion), 1);
 cerrarConexionBD($conexion);
 
 
@@ -54,6 +64,65 @@ $_SESSION["paginacion"] = $paginacion;
 			<h2> Bienvenido <?php echo $usuario; ?> </h2> 
 			<article>
 				<h2> Novedades: </h2>
+                <h2> Última prenda: </h2>
+                <?php foreach($prendas as $fila){ ?>
+					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+                    <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
+					</form>   
+				<?php }?>
+                <h2> Última temporada: </h2>
+                <?php foreach($temporadas as $fila){ ?>
+					<div id="divListado" name="divListado">
+						Nombre: <?php echo $fila['NOMBRETEMPORADA'];?></br>
+						Fecha: <?php echo $fila['FECHA'];?>
+                        </br>
+                        <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+							<input type="hidden" name="idTemporada" id="idTemporada" value="<?php echo $fila["IDTEMPORADA"];?>">
+						</form>
+					</div></br>
+				<?php }?>
+                <h2> Última oferta: </h2>
+                <?php foreach($ofertas as $fila){ ?>
+					<div id="divListado" name="divListado">
+						<?php echo $fila['PRECIOOFERTADO'];?></br>
+                        <?php 
+						$conexion = crearConexionBD();
+						$prendasOferta = prendasDeOferta($conexion,$fila['IDOFERTA']);
+						cerrarConexionBD($conexion);
+                        foreach($prendasOferta as $prendaOferta){
+						?>
+						<img src="<?php echo $prendaOferta['URLIMAGEN'];?>" width="20%" ><?php }?>
+						</div>
+                    <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+						<input type="hidden" name="idOferta" id="idOferta" value="<?php echo $fila["IDOFERTA"];?>">
+					</form></br>
+				<?php }?>
+                <h2> Último cliente: </h2>
+                <?php foreach($clientes as $fila){?>
+						<div id="divListado" name="divListado">
+							Nombre: <?php echo $fila["NOMBRECLIENTE"];?> <br>
+							Teléfono: <?php echo $fila["TELEFONO"];?> <br>
+							Correo: <?php echo $fila["CORREO"];?> <br>
+							Año de nacimiento: <?php echo $fila["ANYONACIMIENTO"];?> <br>
+                            <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+								<input type="hidden" name="idCliente" id="idCliente" value="<?php echo $fila["IDCLIENTE"];?>">
+							</form>
+							<br>
+						</div>
+                      	<br>
+					<?php }?>
+                    <h2> Última compra: </h2>
+                    <?php foreach($compras as $fila){?>
+						<div id="divListado" name="divListado">
+							Nombre del cliente: <?php echo $fila["NOMBRECLIENTE"];?><br>
+							Fecha de la compra: <?php echo $fila["FECHACOMPRA"];?><br>
+                            <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+								<input type="hidden" name="idCompra" id="idCompra" value="<?php echo $fila["IDCOMPRA"];?>">
+							</form><br>
+						</div>
+                        <br>
+					<?php }?>
 			</article>
 			<article>
  				<h2> Tareas: </h2>

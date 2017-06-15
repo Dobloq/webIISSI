@@ -45,7 +45,6 @@ x.ready(function() {
 			fechaTemporada: $("#fechaTemporada").val(), mostrar: "no"},
 			function(data){if(prendas){actualizaPrenda(data)} else {window.location.replace("../ThreewGestion/productos.php")}});}}
 			else {
-				alert("hace if");
 				$.post("../ThreewGestion/php/controladores/insert.php", {botonSubirTemporada: "Enviar", nombreTemporada: $("#nombreTemporada").val(), 
 			fechaTemporada: $("#fechaTemporada").val()},window.location.replace("../ThreewGestion/productos.php"));	
 			

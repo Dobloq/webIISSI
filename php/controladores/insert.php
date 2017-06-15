@@ -317,6 +317,7 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	header("Location: ../../trabajadores.php");
 }
 else if(isset($_POST['botonSubirTarea'])){ //proviene de Tarea
+unset($_POST['botonSubirTarea']);
 $errorTarea = "";
 $nombre = $_POST['nombreTarea'];
 $tiempo = $_POST['tiempoEstimado'];
@@ -324,7 +325,7 @@ $colabAud = null;//$_POST[''];
 if(isset($_POST['selectProyecto'])) {
 	$proyecAud = $_POST['selectProyecto'];
 	if($_POST['selectProyecto']=="null"){
-		$proyecAud = "abc";
+		$proyecAud = null;
 	}
 	} else {
 		$errorTarea .= "Falta el proyecto audiovisual. ";

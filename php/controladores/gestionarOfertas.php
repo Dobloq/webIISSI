@@ -1,7 +1,7 @@
 <?php
 	function contarOfertas($conexion){
 		try{
-			$query = "SELECT COUNT(*) FROM TAREA";
+			$query = "SELECT COUNT(*) FROM OFERTA";
 			$stmt = $conexion->prepare($query);
 			$stmt->execute();
 			$resultado = $stmt->fetch();

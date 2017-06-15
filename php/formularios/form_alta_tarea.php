@@ -6,6 +6,7 @@ $conexion = crearConexionBD();
 $proyecto = consultaProyectoAudiovisual($conexion, 1, 200);
 $filas = consultaTrabajadores($conexion, 1, 200);
 cerrarConexionBD($conexion);
+echo $_SERVER['HTTP_REFERER'];
 ?>
 <script type="text/javascript" src="js/validacion_alta_tarea.js"></script>
 <script type="text/javascript">
@@ -13,31 +14,49 @@ var x = $(document);
 var nextInput = 1;
 var a = [];
 var prendas = false;
-function actualizaTrabajadorTarea(data){
-		var ind = 0;
-		$("[name^=selectCompartir]").each(function(index, element) {
-			// se obtiene el id de la prenda que se escoge en el select
-			a[ind] = document.getElementById(element.id).options[document.getElementById(element.id).selectedIndex].value;
-			alert("idT: "+a[ind]+"idTarea: "+data);
-			// se manda a un metodo que actualiza la prenda con sus nuevos datos
-			$.get("../ThreewGestion/php/controladores/prueba.php", {idTrabajador: parseInt(a[ind]), idTarea: parseInt(data)}, function(res){console.log(res)});
-			ind++;
-        });	
-		// se devuelve tras la creacion a productos.php
-		window.location.replace("../ThreewGestion/tareas.php");
-	}
+
 x.ready(function() {
 	$("#formAltaTarea").on("submit", function(){
 		// si valida bien hace lo siguiente, en caso contrario no hace nada y se muestran los mensajes correspondientes
 		if(validationForm()==true){
 			var proy = document.getElementById("selectProyectTarea").options[document.getElementById("selectProyectTarea").selectedIndex].value;
+			alert(proy);
 				// se hace un post para crear la temporada y recibir el id de la temporada creada, data, que se envia a la funcion actualizaPrenda
 				$.post("../ThreewGestion/php/controladores/insert.php", {botonSubirTarea: "Enviar", nombreTarea: $("#nombreTarea").val(), 
-				tiempoEstimado: $("#tiempoEstimado").val(), selectProyecto: parseInt(proy)}, function(data){actualizaTrabajadorTarea(parseInt(data))});
+				tiempoEstimado: $("#tiempoEstimado").val(), selectProyecto: proy}, function(data){
+					alert("data: "+data);
+					var ind = 0;
+					$("[name^=selectCompartir]").each(function(index, element) {
+					// se obtiene el id de la prenda que se escoge en el select
+					a[ind] = document.getElementById(element.id).options[document.getElementById(element.id).selectedIndex].value;
+					alert("idT: "+a[ind]+"idTarea: "+data);
+				// se manda a un metodo que actualiza la prenda con sus nuevos datos
+				//$.post("../ThreewGestion/php/controladores/gestionarTrabajadores.php", 
+				//{idTrabajador: parseInt(a[ind]), idTarea: parseInt(data)}, 
+				//function(res){console.log("funciona")});
+				
+				$.ajax({
+							  async:true,
+							  type: "POST",
+							  dataType: "html",
+							  contentType: "application/x-www-form-urlencoded",
+							  url:"../ThreewGestion/php/controladores/gestionarTrabajadores.php",
+							  data:"idT="+a[ind]+"&idTarea="+data,
+							  success:function(){alert("funciona")},
+							  timeout:4000
+							}); 
+				ind++;});	
+				
+				
+				window.location.replace("../ThreewGestion/tareas.php");
+					
+					});
 		}
 	});
 	
+	function actualizaTrabajadorTarea(data){
 	
+}
 });
 
 </script>
