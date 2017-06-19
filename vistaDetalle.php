@@ -95,7 +95,7 @@ if(!isset($_SESSION['datosUsuario'])){
 		
 	} else {
 		$_SESSION['excepcion'] = "Parece que no ha seleccionado ningún item para verlo en detalle";
-		Header("Location: index.php");
+		header("Location: index.php");
 	}
 ?>
 
@@ -114,7 +114,7 @@ if(!isset($_SESSION['datosUsuario'])){
 					<!-- SECTION -->
 		<section id="seccion">
 			<div id="divVistaDetalle" name="divVistaDetalle">
-				<?php if(tipoObjeto == "prenda") { ?>
+				<?php if($tipoObjeto == "prenda") { ?>
 					<img src="<?php echo $urlImagen; ?>" id="imgDetalle" name="imgDetalle"/>
 					<br>
 					Precio: <?php echo $precio; ?> <br>
@@ -180,11 +180,37 @@ if(!isset($_SESSION['datosUsuario'])){
 					<!-- FALTA AÑADIR LAS COMPRAS DEL CLIENTE -->
 					
 				<?php } ?>
-				
+				<?php //http://127.0.0.1:8081/ThreewGestion/vistaDetalle.php?toDetails=true&tipoObjeto="tarea"&id=10&nombre="Grabacion spot: dia 4"&tiempoEstimado=120 ?>
 				<?php if($tipoObjeto == "tarea") { ?>
+                <script type="text/javascript">
+					var x = $(document);
+					x.ready(function(e) {
+                        $("#terminarTarea").click(function(){
+							$("#asignacion").fadeToggle("slow");	
+						});
+						$("#guardarTiempo").click(function(){
+							var idT = $("#idTarea").val();
+							var tiempo = $("#tiempoReal").val();
+							alert("c1: "+$("#tiempoReal").val().length>0);
+							alert("c2: "+$("#tiempoReal").val() >= 1)
+							if($("#tiempoReal").val().length>0 && $("#tiempoReal").val() >= 1){
+								alert("correcto");
+								$.post("../ThreewGestion/php/controladores/gestionarTareas.php", {idTarea : idT, tiempoReal : tiempo}, function(){location.reload(true)});
+							} else {
+								document.getElementById("tiempoReal").setCustomValidity("Debe introducir un tiempo valido");
+							}
+						});
+                    });
+				</script>
+                	<input type="hidden" id="idTarea" name="idTarea" value="<?php echo $id ?>">
 					Nombre: <?php echo $nombre;?> <br>
 					Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
-			
+					<button type="button" name="terminarTarea" id="terminarTarea">Asignar tarea</button>
+                    <fieldset id="asignacion" hidden>
+                    	<label>Tiempo final en minutos:</label><br>
+							<input type="number" name="tiempoReal" min="1" id="tiempoReal"><br>
+                            <button type="button" name="guardarTiempo" id="guardarTiempo">Guardar</button>
+                    </fieldset>
 					<?php if(isset($_GET['tiempoReal'])){ ?>
 						Tiempo Real: <?php echo $tiempoReal;?> <br>
 					<?php } ?>
@@ -200,7 +226,7 @@ if(!isset($_SESSION['datosUsuario'])){
 				<?php } ?>
 				
 			</div>
-			<?php include_once('php/formularios/form_comentario.php')?>
+			<?php //include_once('php/formularios/form_comentario.php')?>
 		</section>
 					<!-- ASIDE -->
 		<aside id="columna">
