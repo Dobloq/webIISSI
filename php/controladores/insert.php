@@ -364,15 +364,15 @@ else if(isset($_POST['botonSubirTarea'])){
 		$stmt->bindParam(':colabAud',$colabAud);
 		$stmt->execute();
 	} catch(PDOException $e) {
-		$_SESSION['excepcion'] = $e->GetMessage();
-		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		echo $e->getMessage();
 		exit();
+		//$_SESSION['excepcion'] = $e->GetMessage();
+		//$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		//header("Location: ../../excepcion.php");
+		//exit();
     }
 	require_once("gestionarTareas.php");
 	echo getUltimaTarea($conexion);
-
-	header("Location: ../../tareas.php");
 	exit();
 }
 else if(isset($_POST["botonSubirTemporada"])){
