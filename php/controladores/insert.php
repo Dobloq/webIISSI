@@ -39,29 +39,60 @@ if(isset($_POST["botonSubirAlmacen"])){
 		header("Location: ../../excepcion.php");
 		exit();
     }
+
 	header("Location: ../../productos.php");
 	exit();
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCliente=anyadirCliente"){ 
+else if(isset($_POST["botonSubirCliente"])){ 
 	//proviene de Cliente
-	$nombreCliente = $_POST['nombreCliente'];
-	$telefonoCliente = $_POST['telefonoCliente'];
-	$correo = $_POST['mailCliente'];
-	$anyoNacimiento = $_POST['anyoNacimiento'];
+	$errorCliente = "";
+	if(isset($_POST["nombreCliente"])) {
+		$nombreCliente = limpiar($_POST["nombreCliente"]);
+	} else {
+		$errorCliente .= "Falta el nombre. ";
+	}
+
+	if(isset($_POST["telefonoCliente"])) {
+		$telefonoCliente = $_POST["telefonoCliente"];
+	} else {
+		$errorCliente .= "Falta el telefono. ";
+	}
+
+	if(isset($_POST["correoCliente"])) {
+		$correoCliente = $_POST["correoCliente"];
+	} else {
+		$errorCliente .= "Falta el correo. ";
+	}
+
+	if(isset($_POST["anyoNacimiento"])) {
+		$anyoNacimiento = $_POST["anyoNacimiento"];
+	} else {
+		$errorCliente .= "Falta el año de nacimiento. ";
+	}
+
+	if ($errorCliente!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de cliente: " . $errorCliente;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+	
 	try{
-	$query = "BEGIN PROC_CLIENTE(:nombreCliente, :telefonoCliente, :correo, :anyoNacimiento); END;";
-	$stmt = $conexion->prepare( $query );
-	$stmt->bindParam( ':nombreCliente', $nombreCliente );
-	$stmt->bindParam( ':telefonoCliente', $telefonoCliente );
-	$stmt->bindParam( ':correo', $correo );
-	$stmt->bindParam( ':anyoNacimiento', $anyoNacimiento );
-	$stmt->execute();
+		$query = "BEGIN PROC_CLIENTE(:nombreCliente, :telefonoCliente, :correo, :anyoNacimiento); END;";
+		$stmt = $conexion->prepare( $query );
+		$stmt->bindParam( ':nombreCliente', $nombreCliente );
+		$stmt->bindParam( ':telefonoCliente', $telefonoCliente );
+		$stmt->bindParam( ':correo', $correo );
+		$stmt->bindParam( ':anyoNacimiento', $anyoNacimiento );
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
+		exit();
     }
 	header("Location: ../../datos.php");
+	exit();
 }
 else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorAV=anyadirColaboradorAV"){
 	//proviene de ColaboradorAudiovisual
