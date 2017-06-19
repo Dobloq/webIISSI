@@ -1,4 +1,5 @@
 <?php if(isset($_POST['signout'])){
+	session_unset();
 	session_destroy();
 	Header("Location: index.php");
 }
