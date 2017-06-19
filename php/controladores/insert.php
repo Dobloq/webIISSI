@@ -367,9 +367,19 @@ else if(isset($_POST['botonSubirTarea'])){
 	//proviene de Tarea
 	unset($_POST['botonSubirTarea']);
 	$errorTarea = "";
-	$nombre = $_POST['nombreTarea'];
-	$tiempo = $_POST['tiempoEstimado'];
-	$colabAud = null;//$_POST[''];
+	
+	if(isset($_POST['nombreTarea'])) {
+		$nombre = limpiar($_POST['nombreTarea']);
+	} else {
+		$errorTarea .= "Falta el nombre de la tarea. ";
+	}
+	
+	if(isset($_POST['tiempoEstimado'])) {
+		$tiempo = limpiar($_POST['tiempoEstimado']);
+	} else {
+		$errorTarea .= "Falta el tiempo estimado. ";
+	}
+	
 	if(isset($_POST['selectProyecto'])) {
 		$proyecAud = limpiar($_POST['selectProyecto']);
 		if($_POST['selectProyecto']=="null"){
@@ -377,6 +387,15 @@ else if(isset($_POST['botonSubirTarea'])){
 		}
 	} else {
 		$errorTarea .= "Falta el proyecto audiovisual. ";
+	}
+	
+	if(isset($_POST['selectCompartir'])) {
+		$colabAud = limpiar($_POST['selectCompartir']);
+		if($_POST['selectCompartir']=="null"){
+			$colabAud = null;
+		}
+	} else {
+		$errorTarea .= "Falta el colaborador audiovisual audiovisual. ";
 	}
 
 	if ($errorTarea!="") {
@@ -397,13 +416,12 @@ else if(isset($_POST['botonSubirTarea'])){
 	} catch(PDOException $e) {
 		echo $e->getMessage();
 		exit();
-		//$_SESSION['excepcion'] = $e->GetMessage();
-		//$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		//header("Location: ../../excepcion.php");
-		//exit();
+		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
     }
-	require_once("gestionarTareas.php");
-	echo getUltimaTarea($conexion);
+	header("Location: ../../tareas.php");
 	exit();
 }
 else if(isset($_POST["botonSubirTemporada"])){

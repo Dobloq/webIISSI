@@ -10,6 +10,27 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			//header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	if(isset($_POST["tiempoReal"])){
+		require_once("gestionBD.php");
+		$conexion = crearConexionBD();
+		echo terminarTarea($conexion, $_POST["idTarea"], $_POST["tiempoReal"]);
+		cerrarConexionBD($conexion);
+	}
+	
+	function terminarTarea($conexion, $idTarea, $tiempo){
+		try {
+			$consulta = "UPDATE TAREA SET TIEMPOREAL = :tiempo WHERE IDTAREA = :idTarea";
+			$stmt = $conexion->prepare($cosulta);
+			$stmt->bindParam( ':tiempo', $tiempo );
+			$stmt->bindParam( ':idTarea', $idTarea );
+			$stmt->execute();
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
 	}
@@ -23,7 +44,7 @@
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}
-		}
+	}
 	
 	function contarTareas($conexion){
 		try {

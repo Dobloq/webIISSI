@@ -1,15 +1,15 @@
 <?php 
 require_once("php/controladores/gestionarProyectoAudiovisual.php");
-require_once("php/controladores/gestionarTrabajadores.php");
+require_once("php/controladores/gestionarColaboradores.php");
 require_once("php/controladores/gestionarTareas.php");
 $conexion = crearConexionBD();
 $proyecto = consultaProyectoAudiovisual($conexion, 1, 200);
-$filas = consultaTrabajadores($conexion, 1, 200);
+$filas = consultaColaboradoresAudiovisual($conexion, 1, 200);
 cerrarConexionBD($conexion);
-echo $_SERVER['HTTP_REFERER'];
 ?>
 <script type="text/javascript" src="js/validacion_alta_tarea.js"></script>
 <script type="text/javascript">
+/*
 var x = $(document);
 var nextInput = 1;
 var a = [];
@@ -24,16 +24,15 @@ x.ready(function() {
 				// se hace un post para crear la temporada y recibir el id de la temporada creada, data, que se envia a la funcion actualizaPrenda
 				$.post("../ThreewGestion/php/controladores/insert.php", {botonSubirTarea: "Enviar", nombreTarea: $("#nombreTarea").val(), 
 				tiempoEstimado: $("#tiempoEstimado").val(), selectProyecto: proy}, function(data){
-					alert("data: "+data);
 					var ind = 0;
 					$("[name^=selectCompartir]").each(function(index, element) {
 					// se obtiene el id de la prenda que se escoge en el select
 					a[ind] = document.getElementById(element.id).options[document.getElementById(element.id).selectedIndex].value;
 					alert("idT: "+a[ind]+"idTarea: "+data);
 				// se manda a un metodo que actualiza la prenda con sus nuevos datos
-				//$.post("../ThreewGestion/php/controladores/gestionarTrabajadores.php", 
-				//{idTrabajador: parseInt(a[ind]), idTarea: parseInt(data)}, 
-				//function(res){console.log("funciona")});
+				alert($.post("../ThreewGestion/php/controladores/gestionarTrabajadores.php", 
+				{idTrabajador: parseInt(a[ind]), idTarea: parseInt(data)}, 
+				function(res){alert(res)}).fail(function(respuesta){alert(respuesta)}));
 				
 				$.ajax({
 							  async:true,
@@ -42,15 +41,14 @@ x.ready(function() {
 							  contentType: "application/x-www-form-urlencoded",
 							  url:"../ThreewGestion/php/controladores/gestionarTrabajadores.php",
 							  data:"idT="+a[ind]+"&idTarea="+data,
-							  success:function(){alert("funciona")},
-							  timeout:4000
+							  success:function(datos){alert(datos)},
+							  fail: function(datos){alert(datos)}
 							}); 
 				ind++;});	
 				
 				
-				window.location.replace("../ThreewGestion/tareas.php");
 					
-					});
+					}).fail(alert("falla el primer post"+data));
 		}
 	});
 	
@@ -58,11 +56,11 @@ x.ready(function() {
 	
 }
 });
-
+*/
 </script>
 <h2> Introduce los datos de la tarea: </h2>
 <div id="divFormAltaTarea">
-	<form id="formAltaTarea" method="post">
+	<form id="formAltaTarea" method="post" action="../ThreewGestion/php/controladores/insert.php" onSubmit="validationForm()">
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()"><br>
 		<label>Tiempo estimado en minutos:</label><br>
@@ -71,11 +69,11 @@ x.ready(function() {
 			<select name="selectCompartir" id="selectCompartir">
 				<option value="null">No</option>
                 <?php foreach($filas as $fila){?>
-				<option value="<?php echo $fila["IDTRABAJADOR"]; ?>"><?php echo $fila["NOMBRETRABAJADOR"]; ?> </option>
+				<option value="<?php echo $fila["IDCOLABORADORAUDIOVISUAL"]; ?>"><?php echo $fila["NOMBRECOLABORADORAUDIOVISUAL"]; ?> </option>
 							<?php }?>
 			</select><br>
 		<label>¿Pertenece a algún proyectoAudiovisual?</label><br>
-			<select name="selectProyectTarea" id="selectProyectTarea">
+			<select name="selectProyecto" id="selectProyecto">
 				<option value="null">No</option>
 				<?php foreach($proyecto as $fila){?>
 				<option value="<?php echo $fila["IDPROYECTOAUDIOVISUAL"]; ?>"><?php echo $fila["NOMBREPROYECTOAUDIOVISUAL"]; ?> </option>

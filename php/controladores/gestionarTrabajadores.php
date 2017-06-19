@@ -2,7 +2,7 @@
 if(isset($_POST["idT"])){
 		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
-		echo actualizarTrabajadorTarea($conexion, $_POST["idT"], $_POST["idTarea"]);
+		actualizarTrabajadorTarea($conexion, $_POST["idT"], $_POST["idTarea"]);
 		cerrarConexionBD($conexion);
 	} 
 	
@@ -14,9 +14,10 @@ if(isset($_POST["idT"])){
 			$stmt->bindParam(':idTarea', intval($idTarea));
 			$stmt->execute();
 		}catch(PDOException $e) {
-			$_SESSION['excepcion'] = $e->GetMessage()."trabajador: ".$idTrabajador." tarea: ".$idTarea;
-			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: ../../excepcion.php");
+			echo $e->getMessage();
+			//$_SESSION['excepcion'] = $e->GetMessage()."trabajador: ".$idTrabajador." tarea: ".$idTarea;
+			//$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			//header("Location: ../../excepcion.php");
     	}
 	}
 	
