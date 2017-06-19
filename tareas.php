@@ -25,13 +25,21 @@ require_once("php/controladores/gestionarProyectoAudiovisual.php");
 		
 $trabajador = $_SESSION["datosUsuario"][0];
 $conexion = crearConexionBD();
+if($_SESSION["datosUsuario"]["ESDIRECTOR"]==1){
+	$resultado = consultaTareasTotales($conexion, $pagina_seleccionada, $pag_tam);
+	$nTareas = contarTareas($conexion);
+	$total_paginas = $nTareas/$pag_tam;
+} else {
+	$resultado = consultaTareasDeUnTrabajador($conexion, $pagina_seleccionada, $pag_tam, $trabajador);
+	$nTareas = contarTareasTrabaj($conexion, $trabajador);
+	$total_paginas = $nTareas/$pag_tam;
+}
 
-$resultado = consultaTareasDeUnTrabajador($conexion, $pagina_seleccionada, $pag_tam, $trabajador);
 $proyecto = consultaProyectoAudiovisual($conexion, $pagina_seleccionada, $pag_tam);
 cerrarConexionBD($conexion);
 
-$total_paginas = contarTareas($conexion)/$pag_tam;
-if(contarTareas($conexion)%$pag_tam>0){$total_paginas++;}
+
+if($nTareas%$pag_tam>0){$total_paginas++;}
 if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
 
 // Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
@@ -65,7 +73,8 @@ $_SESSION["paginacion"] = $paginacion;
                         <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idTarea" id="idTarea" value="<?php echo $fila["IDTAREA"];?>">
 							<button name="borrarTarea" id="borrarTarea" type="submit">Borrar tarea</button>
-						</form><br>
+						</form>
+                        <br>
 					</div>
 					<br>
 				<?php }?>
@@ -79,7 +88,7 @@ $_SESSION["paginacion"] = $paginacion;
 						<a href="tareas.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="tareas.php">
-					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarTareas($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarTareas($conexion)?> <input type="submit" value="Cambiar">
+					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo $nTareas?>" value="<?php echo $pag_tam?>"> entradas de <?php echo $nTareas?> <input type="submit" value="Cambiar">
                 </form>
             </article>
 			<article>
