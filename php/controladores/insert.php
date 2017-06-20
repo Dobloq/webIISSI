@@ -303,33 +303,61 @@ else if(isset($_POST["botonSubirPrenda"])){
 	header("Location: ../../productos.php");
 	exit();
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirProveedor=anyadirProveedor"){
+else if(isset($_POST['botonSubirProveedor'])){
 	//proviene de Proveedor
-	$nombre = $_POST['nombreProveedor'];
-	$calificacion = $_POST['calificacionProveedor'];
-	//$serigrafia = $_POST['serigrafiaProveedor'];
-	$ciudad = $_POST['ciudadProveedor'];
-	$tecnicas = $_POST['tecnicasProveedor'];
+	$errorProveedor = "";
+	if(isset($_POST["nombreProveedor"])) {
+		$nombre = limpiar($_POST["nombreProveedor"]);
+	} else {
+		$errorProveedor .= "Falta el nombre. ";
+	}
+	if(isset($_POST["calificacionProveedor"]) && is_numeric($_POST["calificacionProveedor"])) {
+		$calificacion = (int) $_POST['calificacionProveedor'];
+		if ($calificacion < 0 || $calificacion > 10) {
+			$errorPrenda .= "La calificación tiene que ser un número entre 0 y 10. ";
+		}
+	} else {
+		$errorProveedor .= "Falta la calificacion. ";
+	}
+	if(isset($_POST["ciudadProveedor"])) {
+		$ciudad = $_POST['ciudadProveedor'];
+	} else {
+		$errorProveedor .= "Falta la ciudad. ";
+	}
+	if(isset($_POST["tecnicasProveedor"])) {
+		$tecnicas = $_POST['tecnicasProveedor'];
+	} else {
+		$errorProveedor .= "Faltan las técnicas. ";
+	}
 	if(!isset($_POST['serigrafiaProveedor'])){
-	$serigrafia = 0;
-} else {
-	$serigrafia = 1;
-}
+		$serigrafia = 0;
+	} else {
+		$serigrafia = 1;
+	}
+
+	if ($errorProveedor!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de proveedor: " . $errorProveedor;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+
 	try{
-	$query = "BEGIN PROC_PROVEEDOR(:nombre, :calificacion, :serigrafia, :ciudad, :tecnicas); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombre',$nombre);
-	$stmt->bindParam(':calificacion',$calificacion);
-	$stmt->bindParam(':serigrafia',$serigrafia);
-	$stmt->bindParam(':ciudad',$ciudad);
-	$stmt->bindParam(':tecnicas',$tecnicas);
-	$stmt->execute();
+		$query = "BEGIN PROC_PROVEEDOR(:nombre, :calificacion, :serigrafia, :ciudad, :tecnicas); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombre',$nombre);
+		$stmt->bindParam(':calificacion',$calificacion);
+		$stmt->bindParam(':serigrafia',$serigrafia);
+		$stmt->bindParam(':ciudad',$ciudad);
+		$stmt->bindParam(':tecnicas',$tecnicas);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
+		exit();
     }
-	header("Location: ../../proveedor.php");
+	header("Location: ../../proveedores.php");
 	exit();
 }
 else if(isset($_POST['botonSubirPAV'])){
