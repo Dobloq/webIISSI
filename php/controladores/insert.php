@@ -58,8 +58,8 @@ else if(isset($_POST["botonSubirCliente"])){
 		$errorCliente .= "Falta el telefono. ";
 	}
 
-	if(isset($_POST["correoCliente"])) {
-		$correoCliente = $_POST["correoCliente"];
+	if(isset($_POST["mailCliente"])) {
+		$correoCliente = $_POST["mailCliente"];
 	} else {
 		$errorCliente .= "Falta el correo. ";
 	}
@@ -82,7 +82,7 @@ else if(isset($_POST["botonSubirCliente"])){
 		$stmt = $conexion->prepare( $query );
 		$stmt->bindParam( ':nombreCliente', $nombreCliente );
 		$stmt->bindParam( ':telefonoCliente', $telefonoCliente );
-		$stmt->bindParam( ':correo', $correo );
+		$stmt->bindParam( ':correo', $correoCliente);
 		$stmt->bindParam( ':anyoNacimiento', $anyoNacimiento );
 		$stmt->execute();
 	}catch(PDOException $e) {
