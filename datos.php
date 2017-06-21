@@ -55,7 +55,9 @@ $_SESSION["paginacion"] = $paginacion;
 					<h2> Clientes: </h2>
 					<?php foreach($clientes as $fila){?>
 						<div id="divListado" name="divListado">
-							Nombre: <?php echo $fila["NOMBRECLIENTE"];?> <br>
+							Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=cliente&id=<?php echo $id; ?>&nombre=<?php echo $fila["NOMBRECLIENTE"];?>&telefono=<?php echo $fila["TELEFONO"];?>&correo=<?php echo $fila["CORREO"];?>&anyoNacimiento=<?php echo $fila["ANYONACIMIENTO"];?>">
+        <?php echo $fila["NOMBRECLIENTE"];?> 
+       </a> <br>
 							Teléfono: <?php echo $fila["TELEFONO"];?> <br>
 							Correo: <?php echo $fila["CORREO"];?> <br>
 							Año de nacimiento: <?php echo $fila["ANYONACIMIENTO"];?> <br>
