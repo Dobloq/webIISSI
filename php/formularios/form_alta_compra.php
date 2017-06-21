@@ -4,6 +4,7 @@ require_once("php/controladores/gestionarPrendas.php");
 $conexion = crearConexionBD();
 $clientes = consultaClientes($conexion, 1, contarClientes($conexion));
 $prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
+print_r($_POST);
 ?>
 <!--falta: <script type="text/javascript" src="js/validacion_alta_compra.js"></script>-->
 
@@ -11,7 +12,7 @@ $prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
 var x = $(document);
 var nextInput = 2;
 x.ready(function() {
-	$("#formAltaCompra").on("submit",function(){
+	$("#botonSubirCompra").on("click",function(){
 		var cliente = document.getElementById("selectClienteCompra").options[document.getElementById("selectClienteCompra").selectedIndex].value;
 		$.post("php/controladores/insert.php", {botonSubirCompra : true, selectClienteCompra: cliente, fechaCompra: $("#fechaCompra").val()},
 		function(data){
@@ -19,14 +20,14 @@ x.ready(function() {
 				var n = element.id.charAt(element.id.length-1);
 				var idP = document.getElementById("selectPrendaCompra"+n).options[document.getElementById("selectPrendaCompra"+n).selectedIndex].value;
                 if(element.value!=0){
-					$.post("php/controladores/insert.php", {itemCompra: true, cantidad: element.value, importe: $("#precio"+n).val(), idCompra: data, idPrenda: idP},alert("funciona"));
+					$.post("php/controladores/insert.php", {itemCompra: true, ctd: element.value, importe: $("#precio"+n).val(), idC: data, idPr: idP},window.location.replace("datos.php"));
 				}
             });
 		});
 		
 	});
 	$("#nuevoArticulo").on("click",function(){
-		var sel = $('<select id="selectClienteCompra'+nextInput+'" name="selectClienteCompra'+nextInput+'">');
+		var sel = $('<select id="selectPrendaCompra'+nextInput+'" name="selectClienteCompra'+nextInput+'">');
 		var items = document.getElementById("selectPrendaCompra1").options;
 		$(items).each(function() {
             sel.append($("<option>").attr('value',this.value).text(this.text));
@@ -61,8 +62,7 @@ x.ready(function() {
 		});
 	function cambioSel(){
 		var n = this.id.charAt(this.id.length-1);
-		alert(n);
-		$.get("php/controladores/gestionarPrendas.php", {idPrenda: $("#selectPrendaCompra"+n+" option:selected").val()},
+		$.get("php/controladores/gestionarPrendas.php", {idPrenda: this.options[document.getElementById("selectPrendaCompra"+n).selectedIndex].value},
 		function(data){
 			$("#precio"+n).val(data);
 			$("#value"+n).val(data);
@@ -99,7 +99,7 @@ x.ready(function() {
                     <br>
             </div>
             <button type="button" name="nuevoArticulo" id="nuevoArticulo">Nuevo articulo</button>
-         <button type="submit" id="botonSubirCompra" name="botonSubirCompra">Enviar</button>
+         <button type="button" id="botonSubirCompra" name="botonSubirCompra">Enviar</button>
 	</form>
 </div>
 <?php cerrarConexionBD($conexion);?>

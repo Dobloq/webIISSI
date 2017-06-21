@@ -130,8 +130,24 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
 	header("Location: ../../proveedores.php");
 }
 else if(isset($_POST["botonSubirCompra"])){ //proviene de Compra
-$idCliente = $_POST['selectClienteCompra'];
-$fechaCompra = date('d/m/Y', strtotime($_POST["fechaCompra"]));
+$errorCompra = "";
+	if(isset($_POST["selectClienteCompra"])) {
+		$idCliente = limpiar($_POST["selectClienteCompra"]);
+	} else {
+		$errorCompra .= "Falta el cliente. ";
+	}
+	if(isset($_POST["fechaCompra"])) {
+		$fechaCompra = date('d/m/Y', strtotime($_POST["fechaCompra"]));
+	} else {
+		$errorCompra .= "Falta la fecha. ";
+	}
+
+	if ($errorCompra!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de compra: " . $errorCompra;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
 	try{
 	$query = "BEGIN PROC_COMPRA(:fechaCompra, :idCliente); END;";
 	$stmt = $conexion->prepare($query);
@@ -506,8 +522,8 @@ if(!isset($_POST['esDirector'])){
 	
 } else if(isset($_POST["itemCompra"])){
 	$errorItemCompra = "";
-	if(isset($_POST["cantidad"])) {
-		$cantidad = limpiar($_POST["cantidad"]);
+	if(isset($_POST["ctd"])) {
+		$cantidad = limpiar($_POST["ctd"]);
 	} else {
 		$errorItemCompra .= "Falta el nombre. ";
 	}
@@ -516,13 +532,13 @@ if(!isset($_POST['esDirector'])){
 	} else {
 		$errorItemCompra .= "Falta el importe. ";
 	}
-	if(isset($_POST["idCompra"])) {
-		$idCompra = limpiar($_POST["idCompra"]);
+	if(isset($_POST["idC"])) {
+		$idCompra = limpiar($_POST["idC"]);
 	} else {
 		$errorItemCompra .= "Falta el id de compra. ";
 	}
-	if(isset($_POST["idPrenda"])) {
-		$idPrenda = limpiar($_POST["idPrenda"]);
+	if(isset($_POST["idPr"])) {
+		$idPrenda = limpiar($_POST["idPr"]);
 	} else {
 		$errorItemCompra .= "Falta el id de compra. ";
 	}
