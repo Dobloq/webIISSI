@@ -1,8 +1,8 @@
 <?php
-if(isset($_POST["idT"])){
+if(isset($_POST["idTrab"])){
 		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
-		actualizarTrabajadorTarea($conexion, $_POST["idT"], $_POST["idTarea"]);
+		actualizarTrabajadorTarea($conexion, $_POST["idTrab"], $_POST["idTarea"]);
 		cerrarConexionBD($conexion);
 	} 
 	

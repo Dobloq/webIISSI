@@ -235,6 +235,17 @@ else if(isset($_POST["botonSubirPrenda"])){
 		$errorPrenda .= "Falta el precio. ";
 	}
 	//TODO imagenPrenda
+	
+	$dir_subida = '/images/prendas/';
+	$fichero_subido = $dir_subida . basename($_FILES['imagenPrenda']['name']);
+	
+	if (move_uploaded_file($_FILES['imagenPrenda']['tmp_name'], $fichero_subido)) {
+    	$imagenPrenda = $fichero_subido;
+	} else {
+    	$errorPrenda .= "Imagen no subida";
+		$errorPrenda .= $_FILES['imagenPrenda']['tmp_name'];
+	}
+	
 	$imagenPrenda = "images/prendas/prenda-nueva.png";
 	if(isset($_POST["cantidadPrenda"]) && is_numeric($_POST["cantidadPrenda"])) {
 		$cantidadPrenda = (int) $_POST["cantidadPrenda"];

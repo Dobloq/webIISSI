@@ -10,26 +10,26 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			//header("Location: ../../excepcion.php");
+			header("Location: ../../excepcion.php");
     	}
 	}
 	
-	if(isset($_POST["tiempoReal"])){
+	if(isset($_POST["tiempoRealT"])){
 		require_once("gestionBD.php");
 		$conexion = crearConexionBD();
-		echo terminarTarea($conexion, $_POST["idTarea"], $_POST["tiempoReal"]);
+		echo terminarTarea($conexion, $_POST["idTareaT"], $_POST["tiempoRealT"]);
 		cerrarConexionBD($conexion);
 	}
 	
 	function terminarTarea($conexion, $idTarea, $tiempo){
 		try {
 			$consulta = "UPDATE TAREA SET TIEMPOREAL = :tiempo WHERE IDTAREA = :idTarea";
-			$stmt = $conexion->prepare($cosulta);
+			$stmt = $conexion->prepare($consulta);
 			$stmt->bindParam( ':tiempo', $tiempo );
 			$stmt->bindParam( ':idTarea', $idTarea );
 			$stmt->execute();
 		}catch(PDOException $e) {
-			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['excepcion'] = "error al terminar la tarea";//$e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 			header("Location: ../../excepcion.php");
     	}

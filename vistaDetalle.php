@@ -201,31 +201,53 @@ if(!isset($_SESSION['datosUsuario'])){
 					var x = $(document);
 					x.ready(function(e) {
                         $("#terminarTarea").click(function(){
-							$("#asignacion").fadeToggle("slow");	
+							$("#terminar").fadeToggle("slow");	
 						});
 						$("#guardarTiempo").click(function(){
 							var idT = $("#idTarea").val();
-							var tiempo = $("#tiempoReal").val();
-							alert("c1: "+$("#tiempoReal").val().length>0);
-							alert("c2: "+$("#tiempoReal").val() >= 1)
-							if($("#tiempoReal").val().length>0 && $("#tiempoReal").val() >= 1){
-								alert("correcto");
-								$.post("../ThreewGestion/php/controladores/gestionarTareas.php", {idTarea : idT, tiempoReal : tiempo}, function(){location.reload(true)});
+							var tiempo = $("#tiempoRealS").val();
+							if($("#tiempoRealS").val().length>0 && $("#tiempoRealS").val() >= 1){
+								$.post("php/controladores/gestionarTareas.php", {idTareaT : idT, tiempoRealT : tiempo}, function(){location.reload(true)});
 							} else {
-								document.getElementById("tiempoReal").setCustomValidity("Debe introducir un tiempo valido");
+								document.getElementById("tiempoRealS").setCustomValidity("Debe introducir un tiempo valido");
 							}
+						});
+						 $("#asignarTarea").click(function(){
+							$("#asignar").fadeToggle("slow");	
+						});
+						$("#guardarAsignacion").click(function(){
+							var idTar = $("#idTarea").val();
+							var trab = document.getElementById("selectTrabajadores").options[document.getElementById("selectTrabajadores").selectedIndex].value;
+							$.post("php/controladores/gestionarTrabajadores.php", {idTrab : trab, idTarea : idTar}, function(){location.reload(true)});
 						});
                     });
 				</script>
                 	<input type="hidden" id="idTarea" name="idTarea" value="<?php echo $id ?>">
 					Nombre: <?php echo $nombre;?> <br>
 					Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
-					<button type="button" name="terminarTarea" id="terminarTarea">Asignar tarea</button>
-                    <fieldset id="asignacion" hidden>
+					<button type="button" name="terminarTarea" id="terminarTarea">Terminar tarea</button>
+                    <fieldset id="terminar" hidden>
                     	<label>Tiempo final en minutos:</label><br>
-							<input type="number" name="tiempoReal" min="1" id="tiempoReal"><br>
+							<input type="number" name="tiempoRealS" min="1" id="tiempoRealS"><br>
                             <button type="button" name="guardarTiempo" id="guardarTiempo">Guardar</button>
                     </fieldset>
+                    <?php if($_SESSION["datosUsuario"]["ESDIRECTOR"]==1){ 
+					require_once("php/controladores/gestionarTrabajadores.php");
+					require_once("php/controladores/gestionBD.php");
+					$conexion = crearConexionBD();
+					$trabajadores = consultaTrabajadores($conexion, 1, 200);?>
+                    	<button type="button" name="asignarTarea" id="asignarTarea">Asignar tarea</button>
+                    	<fieldset id="asignar" hidden>
+                    		<label>Seleccione un trabajador</label>
+                            	<select id="selectTrabajadores" name="selectTrabajadores">
+                                	<?php foreach($trabajadores as $fila){?>
+									<option value="<?php echo $fila["IDTRABAJADOR"]; ?>">
+									<?php echo $fila["NOMBRETRABAJADOR"]; ?> </option>
+									<?php }?>
+                                </select>
+                                <button type="button" name="guardarAsignacion" id="guardarAsignacion">Guardar</button>
+                    	</fieldset>
+                    <?php } ?>
 					<?php if(isset($_GET['tiempoReal'])){ ?>
 						Tiempo Real: <?php echo $tiempoReal;?> <br>
 					<?php } ?>
@@ -242,9 +264,51 @@ if(!isset($_SESSION['datosUsuario'])){
 				
 				<?php if($tipoObjeto == "trabajador") { ?>
 					Nombre: <?php echo $nombre; ?> <br>
-					¿Es director?: <?php echo $esDirector; ?> <br>
+                    ¿Es director?: <?php echo ($esDirector==0) ? "No" : "Si";?><br>
 					Valoración: <?php echo $valoracion; ?> <br>
 					Nombre de usuario: <?php echo $usuario; ?> <br>
+                    
+                 	<?php 
+					require_once("/php/controladores/gestionBD.php");
+					require_once("/php/controladores/gestionarTareas.php");
+					$conexion = crearConexionBD();
+					if(contarTareasTrabaj($conexion, $id)>0){
+						$tareas = consultaTareasDeUnTrabajador($conexion, 1, 2000, $id);?>
+                        <br>
+                        Tareas del trabajador:<br>
+                        <?php foreach($tareas as $fila){ 
+				$tiempoReal = "";
+				$proyectoTarea = "";
+				$colaborador = "";?>
+					<div id="divListado" name="divListado">
+						Nombre de la tarea: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=tarea&id=<?php echo $fila['IDTAREA']; ?>&nombre=<?php echo $fila["NOMBRETAREA"];?>&tiempoEstimado=<?php echo $fila["TIEMPOESTIMADO"];?><?php echo $tiempoReal; ?><?php echo $proyectoTarea; ?> <?php echo $colaborador; ?>">
+							<?php echo $fila["NOMBRETAREA"];?>
+						</a><br>
+						Tiempo estimado (en minutos): <?php echo $fila["TIEMPOESTIMADO"];?><br>
+						<?php if(isset($fila["TIEMPOREAL"])){
+							$tiempoReal = "&tiempoReal=". $fila["TIEMPOREAL"];?>
+							Tiempo real (en minutos): <?php echo $fila["TIEMPOREAL"];?> <br>
+						<?php } ?>
+						
+						<?php if(isset($fila["PROYECTOAUDIOVISUAL"])){
+							$proyectoTarea = "&proyecto=". $fila["PROYECTOAUDIOVISUAL"];?>
+							Proyecto: <?php echo $fila["PROYECTOAUDIOVISUAL"];?> <br>
+						<?php } ?>
+						
+						<?php if(isset($fila["COLABORADORAUDIOVISUAL"])){
+							$colaborador = "&colaborador=". $fila["COLABORADORAUDIOVISUAL"];?>
+							Colaborador: <?php echo $fila["COLABORADORAUDIOVISUAL"];?> <br>
+						<?php } ?>
+                        <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
+							<input type="hidden" name="idTarea" id="idTarea" value="<?php echo $fila["IDTAREA"];?>">
+							<button name="borrarTarea" id="borrarTarea" type="submit">Borrar tarea</button>
+						</form>
+                        <br>
+					</div>
+					<br>
+				<?php }?>
+                        
+					<?php }?>
 				<?php } ?>
 				
 			</div>

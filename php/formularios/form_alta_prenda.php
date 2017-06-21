@@ -35,18 +35,19 @@ cerrarConexionBD($conexion);
 		<label>Precio (&euro;): </label><br>
 			<input type="number" step="0.5" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
 		<label>Añade una imagen: </label><br>
+        	<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
 			<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required><br>
 		<label>Cantidad: </label><br>
 			<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()"><br>
 		<label>¿Pertenece a alguna de éstas temporadas? </label><br>
-			<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" required><br>
+			<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" required>
 				<option value="null">No</option>
 				<?php foreach($temporada as $fila){?>
 				<option value="<?php echo $fila["IDTEMPORADA"]; ?>"><?php echo $fila["NOMBRETEMPORADA"]; ?> </option>
 				<?php }?>
 			</select><br>
 		<label>¿Es de alguno de éstos proveedores? </label><br>
-			<select name="selectProveedorPrenda" id="selectProveedorPrenda" required><br>
+			<select name="selectProveedorPrenda" id="selectProveedorPrenda" required>
 				<?php foreach($proveedores as $fila){?>
 				<option value="<?php echo $fila["IDPROVEEDOR"]; ?>"><?php echo $fila["NOMBREPROVEEDOR"]; ?> </option>
 				<?php }?>
