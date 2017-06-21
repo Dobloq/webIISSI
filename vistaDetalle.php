@@ -207,7 +207,7 @@ if(!isset($_SESSION['datosUsuario'])){
 							var idT = $("#idTarea").val();
 							var tiempo = $("#tiempoRealS").val();
 							if($("#tiempoRealS").val().length>0 && $("#tiempoRealS").val() >= 1){
-								$.post("php/controladores/gestionarTareas.php", {idTareaT : idT, tiempoRealT : tiempo}, function(){location.reload(true)});
+								$.post("php/controladores/gestionarTareas.php", {idTareaT : idT, tiempoRealT : tiempo}, function(){alert("Actualizada correctamente"); window.location.replace("home.php");});
 							} else {
 								document.getElementById("tiempoRealS").setCustomValidity("Debe introducir un tiempo valido");
 							}
@@ -225,6 +225,17 @@ if(!isset($_SESSION['datosUsuario'])){
                 	<input type="hidden" id="idTarea" name="idTarea" value="<?php echo $id ?>">
 					Nombre: <?php echo $nombre;?> <br>
 					Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
+					<?php if(isset($_GET['tiempoReal'])){ ?>
+						Tiempo Real: <?php echo $tiempoReal;?> <br>
+					<?php } ?>
+			
+					<?php if(isset($_GET['proyecto'])){ ?>
+						Proyecto: <?php echo $proyecto;?> <br>
+					<?php } ?>
+			
+					<?php if(isset($_GET['colaborador'])){ ?>
+						Colaborador: <?php echo $colaborador;?> <br>
+					<?php } ?>
 					<button type="button" name="terminarTarea" id="terminarTarea">Terminar tarea</button>
                     <fieldset id="terminar" hidden>
                     	<label>Tiempo final en minutos:</label><br>
@@ -248,18 +259,6 @@ if(!isset($_SESSION['datosUsuario'])){
                                 <button type="button" name="guardarAsignacion" id="guardarAsignacion">Guardar</button>
                     	</fieldset>
                     <?php } ?>
-					<?php if(isset($_GET['tiempoReal'])){ ?>
-						Tiempo Real: <?php echo $tiempoReal;?> <br>
-					<?php } ?>
-			
-					<?php if(isset($_GET['proyecto'])){ ?>
-						Proyecto: <?php echo $proyecto;?> <br>
-					<?php } ?>
-			
-					<?php if(isset($_GET['colaborador'])){ ?>
-						Colaborador: <?php echo $colaborador;?> <br>
-					<?php } ?>
-			
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "trabajador") { ?>
