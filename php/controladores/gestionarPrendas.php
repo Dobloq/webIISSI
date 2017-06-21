@@ -98,11 +98,7 @@
 			$primera = ( $pag_num - 1 ) * $pag_size + 1;
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
-				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM PRENDA ORDER BY IDPRENDA DESC) AUX "
-					."WHERE ROWNUM <= :ultima ORDER BY TIPOPRENDA"
-				.") "
-				."WHERE RNUM >= :primera";
+				 "SELECT * FROM (SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM PRENDA ORDER BY IDPRENDA DESC) AUX WHERE ROWNUM <= :ultima ORDER BY TIPOPRENDA) WHERE RNUM >= :primera";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':primera', $primera );
 			$stmt->bindParam( ':ultima',  $ultima  );
@@ -111,7 +107,7 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: ../../excepcion.php");
+			header("Location: excepcion.php");
     	}
     }
 	
@@ -168,6 +164,48 @@
 			header("Location: ../../excepcion.php");
     	}
     }
+	
+	function consultaPrendasAlmacen($conexion, $idAlmacen){
+		try {
+			$consulta = "SELECT * FROM PRENDA WHERE IDPRENDA IN (SELECT IDPRENDA FROM PRENDAALMACEN WHERE IDALMACEN = :idAlmacen)";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idAlmacen', $idAlmacen );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	function consultaPrendasTemporada($conexion, $idTemporada){
+		try {
+			$consulta = "SELECT * FROM PRENDA WHERE IDTEMPORADA = :idTemporada";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idTemporada', $idTemporada );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	function consultaPrendasProveedor($conexion, $idProveedor){
+		try {
+			$consulta = "SELECT * FROM PRENDA WHERE PROVEEDOR = :idProveedor";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idProveedor', $idProveedor );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
 	
 	/*
 	Devuelve $stmt que es un array con las columnas RNUM , IDALMACEN, IDPRENDA, CANTIDAD, COLOR, TIPOPRENDA, CALIDAD, TALLA, VENTAS, PRECIO, URLIMAGEN,	COLABORADORTEXTIL, TEMPORADA, PROVEEDOR, IDOFERTA, NOMBREALMACEN

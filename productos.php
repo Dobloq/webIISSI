@@ -1,40 +1,76 @@
-<?php session_start();
+<?php
+
+session_start();
 if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 	exit();
-} 
+} 	
+if (isset($_SESSION["paginacion_prendas"])) {
+	$paginacion_prendas = $_SESSION["paginacion_prendas"];
+}
+if (isset($_SESSION["paginacion_temporadas"])) {
+	$paginacion_temporadas = $_SESSION["paginacion_temporadas"];
+}
+if (isset($_SESSION["paginacion_ofertas"])) {
+	$paginacion_ofertas = $_SESSION["paginacion_ofertas"];
+}
+		
+$pagina_seleccionada_prendas = isset($_GET["PAG_NUM_PRENDAS"]) ? (int)$_GET["PAG_NUM_PRENDAS"] : 1;
+$pagina_seleccionada_temporadas = isset($_GET["PAG_NUM_TEMPORADAS"]) ? (int)$_GET["PAG_NUM_TEMPORADAS"] : 1;
+$pagina_seleccionada_ofertas = isset($_GET["PAG_NUM_OFERTAS"]) ? (int)$_GET["PAG_NUM_OFERTAS"] : 1;
+
+$pag_tam_prendas = isset($_GET["PAG_TAM_PRENDAS"]) ? (int)$_GET["PAG_TAM_PRENDAS"] : (isset($paginacion_prendas) ? (int)$paginacion_prendas["PAG_TAM_PRENDAS"] : 5);
+$pag_tam_temporadas = isset($_GET["PAG_TAM_TEMPORADAS"]) ? (int)$_GET["PAG_TAM_TEMPORADAS"] : (isset($paginacion_temporadas) ? (int)$paginacion_temporadas["PAG_TAM_TEMPORADAS"] : 5);
+$pag_tam_ofertas = isset($_GET["PAG_TAM_OFERTAS"]) ? (int)$_GET["PAG_TAM_OFERTAS"] : (isset($paginacion_ofertas) ? (int)$paginacion_ofertas["PAG_TAM_OFERTAS"] : 5);
+
+if ($pagina_seleccionada_prendas < 1) $pagina_seleccionada_prendas = 1;
+if ($pagina_seleccionada_temporadas < 1) $pagina_seleccionada_temporadas = 1;
+if ($pagina_seleccionada_ofertas < 1) $pagina_seleccionada_ofertas = 1;
+
+if ($pag_tam_prendas < 1) $pag_tam_prendas = 5;
+if ($pag_tam_temporadas < 1) $pag_tam_temporadas = 5;
+if ($pag_tam_ofertas < 1) $pag_tam_ofertas= 5;
+	
+unset($_SESSION["paginacion_prendas"]);
+unset($_SESSION["paginacion_temporadas"]);
+unset($_SESSION["paginacion_ofertas"]);
+	
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarPrendas.php");
 require_once("php/controladores/gestionarTemporadas.php");
 require_once("php/controladores/gestionarOfertas.php");
 $conexion = crearConexionBD();
 	//if(isset($_REQUEST('botonPorAlmacen'))){
-	
-if (isset($_SESSION["paginacion"])) {
-	$paginacion = $_SESSION["paginacion"];
-}
 		
-$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : 1;
-$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
+$filas = consultaPrendas($conexion, $pagina_seleccionada_prendas, $pag_tam_prendas);
+$temporadas = consultaTemporada($conexion, $pagina_seleccionada_temporadas, $pag_tam_temporadas);
+$ofertas = consultaOfertas($conexion, $pagina_seleccionada_ofertas, $pag_tam_ofertas);
 
-if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
+$total_paginas_prendas = contarPrendas($conexion)/$pag_tam_prendas;
+$total_paginas_temporadas = contarTemporadas($conexion)/$pag_tam_temporadas ;
+$total_paginas_ofertas = contarOfertas($conexion)/$pag_tam_ofertas ;
 
-if ($pag_tam < 1) $pag_tam = 5;
-	
-unset($_SESSION["paginacion"]);
-	
-$filas = consultaPrendas($conexion, $pagina_seleccionada, $pag_tam);
-$temporadas = consultaTemporada($conexion, $pagina_seleccionada, $pag_tam);
-$ofertas = consultaOfertas($conexion, $pagina_seleccionada, $pag_tam);
-$total_paginas = contarPrendas($conexion)/$pag_tam;
-if(contarPrendas($conexion)%$pag_tam>0){$total_paginas++;}
+if(contarPrendas($conexion)%$pag_tam_prendas>0){$total_paginas_prendas++;}
+if ($pagina_seleccionada_prendas > $total_paginas_prendas) $pagina_seleccionada_prendas = $total_paginas_prendas;
 
-if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+if(contarTemporadas($conexion)%$pag_tam_temporadas>0){$total_paginas_temporadas++;}
+if ($pagina_seleccionada_temporadas > $total_paginas_temporadas) $pagina_seleccionada_temporadas = $total_paginas_temporadas;
+
+if(contarOfertas($conexion)%$pag_tam_ofertas>0){$total_paginas_ofertas++;}
+if ($pagina_seleccionada_ofertas > $total_paginas_ofertas) $pagina_seleccionada_ofertas = $total_paginas_ofertas;
 
 // Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
-$paginacion["PAG_NUM"] = $pagina_seleccionada;
-$paginacion["PAG_TAM"] = $pag_tam;
-$_SESSION["paginacion"] = $paginacion;
+$paginacion_prendas["PAG_NUM_PRENDAS"] = $pagina_seleccionada_prendas;
+$paginacion_prendas["PAG_TAM_PRENDAS"] = $pag_tam_prendas;
+$_SESSION["paginacion_prendas"] = $paginacion_prendas;
+
+$paginacion_temporadas["PAG_NUM_TEMPORADAS"] = $pagina_seleccionada_temporadas;
+$paginacion_temporadas["PAG_TAM_TEMPORADAS"] = $pag_tam_temporadas;
+$_SESSION["paginacion_temporadas"] = $paginacion_temporadas;
+
+$paginacion_ofertas["PAG_NUM_OFERTAS"] = $pagina_seleccionada_ofertas;
+$paginacion_ofertas["PAG_TAM_OFERTAS"] = $pag_tam_ofertas;
+$_SESSION["paginacion_ofertas"] = $paginacion_ofertas;
 
 	
 	/*if(isset($_GET['PAG_NUM']) && isset($_GET['PAG_TAM'])){
@@ -182,19 +218,21 @@ foreach($filas as $fila){
 					</form>   
 				<?php }?>
 			</article>
+			<!-- PAGINACION PRENDAS -->
 			<article>
 				<?php
-				for ($pagina = 1; $pagina <= $total_paginas; $pagina++)
-					if ($pagina == $pagina_seleccionada) {?>
+				for ($pagina = 1; $pagina <= $total_paginas_prendas; $pagina++)
+					if ($pagina == $pagina_seleccionada_prendas) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="productos.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="productos.php?PAG_NUM_PRENDAS=<?php echo $pagina; ?>&PAG_TAM_PRENDAS=<?php echo $pag_tam_prendas; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="productos.php">
 					
-					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarPrendas($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarPrendas($conexion)?> <input type="submit" value="Cambiar">
+					Mostrando <input id="PAG_TAM_PRENDAS" name="PAG_TAM_PRENDAS" type="number" min="1" max="<?php echo contarPrendas($conexion)?>" value="<?php echo $pag_tam_prendas?>"> entradas de <?php echo contarPrendas($conexion)?> <input type="submit" value="Cambiar">
 				</form>
 			</article>
+			
 			<article>
 				<h2> Temporada: </h2>
 				<?php foreach($temporadas as $fila){ ?>
@@ -211,6 +249,21 @@ foreach($filas as $fila){
 					</div></br>
 				<?php }?>
 			</article>
+			<!-- PAGINACION TEMPORADAS -->
+			<article>
+				<?php
+				for ($pagina = 1; $pagina <= $total_paginas_temporadas; $pagina++)
+					if ($pagina == $pagina_seleccionada_temporadas) {?>
+						<span class="current"><?php echo $pagina; ?></span>
+					<?php }	else { ?>
+						<a href="productos.php?PAG_NUM_TEMPORADAS=<?php echo $pagina; ?>&PAG_TAM_TEMPORADAS=<?php echo $pag_tam_temporadas; ?>"><?php echo $pagina; ?></a>
+					<?php } ?>
+				<form method="get" action="productos.php">
+					
+					Mostrando <input id="PAG_TAM_TEMPORADAS" name="PAG_TAM_TEMPORADAS" type="number" min="1" max="<?php echo contarTemporadas($conexion)?>" value="<?php echo $pag_tam_temporadas?>"> entradas de <?php echo contarTemporadas($conexion)?> <input type="submit" value="Cambiar">
+				</form>
+			</article>
+			
 			<article>
 				<h2> Ofertas: </h2>
 				<?php foreach($ofertas as $fila){ ?>
@@ -229,6 +282,20 @@ foreach($filas as $fila){
 						<button name="borrarOferta" id="borrarOferta" type="submit"> Borrar oferta </button>
 					</form></br>
 				<?php }?>
+			</article>
+			<!-- PAGINACION OFERTAS -->
+			<article>
+				<?php
+				for ($pagina = 1; $pagina <= $total_paginas_ofertas; $pagina++)
+					if ($pagina == $pagina_seleccionada_ofertas) {?>
+						<span class="current"><?php echo $pagina; ?></span>
+					<?php }	else { ?>
+						<a href="productos.php?PAG_NUM_OFERTAS=<?php echo $pagina; ?>&PAG_TAM_OFERTAS=<?php echo $pag_tam_ofertas; ?>"><?php echo $pagina; ?></a>
+					<?php } ?>
+				<form method="get" action="productos.php">
+					
+					Mostrando <input id="PAG_TAM_OFERTAS" name="PAG_TAM_OFERTAS" type="number" min="1" max="<?php echo contarOfertas($conexion)?>" value="<?php echo $pag_tam_ofertas?>"> entradas de <?php echo contarOfertas($conexion)?> <input type="submit" value="Cambiar">
+				</form>
 			</article>
 		</section>
 		<!-- ASIDE -->

@@ -94,10 +94,27 @@ else if(isset($_POST["botonSubirCliente"])){
 	header("Location: ../../datos.php");
 	exit();
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorAV=anyadirColaboradorAV"){
+else if(isset($_POST["botonSubirCAV"])){
 	//proviene de ColaboradorAudiovisual
-	$nombreColAu = $_POST['nombreCAV'];
-	$calColAu = $_POST['calificacionCAV'];
+	$errorColAU = "";
+	if(isset($_POST["nombreCAV"])) {
+		$nombreColAu = limpiar($_POST["nombreCAV"]);
+	} else {
+		$errorColAU .= "Falta el nombre. ";
+	}
+
+	if(isset($_POST["calificacionCAV"])) {
+		$calColAu = $_POST["calificacionCAV"];
+	} else {
+		$errorColAU .= "Falta la calificacion. ";
+	}
+	
+	if ($errorColAU!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de colaborador audiovisual: " . $errorColAU;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
 	try{
 	$query = "BEGIN PROC_COLABORADORAUDIOVISUAL(:nombreColAu,:calColAu); END;";
 	$stmt = $conexion->prepare($query);
@@ -111,10 +128,28 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
     }
 	header("Location: ../../trabajadores.php");
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirColaboradorTextil=AnyadirColaboradorTextil"){
+else if(isset($_POST["botonSubirCT"])){
 	//proviene de ColaboradorTextil
-	$nombreColText = $_POST['nombreCT'];
-	$calColText = $_POST['calificacionCT'];
+	
+	$errorColT = "";
+	if(isset($_POST["nombreCT"])) {
+		$nombreColText = limpiar($_POST["nombreCT"]);
+	} else {
+		$errorColT .= "Falta el nombre. ";
+	}
+
+	if(isset($_POST["calificacionCT"])) {
+		$calColText = $_POST["calificacionCT"];
+	} else {
+		$errorColT .= "Falta la calificacion. ";
+	}
+	
+	if ($errorColT!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de colaborador textil: " . $errorColT;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
 	try{
 	$query = "BEGIN PROC_COLABORADORTEXTIL(:nombreColText,:calColText); END;";
 	$consulta = "INSERT INTO COLABORADORTEXTIL VALUES (oid_colaboradorTextil.nextval,:nombreColText,:calColText)";
@@ -508,11 +543,30 @@ else if(isset($_POST["botonSubirTemporada"])){
 		exit();
 	}
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirTrabajador=anyadirTrabajador"){ //proviene de Usuario(trabajador)
-	$nombre = $_POST['nombreUsr'];
-$pass = $_POST['userPass'];
-//$esDirector = $_POST['esDirector'];
-$usuario = $_POST['user'];
+else if(isset($_SESSION["botonSubirTrabajador"])){ //proviene de Usuario(trabajador)
+	$errorTrabajador = "";
+	if(isset($_POST["nombreUsr"])) {
+		$nombre = limpiar($_POST["nombreUsr"]);
+	} else {
+		$errorTrabajador .= "Falta el nombre. ";
+	}
+	if(isset($_POST["userPass"])) {
+		$pass = limpiar($_POST["userPass"]);
+	} else {
+		$errorTrabajador .= "Falta la fecha. ";
+	}
+	if(isset($_POST["usuario"])) {
+		$usuario = limpiar($_POST["usuario"]);
+	} else {
+		$errorTrabajador .= "Falta la fecha. ";
+	}
+
+	if ($errorTrabajador!="") {
+		$_SESSION['excepcion'] = "Error(es) en formulario de trabajador: " . $errorTrabajador;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
 if(!isset($_POST['esDirector'])){
 	$esDirector = 0;
 } else {

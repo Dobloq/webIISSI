@@ -1,5 +1,5 @@
 <script type="text/javascript" src="js/validacion_alta_usuario.js"></script>
-
+<?php if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){header("Location: trabajadores.php");} ?>
 <h2> Introduce los datos del trabajador: </h2>
 <div id="divFormAltaUsr">
 	<form id="formAltaUsr" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">

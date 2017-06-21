@@ -33,6 +33,20 @@
     	}
     }
 	
+	function consultaItemDeCompra($conexion,$idCompra){
+		try{
+			$consulta = "SELECT * FROM ITEMCOMPRA I LEFT JOIN PRENDA P ON I.IDPRENDA=P.IDPRENDA WHERE IDCOMPRA = :idCompra";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idCompra', $idCompra );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
 	/*
 	$stmt contiene los campos IDITEMCOMPRA, IMPORTETOTAL, CANTIDAD, IDPRENDA, URLIMAGEN, TIPOPRENDA, TALLA, PRECIO, IDOFERTA
 	*/

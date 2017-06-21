@@ -4,36 +4,57 @@ session_start();
 if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 	exit();
-}if (isset($_SESSION["paginacion"])) {
-	$paginacion = $_SESSION["paginacion"];
+}
+if (isset($_SESSION["paginacion_proveedores"])) {
+	$paginacion_proveedores = $_SESSION["paginacion_proveedores"];
+}
+if (isset($_SESSION["paginacion_colaboradoresTextil"])) {
+	$paginacion_colaboradoresTextil = $_SESSION["paginacion_colaboradoresTextil"];
 }
 		
-$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : 1;
-$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
+$pagina_seleccionada_proveedores = isset($_GET["PAG_NUM_PROVEEDORES"]) ? (int)$_GET["PAG_NUM_PROVEEDORES"] : 1;
+$pagina_seleccionada_colaboradoresTextil = isset($_GET["PAG_NUM_COLABORADORTEXTIL"]) ? (int)$_GET["PAG_NUM_COLABORADORTEXTIL"] : 1;
 
-if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
+$pag_tam_proveedores = isset($_GET["PAG_TAM_PROVEEDORES"]) ? (int)$_GET["PAG_TAM_PROVEEDORES"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM_PROVEEDORES"] : 5);
+$pag_tam_colaboradoresTextil = isset($_GET["PAG_TAM_COLABORADORTEXTIL"]) ? (int)$_GET["PAG_TAM_COLABORADORTEXTIL"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM_COLABORADORTEXTIL"] : 5);
 
-if ($pag_tam < 1) $pag_tam = 5;
+
+if ($pagina_seleccionada_proveedores < 1) $pagina_seleccionada_proveedores = 1;
+if ($pagina_seleccionada_colaboradoresTextil < 1) $pagina_seleccionada_colaboradoresTextil = 1;
+
+if ($pag_tam_proveedores < 1) $pag_tam_proveedores = 5;
+if ($pag_tam_colaboradoresTextil < 1) $pag_tam_colaboradoresTextil = 5;
 	
-unset($_SESSION["paginacion"]);
+unset($_SESSION["paginacion_proveedores"]);
+unset($_SESSION["paginacion_colaboradoresTextil"]);
 
 
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarProveedor.php");
 require_once("php/controladores/gestionarColaboradores.php");
 $conexion = crearConexionBD();
-$proveedores = consultaProveedor($conexion, $pagina_seleccionada, $pag_tam);
-$colaboradores = consultaColaboradoresTextil($conexion, $pagina_seleccionada, $pag_tam);
+$proveedores = consultaProveedor($conexion, $pagina_seleccionada_proveedores, $pag_tam_proveedores); //Al autocompletar me salian los valores de pag_tam_* por duplicado
+$colaboradores = consultaColaboradoresTextil($conexion, $pagina_seleccionada_colaboradoresTextil, $pag_tam_colaboradoresTextil);
 cerrarConexionBD($conexion);
 
-$total_paginas = contarProveedores($conexion)/$pag_tam;
-if(contarProveedores($conexion)%$pag_tam>0){$total_paginas++;}
-if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+$total_paginas_proveedores = contarProveedores($conexion)/$pag_tam_proveedores;
+$total_paginas_colaboradoresTextil = contarColaboradoresT($conexion)/$pag_tam_colaboradoresTextil;
+
+if(contarProveedores($conexion)%$pag_tam_proveedores>0){$total_paginas_proveedores++;}
+if ($pagina_seleccionada_proveedores > $total_paginas_proveedores) $pagina_seleccionada_proveedores = $total_paginas_proveedores;
+
+if(contarColaboradoresT($conexion)%$pag_tam_colaboradoresTextil>0){$total_paginas_colaboradoresTextil++;}
+if($pagina_seleccionada_colaboradoresTextil > $total_paginas_colaboradoresTextil) $pagina_seleccionada_colaboradoresTextil = $total_paginas_colaboradoresTextil;
 
 // Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
-$paginacion["PAG_NUM"] = $pagina_seleccionada;
-$paginacion["PAG_TAM"] = $pag_tam;
-$_SESSION["paginacion"] = $paginacion;
+$paginacion_proveedores["PAG_NUM_PROVEEDORES"] = $pagina_seleccionada_proveedores;
+$paginacion_proveedores["PAG_TAM_PROVEEDORES"] = $pag_tam_proveedores;
+$_SESSION["paginacion_proveedores"] = $paginacion_proveedores;
+
+$paginacion_colaboradoresTextil["PAG_NUM_COLABORADORTEXTIL"] = $pagina_seleccionada_colaboradoresTextil;
+$paginacion_colaboradoresTextil["PAG_TAM_COLABORADORTEXTIL"] = $pag_tam_colaboradoresTextil;
+$_SESSION["paginacion_colaboradoresTextil"] = $paginacion_colaboradoresTextil;
+
 ?>
 <!DOCTYPE html>
 
@@ -70,18 +91,20 @@ $_SESSION["paginacion"] = $paginacion;
 					<br>
 				<?php }?>
 			</article>
+			<!-- PAGINACION DE PROVEEDORES -->
             <article>
             <?php
-				for ($pagina = 1; $pagina <= $total_paginas; $pagina++)
-					if ($pagina == $pagina_seleccionada) {?>
+				for ($pagina = 1; $pagina <= $total_paginas_proveedores; $pagina++)
+					if ($pagina == $pagina_seleccionada_proveedores) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="proveedores.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="proveedores.php?PAG_NUM_PROVEEDORES=<?php echo $pagina; ?>&PAG_TAM_PROVEEDORES=<?php echo $pag_tam_proveedores; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="proveedores.php">
-					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarProveedores($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarProveedores($conexion)?> <input type="submit" value="Cambiar">
+					Mostrando <input id="PAG_TAM_PROVEEDORES" name="PAG_TAM_PROVEEDORES" type="number" min="1" max="<?php echo contarProveedores($conexion)?>" value="<?php echo $pag_tam_proveedores?>"> entradas de <?php echo contarProveedores($conexion)?> <input type="submit" value="Cambiar">
                 </form>
             </article>
+			
 			<article>
 				<h2> Colaboradores Textiles: </h2>
 				<?php foreach($colaboradores as $fila){?>
@@ -97,6 +120,19 @@ $_SESSION["paginacion"] = $paginacion;
 					<br>
 				<?php }?>
 			</article>
+			<!-- PAGINACION DE COLABORADORES TEXTIL -->
+			<article>
+			<?php
+				for ($pagina = 1; $pagina <= $total_paginas_colaboradoresTextil; $pagina++)
+					if ($pagina == $pagina_seleccionada_colaboradoresTextil) {?>
+						<span class="current"><?php echo $pagina; ?></span>
+					<?php }	else { ?>
+						<a href="proveedores.php?PAG_NUM_COLABORADORTEXTIL=<?php echo $pagina; ?>&PAG_TAM_COLABORADORTEXTIL=<?php echo $pag_tam_colaboradoresTextil; ?>"><?php echo $pagina; ?></a>
+					<?php } ?>
+				<form method="get" action="proveedores.php">
+					Mostrando <input id="PAG_TAM_COLABORADORTEXTIL" name="PAG_TAM_COLABORADORTEXTIL" type="number" min="1" max="<?php echo contarColaboradoresT($conexion)?>" value="<?php echo $pag_tam_colaboradoresTextil?>"> entradas de <?php echo contarColaboradoresT($conexion)?> <input type="submit" value="Cambiar">
+                </form>
+            </article>
 		</section>
 		<!-- ASIDE -->
 		<aside id="columna">

@@ -79,6 +79,20 @@
     	}
     }
 	
+	function consultaAlmacenPrenda($conexion, $idPrenda){
+		try {
+			$consulta = "SELECT * FROM ALMACEN WHERE IDALMACEN IN (SELECT IDALMACEN FROM PRENDAALMACEN WHERE IDPRENDA = :idPrenda)";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idPrenda', $idPrenda );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
 	/*
 	$stmt contiene los campos RNUM, IDCLIENTE,NOMBRECLIENTE, TELEFONO, CORREO, ANYONACIMIENTO
 	*/

@@ -4,37 +4,54 @@ if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 	exit();
 }
-if (isset($_SESSION["paginacion"])) {
-	$paginacion = $_SESSION["paginacion"];
+if (isset($_SESSION["paginacion_trabajadores"])) {
+	$paginacion_trabajadores = $_SESSION["paginacion_trabajadores"];
 }
-		
-$pagina_seleccionada = isset($_GET["PAG_NUM"]) ? (int)$_GET["PAG_NUM"] : 1;
-$pag_tam = isset($_GET["PAG_TAM"]) ? (int)$_GET["PAG_TAM"] : (isset($paginacion) ? (int)$paginacion["PAG_TAM"] : 5);
-
-if ($pagina_seleccionada < 1) $pagina_seleccionada = 1;
-
-if ($pag_tam < 1) $pag_tam = 5;
+if (isset($_SESSION["paginacion_colaboradoresAU"])) {
+	$paginacion_colaboradoresAU = $_SESSION["paginacion_colaboradoresAU"];
+}
 	
-unset($_SESSION["paginacion"]);
+$pagina_seleccionada_trabajadores = isset($_GET["PAG_NUM_TRABAJADORES"]) ? (int)$_GET["PAG_NUM_TRABAJADORES"] : 1;
+$pagina_seleccionada_colaboradoresAU = isset($_GET["PAG_NUM_COLABORADORES_AUDIOVISUAL"]) ? (int)$_GET["PAG_NUM_COLABORADORES_AUDIOVISUAL"] : 1;
 
+$pag_tam_trabajadores = isset($_GET["PAG_TAM_TRABAJADORES"]) ? (int)$_GET["PAG_TAM_TRABAJADORES"] : (isset($paginacion_trabajadores) ? (int)$paginacion_trabajadores["PAG_TAM_TRABAJADORES"] : 5);
+$pag_tam_colaboradoresAU = isset($_GET["PAG_TAM_COLABORADORES_AUDIOVISUAL"]) ? (int)$_GET["PAG_TAM_COLABORADORES_AUDIOVISUAL"] : (isset($paginacion_colaboradoresAU) ? (int)$paginacion_colaboradoresAU["PAG_TAM_COLABORADORES_AUDIOVISUAL"] : 5);
+
+if ($pagina_seleccionada_trabajadores < 1) $pagina_seleccionada_trabajadores = 1;
+if ($pagina_seleccionada_colaboradoresAU < 1) $pagina_seleccionada_colaboradoresAU = 1;
+
+if ($pag_tam_trabajadores < 1) $pag_tam_trabajadores = 5;
+if ($pag_tam_colaboradoresAU < 1) $pag_tam_colaboradoresAU = 5;
+
+unset($_SESSION["paginacion_trabajadores"]);
+unset($_SESSION["paginacion_colaboradoresAU"]);
 
 
 require_once("php/controladores/gestionBD.php");
 require_once("php/controladores/gestionarTrabajadores.php");
 require_once("php/controladores/gestionarColaboradores.php");
 $conexion = crearConexionBD();
-$filas = consultaTrabajadores($conexion, $pagina_seleccionada, $pag_tam);
-$colaboradores = consultaColaboradoresAudiovisual($conexion, $pagina_seleccionada, $pag_tam);
+$filas = consultaTrabajadores($conexion, $pagina_seleccionada_trabajadores, $pag_tam_trabajadores);
+$colaboradores = consultaColaboradoresAudiovisual($conexion, $pagina_seleccionada_colaboradoresAU, $pag_tam_colaboradoresAU);
 cerrarConexionBD($conexion);
 
-$total_paginas = contarTrabajadores($conexion)/$pag_tam;
-if(contarTrabajadores($conexion)%$pag_tam>0){$total_paginas++;}
-if ($pagina_seleccionada > $total_paginas) $pagina_seleccionada = $total_paginas;
+$total_paginas_trabajadores = contarTrabajadores($conexion)/$pag_tam_trabajadores;
+$total_paginas_colaboradorAU = contarColaboradoresAU($conexion)/$pag_tam_colaboradoresAU;
+
+if(contarTrabajadores($conexion)%$pag_tam_trabajadores>0){$total_paginas_trabajadores++;}
+if ($pagina_seleccionada_trabajadores > $total_paginas_trabajadores) $pagina_seleccionada_trabajadores = $total_paginas_trabajadores;
+
+if(contarColaboradoresAU($conexion)%$pag_tam_colaboradoresAU>0){$total_paginas_colaboradorAU++;}
+if ($pagina_seleccionada_colaboradoresAU > $total_paginas_colaboradorAU) $pagina_seleccionada_colaboradoresAU = $total_paginas_colaboradorAU;
 
 // Generamos los valores de sesión para página e intervalo para volver a ella después de una operación
-$paginacion["PAG_NUM"] = $pagina_seleccionada;
-$paginacion["PAG_TAM"] = $pag_tam;
-$_SESSION["paginacion"] = $paginacion;
+$paginacion_trabajadores["PAG_NUM_TRABAJADORES"] = $pagina_seleccionada_trabajadores;
+$paginacion_trabajadores["PAG_TAM_TRABAJADORES"] = $pag_tam_trabajadores;
+$_SESSION["paginacion_trabajadores"] = $paginacion_trabajadores;
+
+$paginacion_colaboradoresAU["PAG_NUM_COLABORADORES_AUDIOVISUAL"] = $pagina_seleccionada_colaboradoresAU;
+$paginacion_colaboradoresAU["PAG_TAM_COLABORADORES_AUDIOVISUAL"] = $pag_tam_colaboradoresAU;
+$_SESSION["paginacion_colaboradoresAU"] = $paginacion_colaboradoresAU;
 ?>
 
 <!DOCTYPE html>
@@ -71,18 +88,20 @@ $_SESSION["paginacion"] = $paginacion;
 					<br>
 				<?php }?>
 			</article>
+			<!-- PAGINACION TRABAJADOR -->
             <article>
             <?php
-				for ($pagina = 1; $pagina <= $total_paginas; $pagina++)
-					if ($pagina == $pagina_seleccionada) {?>
+				for ($pagina = 1; $pagina <= $total_paginas_trabajadores; $pagina++)
+					if ($pagina == $pagina_seleccionada_trabajadores) {?>
 						<span class="current"><?php echo $pagina; ?></span>
 					<?php }	else { ?>
-						<a href="trabajadores.php?PAG_NUM=<?php echo $pagina; ?>&PAG_TAM=<?php echo $pag_tam; ?>"><?php echo $pagina; ?></a>
+						<a href="trabajadores.php?PAG_NUM_TRABAJADORES=<?php echo $pagina; ?>&PAG_TAM_TRABAJADORES=<?php echo $pag_tam_trabajadores; ?>"><?php echo $pagina; ?></a>
 					<?php } ?>
 				<form method="get" action="trabajadores.php">
-					Mostrando <input id="PAG_TAM" name="PAG_TAM" type="number" min="1" max="<?php echo contarTrabajadores($conexion)?>" value="<?php echo $pag_tam?>"> entradas de <?php echo contarTrabajadores($conexion)?> <input type="submit" value="Cambiar">
+					Mostrando <input id="PAG_TAM_TRABAJADORES" name="PAG_TAM_TRABAJADORES" type="number" min="1" max="<?php echo contarTrabajadores($conexion)?>" value="<?php echo $pag_tam_trabajadores?>"> entradas de <?php echo contarTrabajadores($conexion)?> <input type="submit" value="Cambiar">
                 </form>
             </article>
+			
 			<article>
 				<h2> Colaboradores: </h2>
 				<?php foreach($colaboradores as $fila){?>
@@ -98,6 +117,19 @@ $_SESSION["paginacion"] = $paginacion;
 					<br>
 				<?php }?>
 			</article>
+			<!-- PAGINACION COLABORADOR AUDIOVISUAL -->
+			<article>
+            <?php
+				for ($pagina = 1; $pagina <= $total_paginas_colaboradorAU; $pagina++)
+					if ($pagina == $pagina_seleccionada_colaboradoresAU) {?>
+						<span class="current"><?php echo $pagina; ?></span>
+					<?php }	else { ?>
+						<a href="trabajadores.php?PAG_NUM_COLABORADORES_AUDIOVISUAL=<?php echo $pagina; ?>&PAG_TAM_COLABORADORES_AUDIOVISUAL=<?php echo $pag_tam_colaboradoresAU; ?>"><?php echo $pagina; ?></a>
+					<?php } ?>
+				<form method="get" action="trabajadores.php">
+					Mostrando <input id="PAG_TAM_COLABORADORES_AUDIOVISUAL" name="PAG_TAM_COLABORADORES_AUDIOVISUAL" type="number" min="1" max="<?php echo contarColaboradoresAU($conexion)?>" value="<?php echo $pag_tam_colaboradoresAU?>"> entradas de <?php echo contarColaboradoresAU($conexion)?> <input type="submit" value="Cambiar">
+                </form>
+            </article>
 		</section>
 		<!-- ASIDE -->
 		<aside id="columna">

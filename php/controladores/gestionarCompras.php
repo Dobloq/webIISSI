@@ -49,8 +49,8 @@
 			$primera = ( $pag_num - 1 ) * $pag_size + 1;
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
-				 "SELECT * FROM (SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM COMPRA ORDER BY IDCOMPRA DESC) AUX WHERE ROWNUM <= :ultima) 
-				 NATURAL JOIN CLIENTE WHERE RNUM >= :primera ORDER BY FECHACOMPRA DESC";
+				 "SELECT * FROM (SELECT ROWNUM RNUM, AUX.* FROM COMPRA AUX WHERE ROWNUM <= :ultima) 
+  				 NATURAL JOIN CLIENTE WHERE RNUM >= :primera ORDER BY FECHACOMPRA DESC";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':primera', $primera );
 			$stmt->bindParam( ':ultima',  $ultima  );
@@ -59,9 +59,23 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: ../../excepcion.php");
+			header("Location: ../excepcion.php");
     	}
     }
+	
+	function consultaComprasCliente($conexion, $idCliente){
+		try{
+			$consulta = "SELECT * FROM (ORDER BY FECHACOMPRA) WHERE IDCLIENTE = :idCliente";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idCliente', $idCliente );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
 	
 	/*
 	$stmt contiene los campos IDCLIENTE, RNUM, IDCOMPRA, FECHACOMPRA, NOMBRECLIENTE, TELEFONO, CORREO, ANYONACIMIENTO

@@ -128,6 +128,48 @@
     	}
     }
 	
+	function consultaTareaProyecto($conexion, $idProyecto){
+		try {
+			$consulta = "SELECT * FROM TAREA WHERE IDPROYECTOAUDIVISUAL = :idProyecto";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idProyecto', $idProyecto );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	function consultaTareaTrabajador($conexion, $idTrabajador){
+		try {
+			$consulta = "SELECT * FROM TAREA WHERE IDTAREA IN (SELECT IDTAREA FROM TRABAJADORTAREA WHERE IDTRABAJADOR = :idTrabajador)";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idTrabajador', $idTrabajador );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
+	function consultaTareaColaboradorAU($conexion, $idColab){
+		try {
+			$consulta = "SELECT * FROM TAREA WHERE IDCOLABORADORAUDIOVISUAL = :idColab";
+			$stmt = $conexion->prepare( $consulta );
+			$stmt->bindParam( ':idColab', $idColab );
+			$stmt->execute();
+			return $stmt;
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
 	/*
 	$stmt contiene los campos IDTAREA, NOMBRETAREA, TIEMPOESTIMADO, TIEMPOREAL, IDPROYECTOAUDIOVISUAL, IDCOLABORADORAUDIOVISUAL
 	*/
