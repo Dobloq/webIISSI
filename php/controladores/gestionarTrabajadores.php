@@ -60,7 +60,7 @@ if(isset($_POST["idTrab"])){
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT IDTRABAJADOR, NOMBRETRABAJADOR, ESDIRECTOR, VALORACION, USUARIO FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM TRABAJADOR AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM TRABAJADOR ORDER BY IDTRABAJADOR DESC) AUX "
 					."WHERE ROWNUM <= :ultima"
 				.") "
 				."WHERE RNUM >= :primera";

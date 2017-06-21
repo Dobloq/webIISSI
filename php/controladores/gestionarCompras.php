@@ -49,7 +49,7 @@
 			$primera = ( $pag_num - 1 ) * $pag_size + 1;
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
-				 "SELECT * FROM (SELECT ROWNUM RNUM, AUX.* FROM COMPRA AUX WHERE ROWNUM <= :ultima) 
+				 "SELECT * FROM (SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM COMPRA ORDER BY IDCOMPRA DESC) AUX WHERE ROWNUM <= :ultima) 
 				 NATURAL JOIN CLIENTE WHERE RNUM >= :primera ORDER BY FECHACOMPRA DESC";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':primera', $primera );

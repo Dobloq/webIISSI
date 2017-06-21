@@ -245,11 +245,6 @@ foreach($filas as $fila){
 						<button id="botonAnyadirAlmacen" name="botonAnyadirAlmacen" type="submit" value="AnyadirAlmacen">Añadir Almacén</button>
 					</div>
 				</form>
-				<form action="productos.php" method="get">
-					<div id="botonesAside">
-						<button id="botonPorAlmacen" name="botonPorAlmacen" type="submit" value="ordenarPorAlmacen">Ordenar por almacén</button>					
-					</div>
-				</form>
 			</div>			
 		</aside> 
 		<!-- FOOTER -->

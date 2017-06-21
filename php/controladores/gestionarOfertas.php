@@ -33,7 +33,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM OFERTA AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM OFERTA ORDER BY IDOFERTA DESC) AUX "
 					."WHERE ROWNUM <= :ultima"
 				.") "
 				."WHERE RNUM >= :primera";

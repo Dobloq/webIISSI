@@ -99,7 +99,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM PRENDA AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM PRENDA ORDER BY IDPRENDA DESC) AUX "
 					."WHERE ROWNUM <= :ultima ORDER BY TIPOPRENDA"
 				.") "
 				."WHERE RNUM >= :primera";
@@ -127,7 +127,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM PRENDA NATURAL JOIN PRENDAALMACEN NATURAL JOIN ALMACEN ORDER BY TIPOPRENDA) AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM (SELECT * FROM PRENDA ORDER BY IDPRENDA DESC) NATURAL JOIN PRENDAALMACEN NATURAL JOIN ALMACEN ORDER BY TIPOPRENDA) AUX "
 					."WHERE ROWNUM <= :ultima ORDER BY TIPOPRENDA"
 				.") "
 				."WHERE RNUM >= :primera";
@@ -153,9 +153,9 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM PRENDA AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM PRENDA  ORDER BY IDPRENDA DESC) AUX "
 					."WHERE ROWNUM <= :ultima ORDER BY IDPRENDA DESC"
-				.") "
+				.") "	
 				."WHERE RNUM >= :primera";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':primera', $primera );

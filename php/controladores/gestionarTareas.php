@@ -1,7 +1,7 @@
 <?php
 	function contarTareasTrabaj($conexion, $trabajador){
 		try {
-			$consulta = "SELECT COUNT(*) FROM TAREA WHERE IDTAREA IN (SELECT IDTAREA FROM TRABAJADORTAREA WHERE IDTRABAJADOR = :trabajador)";
+			$consulta = "SELECT COUNT(*) FROM TAREA WHERE IDTAREA IN (SELECT IDTAREA FROM TRABAJADORTAREA WHERE IDTRABAJADOR = :trabajador) AND TIEMPOREAL IS NULL";
 			$stmt = $conexion->prepare($consulta);
 			$stmt->bindParam( ':trabajador', $trabajador );
 			$stmt->execute();
@@ -48,7 +48,7 @@
 	
 	function contarTareas($conexion){
 		try {
-			$consulta = "SELECT COUNT(*) FROM TAREA";
+			$consulta = "SELECT COUNT(*) FROM TAREA WHERE TIEMPOREAL IS NULL";
 			$stmt = $conexion->prepare($consulta);
 			$stmt->execute();
 			$resultado = $stmt->fetch();
@@ -111,7 +111,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM TAREA AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM TAREA ORDER BY IDTAREA DESC) AUX "
 					."WHERE ROWNUM <= :ultima AND TIEMPOREAL IS NULL"
 				.") "
 				."WHERE RNUM >= :primera";

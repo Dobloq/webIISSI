@@ -55,9 +55,9 @@ $_SESSION["paginacion"] = $paginacion;
 					<h2> Clientes: </h2>
 					<?php foreach($clientes as $fila){?>
 						<div id="divListado" name="divListado">
-							Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=cliente&id=<?php echo $id; ?>&nombre=<?php echo $fila["NOMBRECLIENTE"];?>&telefono=<?php echo $fila["TELEFONO"];?>&correo=<?php echo $fila["CORREO"];?>&anyoNacimiento=<?php echo $fila["ANYONACIMIENTO"];?>">
-        <?php echo $fila["NOMBRECLIENTE"];?> 
-       </a> <br>
+							Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=cliente&id=<?php echo $fila["IDCLIENTE"]; ?>&nombre=<?php echo $fila["NOMBRECLIENTE"];?>&telefono=<?php echo $fila["TELEFONO"];?>&correo=<?php echo $fila["CORREO"];?>&anyoNacimiento=<?php echo $fila["ANYONACIMIENTO"];?>">
+								<?php echo $fila["NOMBRECLIENTE"];?> 
+							</a> <br>
 							Teléfono: <?php echo $fila["TELEFONO"];?> <br>
 							Correo: <?php echo $fila["CORREO"];?> <br>
 							Año de nacimiento: <?php echo $fila["ANYONACIMIENTO"];?> <br>
@@ -86,8 +86,12 @@ $_SESSION["paginacion"] = $paginacion;
 					<h2> Compras: </h2>
 					<?php foreach($compras as $fila){?>
 						<div id="divListado" name="divListado">
-							Nombre del cliente: <?php echo $fila["NOMBRECLIENTE"];?><br>
-							Fecha de la compra: <?php echo $fila["FECHACOMPRA"];?><br>
+							Nombre del cliente: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=cliente&id=<?php echo $fila["IDCLIENTE"]; ?>&nombre=<?php echo $fila["NOMBRECLIENTE"];?>&telefono=<?php echo $fila["TELEFONO"];?>&correo=<?php echo $fila["CORREO"];?>&anyoNacimiento=<?php echo $fila["ANYONACIMIENTO"];?>">
+								<?php echo $fila["NOMBRECLIENTE"];?> 
+							</a><br>
+							Fecha de la compra: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=compra&id=<?php echo $fila["IDCOMPRA"]; ?>&fechaCompra=<?php echo $fila["FECHACOMPRA"]; ?>&idCliente=<?php echo $fila['IDCLIENTE']; ?>&nombreCliente=<?php echo $fila['NOMBRECLIENTE']; ?>">
+								<?php echo $fila["FECHACOMPRA"];?>
+							</a><br>
                             <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 								<input type="hidden" name="idCompra" id="idCompra" value="<?php echo $fila["IDCOMPRA"];?>">
 								<button name="borrarCompra" id="borrarCompra" type="submit">Borrar compra </button>

@@ -47,6 +47,9 @@ if(!isset($_SESSION['datosUsuario'])){
 		}
 		if($tipoObjeto == "compra") {
 			$id = $_GET['id'];
+			$fecha = $_GET['fechaCompra'];
+			$idCliente = $_GET['idCliente'];
+			$nombreCliente = $_GET['nombreCliente'];
 		}
 		if($tipoObjeto == "colaboradorTextil") {
 			$id = $_GET['id'];

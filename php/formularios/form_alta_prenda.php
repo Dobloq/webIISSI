@@ -35,7 +35,7 @@ cerrarConexionBD($conexion);
 		<label>Precio (&euro;): </label><br>
 			<input type="number" step="0.5" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()"><br>
 		<label>Añade una imagen: </label><br>
-        	<input type="hidden" name="MAX_FILE_SIZE" value="30000" />
+        	<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
 			<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required><br>
 		<label>Cantidad: </label><br>
 			<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()"><br>

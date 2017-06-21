@@ -234,19 +234,20 @@ else if(isset($_POST["botonSubirPrenda"])){
 	} else {
 		$errorPrenda .= "Falta el precio. ";
 	}
-	//TODO imagenPrenda
 	
-	$dir_subida = '/images/prendas/';
+	$dir_subida = 'C:/xampp/htdocs/ThreewGestion/images/prendas/';
+	$dir = 'images/prendas/';
 	$fichero_subido = $dir_subida . basename($_FILES['imagenPrenda']['name']);
 	
 	if (move_uploaded_file($_FILES['imagenPrenda']['tmp_name'], $fichero_subido)) {
-    	$imagenPrenda = $fichero_subido;
+    	$imagenPrenda = $dir . basename($_FILES['imagenPrenda']['name']);
 	} else {
     	$errorPrenda .= "Imagen no subida";
 		$errorPrenda .= $_FILES['imagenPrenda']['tmp_name'];
+		$error = $_FILES['imagenPrenda'];
 	}
 	
-	$imagenPrenda = "images/prendas/prenda-nueva.png";
+	//$imagenPrenda = "images/prendas/prenda-nueva.png";
 	if(isset($_POST["cantidadPrenda"]) && is_numeric($_POST["cantidadPrenda"])) {
 		$cantidadPrenda = (int) $_POST["cantidadPrenda"];
 		if ($cantidadPrenda < 0) {
@@ -286,6 +287,7 @@ else if(isset($_POST["botonSubirPrenda"])){
 	if ($errorPrenda!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de prenda: " . $errorPrenda;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		$_SESSION['error'] = $error;
 		header("Location: ../../excepcion.php");
 		exit();
 	}

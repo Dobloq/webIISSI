@@ -37,7 +37,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM COLABORADORAUDIOVISUAL AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM COLABORADORAUDIOVISUAL ORDER BY IDCOLABORADORAUDIOVISUAL DESC) AUX "
 					."WHERE ROWNUM <= :ultima"
 				.") "
 				."WHERE RNUM >= :primera";
@@ -95,7 +95,7 @@
 			$ultima  = $pag_num * $pag_size;
 			$consulta = 
 				 "SELECT * FROM ( "
-					."SELECT ROWNUM RNUM, AUX.* FROM COLABORADORTEXTIL AUX "
+					."SELECT ROWNUM RNUM, AUX.* FROM (SELECT * FROM COLABORADORTEXTIL ORDER BY IDCOLABORADORTEXTIL DESC) AUX "
 					."WHERE ROWNUM <= :ultima"
 				.") "
 				."WHERE RNUM >= :primera";
