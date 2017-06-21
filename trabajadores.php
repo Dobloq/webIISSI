@@ -56,7 +56,9 @@ $_SESSION["paginacion"] = $paginacion;
 				<h2> Trabajadores: </h2>
 				<?php foreach($filas as $fila){?>
 					<div id="divListado" name="divListado">
-						Nombre: <?php echo $fila["NOMBRETRABAJADOR"];?><br>
+						Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=trabajador&id=<?php echo $fila["IDTRABAJADOR"];?>&nombre=<?php echo $fila["NOMBRETRABAJADOR"];?>&esDirector=<?php echo $fila["ESDIRECTOR"];?>&valoracion=<?php echo $fila["VALORACION"];?>&usuario=<?php echo $fila["USUARIO"];?>">
+							<?php echo $fila["NOMBRETRABAJADOR"];?>
+						</a><br>
 						¿Es director? (1 sí, 0 no): <?php echo $fila["ESDIRECTOR"];?><br>
 						Valoración: <?php echo $fila["VALORACION"];?><br>
 						Nombre de usuario: <?php echo $fila["USUARIO"];?><br>

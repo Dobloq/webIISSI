@@ -94,8 +94,28 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> Camisetas: </h2>
-				<?php foreach($camisetas as $fila){ ?>
-					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+				<?php foreach($camisetas as $fila){
+				$temporadaPrenda = "";
+				$colaboradorTextil = "";
+				$ofertaPrenda = "";
+				if(isset($fila['TEMPORADA'])){
+					$temporadaPrenda = "&temporada=". $fila['TEMPORADA'];
+					//devuelve la ID de temporada
+				}
+				
+				if(isset($fila['COLABORADORTEXTIL'])){
+					$colaboradorTextil = "&colaboradorTextil=". $fila['COLABORADORTEXTIL'];
+					//devuelve ID de colaborador textil
+				} 
+				
+				if(isset($fila['IDOFERTA'])){
+					$ofertaPrenda = "&oferta=". $fila['IDOFERTA'];
+				} 
+				
+				?>
+					<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
+						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+					</a>
                     <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>">
 						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
@@ -104,8 +124,28 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> Sudaderas: </h2>
-				<?php foreach($sudaderas as $fila){ ?>
-					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+				<?php foreach($sudaderas as $fila){ 
+				$temporadaPrenda = "";
+				$colaboradorTextil = "";
+				$ofertaPrenda = "";
+				if(isset($fila['TEMPORADA'])){
+					$temporadaPrenda = "&temporada=". $fila['TEMPORADA'];
+					//devuelve la ID de temporada
+				}
+				
+				if(isset($fila['COLABORADORTEXTIL'])){
+					$colaboradorTextil = "&colaboradorTextil=". $fila['COLABORADORTEXTIL'];
+					//devuelve ID de colaborador textil
+				} 
+				
+				if(isset($fila['IDOFERTA'])){
+					$ofertaPrenda = "&oferta=". $fila['IDOFERTA'];
+				}
+				
+				?>
+					<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
+						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+					</a>
                 	<form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
 						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
@@ -114,8 +154,28 @@ foreach($filas as $fila){
 			</article>
 			<article>
 				<h2> HeadWear: </h2>
-				<?php foreach($gorras as $fila){ ?>
-					<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+				<?php foreach($gorras as $fila){ 
+				$temporadaPrenda = "";
+				$colaboradorTextil = "";
+				$ofertaPrenda = "";
+				if(isset($fila['TEMPORADA'])){
+					$temporadaPrenda = "&temporada=". $fila['TEMPORADA'];
+					//devuelve la ID de temporada
+				}
+				
+				if(isset($fila['COLABORADORTEXTIL'])){
+					$colaboradorTextil = "&colaboradorTextil=". $fila['COLABORADORTEXTIL'];
+					//devuelve ID de colaborador textil
+				} 
+				
+				if(isset($fila['IDOFERTA'])){
+					$ofertaPrenda = "&oferta=". $fila['IDOFERTA'];
+				}
+				
+				?>
+					<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
+						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" >
+					</a>
                     <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 						<input type="hidden" name="idPrenda" id="idPrenda" value="<?php echo $fila["IDPRENDA"];?>"/>
 						<button name="borrarPrenda" id="borrarPrenda" type="submit"> Borrar prenda </button>
@@ -139,7 +199,9 @@ foreach($filas as $fila){
 				<h2> Temporada: </h2>
 				<?php foreach($temporadas as $fila){ ?>
 					<div id="divListado" name="divListado">
-						Nombre: <?php echo $fila['NOMBRETEMPORADA'];?></br>
+						Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=temporada&id=<?php echo $fila['IDTEMPORADA'];?>&nombre=<?php echo $fila['NOMBRETEMPORADA'];?>&fecha=<?php echo $fila['FECHA'];?>">
+							<?php echo $fila['NOMBRETEMPORADA'];?></br>
+						</a>
 						Fecha: <?php echo $fila['FECHA'];?>
                         </br>
                         <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">

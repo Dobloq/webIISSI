@@ -54,7 +54,9 @@ $_SESSION["paginacion"] = $paginacion;
 				<h2> Proveedores </h2>
 				<?php foreach($proveedores as $fila){?> 
 					<div id="divListado" name="divListado">
-						Nombre: <?php echo $fila["NOMBREPROVEEDOR"];?><br>
+						Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=proveedor&id=<?php echo $fila["IDPROVEEDOR"]?>&nombre=<?php echo $fila["NOMBREPROVEEDOR"];?>&calificacion=<?php echo $fila["CALIFICACION"];?>&serigrafia=<?php echo $fila["SERIGRAFIA"];?>&ciudad=<?php echo $fila["CIUDAD"];?>&tecnicas=<?php echo $fila["TECNICAS"];?>">
+							<?php echo $fila["NOMBREPROVEEDOR"];?>
+						</a><br>
 						Calificación: <?php echo $fila["CALIFICACION"];?><br>
 						Ciudad: <?php echo $fila["CIUDAD"];?><br>
 						Serigrafía (1 sí, 0 no): <?php echo $fila["SERIGRAFIA"];?><br>

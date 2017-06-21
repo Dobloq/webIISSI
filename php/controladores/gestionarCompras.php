@@ -13,6 +13,17 @@
     	}
 	}
 	
+	function getUltimaCompra($conexion){
+		try {
+			$id = consultaCompras($conexion, contarCompras($conexion),1);
+			echo $id[0]["IDCOMPRA"];
+		}catch(PDOException $e) {
+			$_SESSION['excepcion'] = $e->GetMessage();
+			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+			header("Location: ../../excepcion.php");
+    	}
+	}
+	
 	function comprobarCompras($conexion, $fechaCompra, $idCliente){
 		try {
 			$query = "SELECT * FROM COMPRA WHERE FECHACOMPRA = :fechaCompra AND IDCLIENTE = :idCliente";

@@ -11,35 +11,70 @@ $prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
 var x = $(document);
 var nextInput = 2;
 x.ready(function() {
+	$("#formAltaCompra").on("submit",function(){
+		var cliente = document.getElementById("selectClienteCompra").options[document.getElementById("selectClienteCompra").selectedIndex].value;
+		$.post("php/controladores/insert.php", {botonSubirCompra : true, selectClienteCompra: cliente, fechaCompra: $("#fechaCompra").val()},
+		function(data){
+			$("[id^=ctdPrenda]").each(function(index, element) {
+				var n = element.id.charAt(element.id.length-1);
+				var idP = document.getElementById("selectPrendaCompra"+n).options[document.getElementById("selectPrendaCompra"+n).selectedIndex].value;
+                if(element.value!=0){
+					$.post("php/controladores/insert.php", {itemCompra: true, cantidad: element.value, importe: $("#precio"+n).val(), idCompra: data, idPrenda: idP},alert("funciona"));
+				}
+            });
+		});
+		
+	});
 	$("#nuevoArticulo").on("click",function(){
 		var sel = $('<select id="selectClienteCompra'+nextInput+'" name="selectClienteCompra'+nextInput+'">');
 		var items = document.getElementById("selectPrendaCompra1").options;
 		$(items).each(function() {
             sel.append($("<option>").attr('value',this.value).text(this.text));
         });
+		sel.on("change", cambioSel);
 		var ctd = $('<input type="number" min="0" name="ctdPrenda'+nextInput+'" id="ctdPrenda'+nextInput+'" placeholder="0">');
 		var label = $('<label> Cantidad: </label>');
+		var pr = $('<label> Precio: </label><input type="number" disabled name="precio'+nextInput+'" id="precio'+nextInput+'" value="0"><br>');
+		var val = $('<input type="hidden" id="value'+nextInput+'" name="value'+nextInput+'">');
+		ctd.on("change", function(){
+			var n = this.id.charAt(this.id.length-1);
+			$("#precio"+n).val($("#value"+n).val()*$(this).val());
+		});
 		$("#articulos").append(sel);
 		$("#articulos").append(label);
 		$("#articulos").append(ctd);
+		$("#articulos").append(pr);
+		$("#articulos").append(val);
 		nextInput++;
 		});
-	$("#selectPrendaCompra1").on("change", function(){
-		$.get("php/controladores/gestionarPrendas.php", {idPrenda: $("#selectPrendaCompra1 option:selected").val()},
-		function(data){
-			$("#precio1").val(data);
-			$("#value1").val(data);
-		});
-	});
+	$("[id^=selectPrendaCompra]").on("change", function(){
+			var n = this.id.charAt(this.id.length-1);
+			$.get("php/controladores/gestionarPrendas.php", {idPrenda: $("#selectPrendaCompra"+n+" option:selected").val()},
+			function(data){
+				$("#precio"+n).val(data);
+				$("#value"+n).val(data);
+				$("#ctdPrenda"+n).val(1);
+			});
+   	 	});
 	$("#ctdPrenda1").on("change", function(){
 		$("#precio1").val($("#value1").val()*$(this).val());
 		});
+	function cambioSel(){
+		var n = this.id.charAt(this.id.length-1);
+		alert(n);
+		$.get("php/controladores/gestionarPrendas.php", {idPrenda: $("#selectPrendaCompra"+n+" option:selected").val()},
+		function(data){
+			$("#precio"+n).val(data);
+			$("#value"+n).val(data);
+			$("#ctdPrenda"+n).val(1);
+		});
+	}
 });
 
 </script>
 <h2> Introduce los datos de la compra: </h2>
 <div id="divFormAltaCompra"><br>
-	<form id="formAltaCompra" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
+	<form id="formAltaCompra" method="post">
 		<label>Cliente:</label><br>
 			<select name="selectClienteCompra" id="selectClienteCompra" required>
 				<?php foreach($clientes as $fila){?>
@@ -59,7 +94,7 @@ x.ready(function() {
                     <label>Cantidad: </label>
                     <input type="number" min="0" name="ctdPrenda1" id="ctdPrenda1" placeholder="0">
                     <label>Precio</label>
-                    <input type="number" disabled name="precio1" id="precio1" value="">
+                    <input type="number" disabled name="precio1" id="precio1" value="0">
                     <input type="hidden" id="value1" name="value1">
                     <br>
             </div>

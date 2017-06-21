@@ -11,6 +11,7 @@ if(!isset($_SESSION['datosUsuario'])){
 		
 		if($tipoObjeto == "prenda") {
 			$urlImagen = $_GET['urlImagen'];
+			$color = $_GET['color'];
 			$precio = $_GET['precio'];
 			$talla = $_GET['talla'];
 			$tipoPrenda = $_GET['tipoPrenda'];
@@ -33,6 +34,7 @@ if(!isset($_SESSION['datosUsuario'])){
 		}
 		if($tipoObjeto == "temporada") {
 			$id = $_GET['id'];
+			$nombre = $_GET['nombre'];
 			$fecha = $_GET['fecha'];
 		}
 		if($tipoObjeto == "proveedor") {
@@ -40,7 +42,7 @@ if(!isset($_SESSION['datosUsuario'])){
 			$id = $_GET['id'];
 			$calificacion = $_GET['calificacion'];
 			$serigrafia = $_GET['serigrafia'];
-			$cuidad = $_GET['ciudad'];
+			$ciudad = $_GET['ciudad'];
 			$tecnicas = $_GET['tecnicas'];
 		}
 		if($tipoObjeto == "compra") {
@@ -93,8 +95,16 @@ if(!isset($_SESSION['datosUsuario'])){
 			
 		}
 		
+		if($tipoObjeto == "trabajador") {
+			$id = $_GET['id'];
+			$nombre = $_GET['nombre'];
+			$esDirector = $_GET['esDirector'];
+			$valoracion = $_GET['valoracion'];
+			$usuario = $_GET['usuario'];
+			//no está la contraseña, si queremos subirla habrá que hacerlo por session o post
+		}
+		
 	} else {
-		$_SESSION['excepcion'] = "Parece que no ha seleccionado ningún item para verlo en detalle";
 		header("Location: index.php");
 	}
 ?>
@@ -115,10 +125,11 @@ if(!isset($_SESSION['datosUsuario'])){
 		<section id="seccion">
 			<div id="divVistaDetalle" name="divVistaDetalle">
 				<?php if($tipoObjeto == "prenda") { ?>
-					<img src="<?php echo $urlImagen; ?>" id="imgDetalle" name="imgDetalle"/>
+					<img src="<?php echo $urlImagen; ?>" id="imgDetalle" name="imgDetalle" width="40%"/>
 					<br>
 					Precio: <?php echo $precio; ?> <br>
 					Talla: <?php echo $talla; ?> <br>
+					Color: <?php echo $color; ?> <br>
 					Tipo: <?php echo $tipoPrenda; ?> <br>
 					Ventas: <?php echo $ventas; ?> <br>
 					Cantidad: <?php echo $cantidad; ?> <br>
@@ -128,6 +139,9 @@ if(!isset($_SESSION['datosUsuario'])){
 					<?php } ?>
 					<?php if(isset($_GET['colaboradorTextil'])){ ?>
 						Colaborador Textil: <?php echo $colaboradorTextil; ?> <br>
+					<?php } ?>
+					<?php if(isset($_GET['oferta'])){ ?>
+						Oferta: <?php echo $oferta; ?>
 					<?php } ?>
 					
 					<?php if($tipoObjeto == "colaboradorAudiovisual") { ?>
@@ -142,6 +156,7 @@ if(!isset($_SESSION['datosUsuario'])){
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "temporada") { ?>
+					Nombre: <?php echo $nombre; ?> <br>
 					Fecha: <?php echo $fecha; ?> <br>
 					
 					<!-- FALTA AÑADIR AQUÍ LAS PRENDAS DE LA TEMPORADA -->
@@ -223,6 +238,13 @@ if(!isset($_SESSION['datosUsuario'])){
 						Colaborador: <?php echo $colaborador;?> <br>
 					<?php } ?>
 			
+				<?php } ?>
+				
+				<?php if($tipoObjeto == "trabajador") { ?>
+					Nombre: <?php echo $nombre; ?> <br>
+					¿Es director?: <?php echo $esDirector; ?> <br>
+					Valoración: <?php echo $valoracion; ?> <br>
+					Nombre de usuario: <?php echo $usuario; ?> <br>
 				<?php } ?>
 				
 			</div>

@@ -129,25 +129,9 @@ else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAn
     }
 	header("Location: ../../proveedores.php");
 }
-else if($pagina_anterior=="http://127.0.0.1:8081/ThreewGestion/altas.php?botonAnyadirCompra=anyadirCompra"){ //proviene de Compra
+else if(isset($_POST["botonSubirCompra"])){ //proviene de Compra
 $idCliente = $_POST['selectClienteCompra'];
 $fechaCompra = date('d/m/Y', strtotime($_POST["fechaCompra"]));
-/*$i = 1;
-$prenda1 = $_POST['selectPrendaCompra1'];$cantidad1 = $_POST['ctdPrenda1'];
-if(isset($_POST['selectPrendaCompra2'])){$prenda2 = $_POST['selectPrendaCompra2'];$cantidad2 = $_POST['ctdPrenda2'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra3'])){$prenda3 = $_POST['selectPrendaCompra3'];$cantidad3 = $_POST['ctdPrenda3'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra4'])){$prenda4 = $_POST['selectPrendaCompra4'];$cantidad4 = $_POST['ctdPrenda4'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra5'])){$prenda5 = $_POST['selectPrendaCompra5'];$cantidad5 = $_POST['ctdPrenda5'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra6'])){$prenda6 = $_POST['selectPrendaCompra6'];$cantidad6 = $_POST['ctdPrenda6'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra7'])){$prenda7 = $_POST['selectPrendaCompra7'];$cantidad7 = $_POST['ctdPrenda7'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra8'])){$prenda8 = $_POST['selectPrendaCompra8'];$cantidad8 = $_POST['ctdPrenda8'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra9'])){$prenda9 = $_POST['selectPrendaCompra9'];$cantidad9 = $_POST['ctdPrenda9'];$i=$i+1;}
-if(isset($_POST['selectPrendaCompra10'])){$prenda10 = $_POST['selectPrendaCompra10'];$cantidad10 = $_POST['ctdPrenda10'];$i=$i+1;}
-
-for($j = 1; $j<$i;$j=$j+1){
-	$query = "PROC_ITEMCOMPRA()";
-}
-$query = $query."END;";*/
 	try{
 	$query = "BEGIN PROC_COMPRA(:fechaCompra, :idCliente); END;";
 	$stmt = $conexion->prepare($query);
@@ -159,7 +143,9 @@ $query = $query."END;";*/
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
     }
-	header("Location: ../../datos.php");
+	require_once("gestionarCompras.php");
+	return getUltimaCompra($conexion);
+	//header("Location: ../../datos.php");
 }
 else if (isset($_POST["botonSubirOferta"])){
 	//proviene de Oferta
@@ -469,7 +455,6 @@ else if(isset($_POST["botonSubirTemporada"])){
 	if ($errorTemporada!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		header("Location: ../../excepcion.php");
 		exit();
 	}
@@ -518,6 +503,50 @@ if(!isset($_POST['esDirector'])){
 		header("Location: ../../excepcion.php");
     }
 	header("Location: ../../trabajadores.php");
+	
+} else if(isset($_POST["itemCompra"])){
+	$errorItemCompra = "";
+	if(isset($_POST["cantidad"])) {
+		$cantidad = limpiar($_POST["cantidad"]);
+	} else {
+		$errorItemCompra .= "Falta el nombre. ";
+	}
+	if(isset($_POST["importe"])) {
+		$importe = limpiar($_POST["importe"]);
+	} else {
+		$errorItemCompra .= "Falta el importe. ";
+	}
+	if(isset($_POST["idCompra"])) {
+		$idCompra = limpiar($_POST["idCompra"]);
+	} else {
+		$errorItemCompra .= "Falta el id de compra. ";
+	}
+	if(isset($_POST["idPrenda"])) {
+		$idPrenda = limpiar($_POST["idPrenda"]);
+	} else {
+		$errorItemCompra .= "Falta el id de compra. ";
+	}
+
+	if ($errorItemCompra!="") {
+		$_SESSION['excepcion'] = "Error(es) en la creacion de item compra: " . $errorItemCompra;
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+	}
+	try{
+		$query = "BEGIN PROC_ITEMCOMPRA(:importe, :cantidad, :idCompra, :idPrenda); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':importe',$importe);
+		$stmt->bindParam(':cantidad',$cantidad);
+		$stmt->bindParam(':idCompra',$idCompra);
+		$stmt->bindParam(':idPrenda',$idPrenda);
+		$stmt->execute();
+	} catch(PDOException $e) {
+		$_SESSION['excepcion'] = $e->GetMessage();
+		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
+		header("Location: ../../excepcion.php");
+		exit();
+    }
 }
 /*else if(){ //proviene de Comentario
 $idObjeto = $_POST[''];
