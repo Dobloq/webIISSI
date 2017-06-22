@@ -518,7 +518,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						</form>
 					<?php } else { ?>
 						Nombre: <?php echo $nombre;?> <br>
-						Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
+						Tiempo Estimado: <?php echo $tiempoEstimado;?> minutos<br>
 						<?php if(isset($_GET['tiempoReal'])){ ?>
 							Tiempo Real: <?php echo $tiempoReal;?> <br>
 						<?php } ?>
@@ -579,7 +579,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 										<input type="checkbox" name="esDirector" id="esDirector" value=1 checked><br>
 									<?php } else { ?>
 										<input type="checkbox" name="esDirector" id="esDirector" value=1 ><br>
-									<?php ?>
+									<?php } ?>
 								<button type="submit" id="modificarTrabajador" name="modificarTrabajador">Enviar</button>		
 							</form>
 						</div>
