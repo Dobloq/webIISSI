@@ -28,7 +28,9 @@ if (isset($_REQUEST["nombreUsr"])){
 			}catch(Excepcion $e){
 				$_SESSION['excepcion'] = $e->GetMessage();
 				$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-				header("Location: ../../excepcion.php");
+				if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 			}
 			if(isset($_SESSION['datosUsuario'])){
 				header("Location: ../../home.php");

@@ -9,7 +9,9 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: ../../excepcion.php");
+			if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+			if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+			if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     	}
 	}
 	
@@ -23,7 +25,9 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: ../../excepcion.php");
+			if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+			if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+			if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     	}
 	}
 
@@ -45,7 +49,9 @@
 		}catch(PDOException $e) {
 			$_SESSION['excepcion'] = $e->GetMessage();
 			$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-			header("Location: excepcion.php");
+			if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+			if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+			if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     	}
     }
 	

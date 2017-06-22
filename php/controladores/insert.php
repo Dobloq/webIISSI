@@ -125,23 +125,24 @@ else if(isset($_POST["botonSubirCAV"])){
 		exit();
 	}
 	try{
-	$query = "BEGIN PROC_COLABORADORAUDIOVISUAL(:nombreColAu,:calColAu); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombreColAu', $nombreColAu);
-	$stmt->bindParam(':calColAu', $calColAu);
-	$stmt->execute();
+		$query = "BEGIN PROC_COLABORADORAUDIOVISUAL(:nombreColAu,:calColAu); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombreColAu', $nombreColAu);
+		$stmt->bindParam(':calColAu', $calColAu);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		exit();
     }
 	header("Location: ../../trabajadores.php");
+	exit();
 }
 else if(isset($_POST["botonSubirCT"])){
 	//proviene de ColaboradorTextil
-	
 	$errorColT = "";
 	if(isset($_POST["nombreCT"])) {
 		$nombreColText = limpiar($_POST["nombreCT"]);
@@ -164,20 +165,22 @@ else if(isset($_POST["botonSubirCT"])){
 		exit();
 	}
 	try{
-	$query = "BEGIN PROC_COLABORADORTEXTIL(:nombreColText,:calColText); END;";
-	$consulta = "INSERT INTO COLABORADORTEXTIL VALUES (oid_colaboradorTextil.nextval,:nombreColText,:calColText)";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':nombreColText', $nombreColText);
-	$stmt->bindParam(':calColText', $calColText);
-	$stmt->execute();
+		$query = "BEGIN PROC_COLABORADORTEXTIL(:nombreColText,:calColText); END;";
+		$consulta = "INSERT INTO COLABORADORTEXTIL VALUES (oid_colaboradorTextil.nextval,:nombreColText,:calColText)";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':nombreColText', $nombreColText);
+		$stmt->bindParam(':calColText', $calColText);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		exit();
     }
 	header("Location: ../../proveedores.php");
+	exit();
 }
 else if(isset($_POST["botonSubirCompra"])){ //proviene de Compra
 $errorCompra = "";
@@ -201,17 +204,19 @@ $errorCompra = "";
 		exit();
 	}
 	try{
-	$query = "BEGIN PROC_COMPRA(:fechaCompra, :idCliente); END;";
-	$stmt = $conexion->prepare($query);
-	$stmt->bindParam(':fechaCompra', $fechaCompra);
-	$stmt->bindParam(':idCliente', $idCliente);
-	$stmt->execute();
+		$query = "BEGIN PROC_COMPRA(:fechaCompra, :idCliente); END;";
+		$stmt = $conexion->prepare($query);
+		$stmt->bindParam(':fechaCompra', $fechaCompra);
+		$stmt->bindParam(':idCliente', $idCliente);
+		$stmt->execute();
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		header("Location: ../../excepcion.php");
+		exit();
     }
 	require_once("gestionarCompras.php");
 	return getUltimaCompra($conexion);
@@ -443,7 +448,6 @@ else if(isset($_POST['botonSubirProveedor'])){
 }
 else if(isset($_POST['botonSubirPAV'])){
 	//proviene de ProyectoAudiovisual
-
 	$errorPAV = "";
 	if(isset($_POST["nombreProyAudiovisual"])) {
 		$nombre = limpiar($_POST["nombreProyAudiovisual"]);
@@ -471,6 +475,7 @@ else if(isset($_POST['botonSubirPAV'])){
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		exit();
     }
 	
 	header("Location: ../../tareas.php");

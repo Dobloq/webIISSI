@@ -150,34 +150,85 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					?>
 					<script type="text/javascript" src="js/validacion_alta_prenda.js"></script>
 					<div id="divFormAltaPrenda">
-						<form id="formAltaPrenda" class="altas-form" enctype="multipart/form-data" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
+						<form id="formEditarPrenda" class="altas-form" enctype="multipart/form-data" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+							<input type="hidden" id="idPrenda" name="idPrenda" value="<?php echo $id ?>">
 							<label>Color:</label><br>
-								<input type="text" name="colorPrenda" id="colorPrenda" onBlur="colorValidation()" required placeholder="<?php echo $color; ?>"><br>
+								<input type="text" name="colorPrenda" id="colorPrenda" onBlur="colorValidation()" required value="<?php echo $color; ?>"><br>
 							<label>Tipo:</label><br>
 							<div id="divRadio" name="divRadio">
-								<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Camiseta" checked required>Camiseta<br>
-								<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Sudadera" required> Sudadera<br>
-								<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear" required> Headwear
+								<?php if($_GET['tipoPrenda'] == "Camiseta") { ?>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Camiseta" required checked>Camiseta<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Sudadera" required> Sudadera<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear" required> Headwear
+								<?php } ?>
+								
+								<?php if($_GET['tipoPrenda'] ==  "Sudadera") { ?>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Camiseta" required>Camiseta<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Sudadera" required checked> Sudadera<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear" required> Headwear
+								<?php } ?>
+								
+								<?php if($_GET['tipoPrenda'] == "Headwear") { ?>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Camiseta" required>Camiseta<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Sudadera" required> Sudadera<br>
+									<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear" required checked> Headwear
+								<?php } ?>
 							</div>
 							<label>Calidad: </label><br>
-								<input type="number" min="0" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required placeholder="<?php echo $calidad; ?>"><br>
+								<input type="number" min="0" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required value="<?php echo $calidad; ?>"><br>
 							<label>Talla: </label><br>
 							<div id="divRadio" name="divRadio">
-								<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
-								<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
-								<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" checked required> L<br>
-								<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
-								<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL	
+							
+								<?php if($_GET['talla'] == "S") { ?>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required checked> S<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+								<?php } ?>
+								
+								<?php if($_GET['talla'] == "M") { ?>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required checked> M<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+								<?php } ?>
+								
+								<?php if($_GET['talla'] == "L") { ?>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required checked> L<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+								<?php } ?>
+								
+								<?php if($_GET['talla'] == "XL") { ?>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required checked> XL<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+								<?php } ?>
+								
+								<?php if($_GET['talla'] == "XXL") { ?>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required checked> XXL
+								<?php } ?>
+									
 							</div>
 							<label>Precio (&euro;): </label><br>
-								<input type="number" step="0.5" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()" required placeholder="<?php echo $precio; ?>"><br>
+								<input type="number" step="0.5" min="0" name="precioPrenda" id="precioPrenda" onBlur="precioValidation()" required value="<?php echo $precio; ?>"><br>
 							<label>Añade una imagen: </label><br>
-								<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
-								<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required placeholder="<?php echo $urlImagen; ?>"><br>
+								<input type="hidden" name="MAX_FILE_SIZE" value="30000000" >
+								<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required value="<?php echo $urlImagen; ?>"><br>
 							<label>Cantidad: </label><br>
-								<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()" placeholder="<?php echo $cantidad; ?>"><br>
+								<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()" required value="<?php echo $cantidad; ?>"><br>
 							<label>¿Pertenece a alguna de éstas temporadas? </label><br>
-								<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" required>
+								<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" >
 									<option value="null">No</option>
 									<?php foreach($temporada as $fila){?>
 										<option value="<?php echo $fila["IDTEMPORADA"]; ?>"><?php echo $fila["NOMBRETEMPORADA"]; ?> </option>
@@ -190,13 +241,13 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 									<?php }?>
 								</select><br>
 							<label>¿Es una colaboración textil? </label><br>
-								<select name="selectColaboradorPrenda" id="selectColaboradorPrenda" required>
+								<select name="selectColaboradorPrenda" id="selectColaboradorPrenda" >
 									<option value="null">No</option>
 								<?php foreach($colaboradores as $fila){?>
 									<option value="<?php echo $fila["IDCOLABORADORTEXTIL"]; ?>"><?php echo $fila["NOMBRECOLABORADORTEXTIL"]; ?> </option>
 								<?php }?>
 								</select><br><br>
-							<button type="submit" id="botonSubirPrenda" name="botonSubirPrenda">Enviar</button>
+							<button type="submit" id="modificarPrenda" name="modificarPrenda">Enviar</button>
 						</form>
 					
 					<?php } else { ?>
@@ -234,8 +285,26 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "colaboradorAudiovisual") { ?>
+				
+						<?php if(isset($_POST['editarColaboradorAudiovisual'])) { ?>
+							<script type="text/javascript" src="js/validacion_alta_colaboradorAudiovisual.js"></script>
+							<form id="formEditarCAV" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+								<input type="hidden" id="idCAV" name="idCAV" value="<?php echo $id ?>">
+								<label> Nombre: </label><br>
+									<input type="text" name="nombreCAV" id="nombreCAV" required value="<?php echo $nombre; ?>" onBlur="nombreValidation()"><br>
+								<label> Calificación: </label><br>
+									<input type="number" step="1" name="calificacionCAV" id="calificacionCAV" required value="<?php echo $calificacion; ?>" onBlur="calificacionValidation()"><br>
+								<button type="submit" id="modificarCAV" name="modificarCAV" onClick="validationForm()">Enviar</button>
+							</form>
+						
+						<?php } else { ?>
+				
+					
 						Nombre: <?php echo $nombre; ?> <br>
-                        Calificacion: <?php echo $calificacion; ?> <br><br>
+                        Calificacion: <?php echo $calificacion; ?> <br>
+						<form id="formEditaColaboradorAudiovisual" action="<?php echo $urlActual; ?>" method="post">
+							<button id="editarColaboradorAudiovisual" name="editarColaboradorAudiovisual" value="true"> Editar </button>
+						</form> <br><br>
                         <?php
 						require_once("php/controladores/gestionBD.php");
 						require_once("php/controladores/gestionarTareas.php");
@@ -246,63 +315,84 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 							$tiempoReal = "";
 							$proyectoTarea = "";
 							$colaborador = "";?>
-					<div id="divListado" name="divListado">
-						Nombre de la tarea: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=tarea&id=<?php echo $fila['IDTAREA']; ?>&nombre=<?php echo $fila["NOMBRETAREA"];?>&tiempoEstimado=<?php echo $fila["TIEMPOESTIMADO"];?><?php echo $tiempoReal; ?><?php echo $proyectoTarea; ?> <?php echo $colaborador; ?>">
-						<?php echo $fila["NOMBRETAREA"];?>
-						</a><br>
-						Tiempo estimado (en minutos): <?php echo $fila["TIEMPOESTIMADO"];?><br>
-						<?php if(isset($fila["TIEMPOREAL"])){
-							$tiempoReal = "&tiempoReal=". $fila["TIEMPOREAL"];?>
-							Tiempo real (en minutos): <?php echo $fila["TIEMPOREAL"];?> <br>
-						<?php } ?>
+						<div id="divListado" name="divListado">
+							Nombre de la tarea: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=tarea&id=<?php echo $fila['IDTAREA']; ?>&nombre=<?php echo $fila["NOMBRETAREA"];?>&tiempoEstimado=<?php echo $fila["TIEMPOESTIMADO"];?><?php echo $tiempoReal; ?><?php echo $proyectoTarea; ?> <?php echo $colaborador; ?>">
+								<?php echo $fila["NOMBRETAREA"];?>
+							</a><br>
+							Tiempo estimado (en minutos): <?php echo $fila["TIEMPOESTIMADO"];?><br>
+							<?php if(isset($fila["TIEMPOREAL"])){
+								$tiempoReal = "&tiempoReal=". $fila["TIEMPOREAL"];?>
+									Tiempo real (en minutos): <?php echo $fila["TIEMPOREAL"];?> <br>
+							<?php } ?>
 						
-						<?php if(isset($fila["PROYECTOAUDIOVISUAL"])){
-							$proyectoTarea = "&proyecto=". $fila["PROYECTOAUDIOVISUAL"];?>
-							Proyecto: <?php echo $fila["PROYECTOAUDIOVISUAL"];?> <br>
-						<?php } ?>
+							<?php if(isset($fila["PROYECTOAUDIOVISUAL"])){
+								$proyectoTarea = "&proyecto=". $fila["PROYECTOAUDIOVISUAL"];?>
+									Proyecto: <?php echo $fila["PROYECTOAUDIOVISUAL"];?> <br>
+							<?php } ?>
 						
-						<?php if(isset($fila["COLABORADORAUDIOVISUAL"])){
-							$colaborador = "&colaborador=". $fila["COLABORADORAUDIOVISUAL"];?>
-							Colaborador: <?php echo $fila["COLABORADORAUDIOVISUAL"];?> <br>
-						<?php } ?>
-					</div>
+							<?php if(isset($fila["COLABORADORAUDIOVISUAL"])){
+								$colaborador = "&colaborador=". $fila["COLABORADORAUDIOVISUAL"];?>
+									Colaborador: <?php echo $fila["COLABORADORAUDIOVISUAL"];?> <br>
+							<?php } ?>
+						
+						</div>
 						<br>
 						<?php }?>
+					<?php }?>
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "temporada") { ?>
-					Nombre: <?php echo $nombre; ?> <br>
-					Fecha: <?php echo $fecha; ?> <br>
-					<?php
-					require_once("php/controladores/gestionBD.php");
-					require_once("php/controladores/gestionarTareas.php");
-					$conexion = crearConexionBD();
-					$prendasTemp = consultaPrendasTemporada($conexion,$id);
-					foreach($prendasTempo as $fila){
-					?>
-                    <a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
-						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
-					</a>
-                    <?php } ?>
-					<?php if(!isset($_POST['editarTemporada'])) { ?>
+					
+					<?php if(isset($_POST['editarTemporada'])) { ?>
+						<script src="js/validacion_alta_temporada.js" type="text/javascript" ></script>
+						<form id="formEditarTemporada" class="altas-form" action='php/controladores/editar.php' method="post">
+							<input type="hidden" id="idTemporada" name="idTemporada" value="<?php echo $id ?>">
+							<label>Nombre:</label><br>
+								<input type="text" name="nombreTemporada" id="nombreTemporada" required value="<?php echo $nombre; ?>" onBlur="nombreValidation()"><br>
+							<label>Fecha:</label><br>
+								<input type="date" name="fechaTemporada" id="fechaTemporada" value="<?php echo date("Y-m-d");?>" required value="<?php echo $fecha; ?>" onBlur="fechaValidation()"><br>
+							<button type="submit" id="modificarTemporada" name="modificarTemporada">Enviar</button>
+						</form>
+						
+					<?php } else { ?>
+					
+						Nombre: <?php echo $nombre; ?> <br>
+						Fecha: <?php echo $fecha; ?> <br>
+					
 						<form id="formEditaTemporada" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarTemporada" name="editarTemporada" value="true"> Editar </button>
 						</form>
+					
+						<?php
+						require_once("php/controladores/gestionBD.php");
+						require_once("php/controladores/gestionarTareas.php");
+						$conexion = crearConexionBD();
+						$prendasTemp = consultaPrendasTemporada($conexion,$id);
+						foreach($prendasTempo as $fila){ ?>
+						
+							<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
+							<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+							</a>
+						<?php } ?>
+						
 					<?php } ?>
-					<!-- FALTA AÑADIR AQUÍ LAS PRENDAS DE LA TEMPORADA -->
+					
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "proveedor") { ?>
 					
 					<?php if(isset($_POST['editarProveedor'])) { ?>
 						<script type="text/javascript" src="js/validacion_alta_proveedor.js"></script>
-						<form id="formAltaProveedor" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
-							Nombre: <input type="text" name="nombreProveedor" id="nombreProveedor" onBlur="nombreValidation()" required placeholder="<?php echo $nombre; ?>" > <br>
-							Calificación: <input type="number" step="1" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required placeholder="<?php echo $calificacion; ?>"> <br>
-							Serigrafía: <input type="checkbox" name="serigrafiaProveedor" id="serigrafiaProveedor" placeholder="<?php echo $serigrafia; ?>"> <br>
-							Ciudad: <input type="text" name="ciudadProveedor" id="ciudadProveedor" onBlur="ciudadValidation()" required placeholder="<?php echo $ciudad; ?>"> <br>
-							Técnicas: <input type="text" name="tecnicasProveedor" id="tecnicasProveedor" onBlur="tecnicasValidation()" required placeholder="<?php echo $tecnicas; ?>"> <br>
-							<button type="submit" id="botonSubirProveedor" name="botonSubirProveedor">Enviar</button>
+						<form id="formEditarProveedor" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+							<input type="hidden" id="idProveedor" name="idProveedor" value="<?php echo $id ?>">
+							Nombre: <input type="text" name="nombreProveedor" id="nombreProveedor" onBlur="nombreValidation()" required value="<?php echo $nombre; ?>" > <br>
+							Calificación: <input type="number" step="1" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required value="<?php echo $calificacion; ?>"> <br>
+							Serigrafía: <input type="checkbox" name="serigrafiaProveedor" id="serigrafiaProveedor" value="<?php echo $serigrafia; ?>"> <br>
+							Ciudad: <input type="text" name="ciudadProveedor" id="ciudadProveedor" onBlur="ciudadValidation()" required value="<?php echo $ciudad; ?>"> <br>
+							Técnicas: <input type="text" name="tecnicasProveedor" id="tecnicasProveedor" onBlur="tecnicasValidation()" required value="<?php echo $tecnicas; ?>"> <br>
+							
+							<button type="submit" id="modificarProveedor" name="modificarProveedor">Enviar</button>
+							
 						</form>
 					<?php } else { ?>
 						Nombre: <?php echo $nombre; ?> <br>
@@ -336,34 +426,43 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				<?php } ?>
 				
 				<?php  if($tipoObjeto == "almacen") { ?>
-					Nombre: <?php echo $nombre; ?> <br>
-					
-					<?php if(!isset($_POST['editarAlmacen'])) { ?>
+					<?php if(isset($_POST['editarAlmacen'])) { ?>
+						<form id="formEditarAlmacen" class="altas-form" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+						<input type="hidden" id="idAlmacen" name="idAlmacen" value="<?php echo $id ?>">
+							<label>Nombre:</label><br>
+								<input type="text" name="nombreAlmacen" id="nombreAlmacen" required value="<?php echo $nombre; ?>" onBlur="nombreValidation()"><br><br>
+							<button type="submit" id="modificarAlmacen" name="modificarAlmacen">Enviar</button>
+						</form>
+						
+					<?php } else { ?>
+						Nombre: <?php echo $nombre; ?> <br>
 						<form id="formEditaAlmacen" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarAlmacen" name="editarAlmacen" value="true"> Editar </button>
 						</form>
 					<?php } ?>
+					
 					<!-- FALTA AÑADIR PRENDAS DEL ALMACÉN -->
-				
+					
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "cliente") { ?>
 										
 					<?php if(isset($_POST['editarCliente'])) { ?>
-						<form id="formAltaCliente" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
+						<form id="formEditarCliente" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+							<input type="hidden" id="idCliente" name="idCliente" value="<?php echo $id ?>">
 							<label>Nombre:</label><br>
-								<input type="text" name="nombreCliente" id="nombreCliente" required onBlur="nombreValidation()" placeholder="<?php  echo $nombre; ?>"><br>
+								<input type="text" name="nombreCliente" id="nombreCliente"  onBlur="nombreValidation()" value="<?php  echo $nombre; ?>"><br>
 							<label>Teléfono:</label><br>
-								<input type="tel" name="telefonoCliente" id="telefonoCliente" required onBlur="telefonoValidation()" placeholder="<?php  echo $telefono; ?>"><br>
+								<input type="tel" name="telefonoCliente" id="telefonoCliente"  onBlur="telefonoValidation()" value="<?php  echo $telefono; ?>"><br>
 							<label>Mail:</label><br>
-								<input type="mail" name="mailCliente" id="mailCliente" required onBlur="mailValidation()" placeholder="<?php  echo $correo; ?>"><br>
+								<input type="mail" name="mailCliente" id="mailCliente"  onBlur="mailValidation()" value="<?php  echo $correo; ?>"><br>
 							<label>Año de nacimiento:</label><br>
-								<select name="anyoNacimiento" required placeholder="<?php  echo $anyoNacimiento; ?>">
+								<select name="anyoNacimiento"  value="<?php  echo $anyoNacimiento; ?>">
 									<?php for($i = date("Y"); $i >= 1960; $i--){
 										echo '<option value="'.$i.'">'.$i.'</option>';
 									}?>
 								</select><br>
-							<button type="submit" id="botonSubirCliente" name="botonSubirCliente">Enviar</button>
+							<button type="submit" id="modificarCliente" name="modificarCliente">Enviar</button>
 						</form>
 					<?php } else { ?>
 					
@@ -405,21 +504,33 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
                     });
 				</script>
                 	<input type="hidden" id="idTarea" name="idTarea" value="<?php echo $id ?>">
-					Nombre: <?php echo $nombre;?> <br>
-					Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
-					<?php if(isset($_GET['tiempoReal'])){ ?>
-						Tiempo Real: <?php echo $tiempoReal;?> <br>
-					<?php } ?>
+										
+					<?php if(isset($_POST['editarTarea'])) { ?>
+						<script type="text/javascript" src="js/validacion_alta_tarea.js"></script>
+						<form id="formEditarTarea" method="post" action="../ThreewGestion/php/controladores/editar.php" onSubmit="validationForm()">
+							<input type="hidden" id="idTarea2" name="idTarea2" value="<?php echo $id ?>">
+							<label>Nombre:</label><br>
+								<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()" value="<?php echo $nombre;?>"><br>
+							<label>Tiempo estimado en minutos:</label><br>
+								<input type="number" name="tiempoEstimado" min="1" id="tiempoEstimado" required onBlur="tiempoValidation()" value="<?php echo $tiempoEstimado;?>"><br>
+								<input type="hidden" id="idTarea2" name="idTarea2" value="<?php echo $id ?>">
+							<button type="submit" id="modificarTarea" name="modificarTarea">Enviar</button>
+						</form>
+					<?php } else { ?>
+						Nombre: <?php echo $nombre;?> <br>
+						Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
+						<?php if(isset($_GET['tiempoReal'])){ ?>
+							Tiempo Real: <?php echo $tiempoReal;?> <br>
+						<?php } ?>
 			
-					<?php if(isset($_GET['proyecto'])){ ?>
-						Proyecto: <?php echo $proyecto;?> <br>
-					<?php } ?>
+						<?php if(isset($_GET['proyecto'])){ ?>
+							Proyecto: <?php echo $proyecto;?> <br>
+						<?php } ?>
 			
-					<?php if(isset($_GET['colaborador'])){ ?>
-						Colaborador: <?php echo $colaborador;?> <br>
-					<?php } ?>
-					<button type="button" name="terminarTarea" id="terminarTarea">Terminar tarea</button>
-					<?php if(!isset($_POST['editarTarea'])) { ?>
+						<?php if(isset($_GET['colaborador'])){ ?>
+							Colaborador: <?php echo $colaborador;?> <br>
+						<?php } ?>
+						<button type="button" name="terminarTarea" id="terminarTarea">Terminar tarea</button>
 						<form id="formEditaTarea" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarTarea" name="editarTarea" value="true"> Editar </button>
 						</form>
@@ -453,18 +564,23 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					<?php if(isset($_POST['editaTrabajador'])) { ?>
 						<script type="text/javascript" src="js/validacion_alta_usuario.js"></script>
 						<div id="divFormAltaUsr">
-							<form id="formAltaUsr" action='php/controladores/insert.php' method="post" onSubmit="return validationForm()">
+							<form id="formEditarUsr" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
+								<input type="hidden" id="idTrabajador" name="idTrabajador" value="<?php echo $id ?>">
 								<label>Nombre:</label><br>
-									<input type="text" name="nombreUsr" id="nombreUsr" required onBlur="nameValidation()" placeholder="<?php echo $nombre; ?>"><br>
+									<input type="text" name="nombreUsr" id="nombreUsr" required onBlur="nameValidation()" value="<?php echo $nombre; ?>"><br>
 								<label>Usuario:</label><br>
-									<input type="text" name="user" id="user" required onBlur="usernameValidation()" placeholder="<?php echo $usuario; ?>"><br>
+									<input type="text" name="user" id="user" required onBlur="usernameValidation()" value="<?php echo $usuario; ?>"><br>
 								<label>Contraseña:</label><br>
 									<input type="password" name="userPass" id="userPass" required onBlur="passwordValidation()"><br>
 								<label>Repita la contraseña:</label><br>
 									<input type="password" name="userPassConfirm" id="userPassConfirm" required onBlur="passwordConfirmation()"><br>
 								<label>¿Es director?</label><br>
-									<input type="checkbox" name="esDirector" id="esDirector" value=1 required><br>
-								<button type="submit" id="botonSubirTrabajador" name="botonSubirTrabajador">Enviar</button>		
+									<?php if($_GET['esDirector'] == 1) { ?>
+										<input type="checkbox" name="esDirector" id="esDirector" value=1 checked><br>
+									<?php } else { ?>
+										<input type="checkbox" name="esDirector" id="esDirector" value=1 ><br>
+									<?php ?>
+								<button type="submit" id="modificarTrabajador" name="modificarTrabajador">Enviar</button>		
 							</form>
 						</div>
 					<?php } else { ?>
@@ -519,6 +635,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 		</section>
 					<!-- ASIDE -->
 		<aside id="columna">
+			
 		</aside>
 					<!-- FOOTER -->
 		

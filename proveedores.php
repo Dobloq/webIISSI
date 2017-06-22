@@ -80,7 +80,7 @@ $_SESSION["paginacion_colaboradoresTextil"] = $paginacion_colaboradoresTextil;
 						</a><br>
 						Calificación: <?php echo $fila["CALIFICACION"];?><br>
 						Ciudad: <?php echo $fila["CIUDAD"];?><br>
-						Serigrafía (1 sí, 0 no): <?php echo $fila["SERIGRAFIA"];?><br>
+						Serigrafía: <?php echo ($fila["SERIGRAFIA"]==0) ? "No" : "Sí";?><br>
 						Técnicas: <?php echo $fila["TECNICAS"];?><br>
                         <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idProveedor" id="idProveedor" value="<?php echo $fila["IDPROVEEDOR"];?>">
