@@ -76,7 +76,7 @@ $_SESSION["paginacion_colaboradoresAU"] = $paginacion_colaboradoresAU;
 						Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=trabajador&id=<?php echo $fila["IDTRABAJADOR"];?>&nombre=<?php echo $fila["NOMBRETRABAJADOR"];?>&esDirector=<?php echo $fila["ESDIRECTOR"];?>&valoracion=<?php echo $fila["VALORACION"];?>&usuario=<?php echo $fila["USUARIO"];?>">
 							<?php echo $fila["NOMBRETRABAJADOR"];?>
 						</a><br>
-						¿Es director?: <?php echo ($fila["ESDIRECTOR"]==0) ? "No" : "Si";?><br>
+						¿Es director?: <?php echo ($fila["ESDIRECTOR"]==0) ? "No" : "Sí";?><br>
 						Valoración: <?php echo $fila["VALORACION"];?><br>
 						Nombre de usuario: <?php echo $fila["USUARIO"];?><br>
                         <form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
