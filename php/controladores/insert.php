@@ -5,7 +5,6 @@ function limpiar($input) {
 }
 
 session_start();
-$pagina_anterior=$_SERVER['HTTP_REFERER'];
 if(!isset($_SESSION['datosUsuario'])){
 	header("Location: index.php");
 }
@@ -24,7 +23,9 @@ if(isset($_POST["botonSubirAlmacen"])){
 	if ($errorAlmacen!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de almacen: " . $errorAlmacen;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -36,7 +37,9 @@ if(isset($_POST["botonSubirAlmacen"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 
@@ -73,7 +76,9 @@ else if(isset($_POST["botonSubirCliente"])){
 	if ($errorCliente!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de cliente: " . $errorCliente;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 	
@@ -88,7 +93,9 @@ else if(isset($_POST["botonSubirCliente"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 	header("Location: ../../datos.php");
@@ -112,7 +119,9 @@ else if(isset($_POST["botonSubirCAV"])){
 	if ($errorColAU!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de colaborador audiovisual: " . $errorColAU;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 	try{
@@ -124,7 +133,9 @@ else if(isset($_POST["botonSubirCAV"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	header("Location: ../../trabajadores.php");
 }
@@ -147,7 +158,9 @@ else if(isset($_POST["botonSubirCT"])){
 	if ($errorColT!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de colaborador textil: " . $errorColT;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 	try{
@@ -160,7 +173,9 @@ else if(isset($_POST["botonSubirCT"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	header("Location: ../../proveedores.php");
 }
@@ -180,7 +195,9 @@ $errorCompra = "";
 	if ($errorCompra!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de compra: " . $errorCompra;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 	try{
@@ -192,7 +209,9 @@ $errorCompra = "";
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	require_once("gestionarCompras.php");
 	return getUltimaCompra($conexion);
@@ -215,7 +234,9 @@ else if (isset($_POST["botonSubirOferta"])){
 
 	if ($errorOferta!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de oferta: " . $errorOferta;
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -229,7 +250,9 @@ else if (isset($_POST["botonSubirOferta"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 	header("Location: ../../productos.php");
@@ -323,7 +346,9 @@ else if(isset($_POST["botonSubirPrenda"])){
 		$_SESSION['excepcion'] = "Error(es) en formulario de prenda: " . $errorPrenda;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		$_SESSION['error'] = $error;
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -346,7 +371,9 @@ else if(isset($_POST["botonSubirPrenda"])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 
@@ -388,7 +415,9 @@ else if(isset($_POST['botonSubirProveedor'])){
 	if ($errorProveedor!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de proveedor: " . $errorProveedor;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -404,7 +433,9 @@ else if(isset($_POST['botonSubirProveedor'])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 	header("Location: ../../proveedores.php");
@@ -423,7 +454,9 @@ else if(isset($_POST['botonSubirPAV'])){
 	if ($errorPAV!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de proyecto: " . $errorPAV;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -435,7 +468,9 @@ else if(isset($_POST['botonSubirPAV'])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	
 	header("Location: ../../tareas.php");
@@ -479,7 +514,9 @@ else if(isset($_POST['botonSubirTarea'])){
 	if ($errorTarea!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de tarea: " . $errorTarea;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -496,7 +533,9 @@ else if(isset($_POST['botonSubirTarea'])){
 		exit();
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 	header("Location: ../../tareas.php");
@@ -519,7 +558,9 @@ else if(isset($_POST["botonSubirTemporada"])){
 	if ($errorTemporada!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 
@@ -532,7 +573,9 @@ else if(isset($_POST["botonSubirTemporada"])){
 	} catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 	if(isset($_POST["mostrar"])){
@@ -543,7 +586,7 @@ else if(isset($_POST["botonSubirTemporada"])){
 		exit();
 	}
 }
-else if(isset($_SESSION["botonSubirTrabajador"])){ //proviene de Usuario(trabajador)
+else if(isset($_POST["botonSubirTrabajador"])){ //proviene de Usuario(trabajador)
 	$errorTrabajador = "";
 	if(isset($_POST["nombreUsr"])) {
 		$nombre = limpiar($_POST["nombreUsr"]);
@@ -564,7 +607,9 @@ else if(isset($_SESSION["botonSubirTrabajador"])){ //proviene de Usuario(trabaja
 	if ($errorTrabajador!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de trabajador: " . $errorTrabajador;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 if(!isset($_POST['esDirector'])){
@@ -583,7 +628,9 @@ if(!isset($_POST['esDirector'])){
 	}catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	header("Location: ../../trabajadores.php");
 	
@@ -613,7 +660,9 @@ if(!isset($_POST['esDirector'])){
 	if ($errorItemCompra!="") {
 		$_SESSION['excepcion'] = "Error(es) en la creacion de item compra: " . $errorItemCompra;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
 	try{
@@ -627,7 +676,9 @@ if(!isset($_POST['esDirector'])){
 	} catch(PDOException $e) {
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
-		header("Location: ../../excepcion.php");
+		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
+		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
 }

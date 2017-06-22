@@ -106,7 +106,9 @@ $_SESSION["paginacion_colaboradoresAU"] = $paginacion_colaboradoresAU;
 				<h2> Colaboradores: </h2>
 				<?php foreach($colaboradores as $fila){?>
 					<div id="divListado" name="divListado">
-						Nombre: <?php echo $fila["NOMBRECOLABORADORAUDIOVISUAL"];?><br>
+						Nombre: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=colaboradorAudiovisual&id=<?php echo fila['IDCOLABORADORAUDIOVISUAL']; ?>&nombre=<?php echo fila['NOMBRECOLABORADORAUDIOVISUAL']; ?>&calificacion=<?php echo fila['CALIFICACION']; ?>" >
+							<?php echo $fila["NOMBRECOLABORADORAUDIOVISUAL"];?>
+						</a><br>
 						Calificación: <?php echo $fila["CALIFICACION"];?><br>
 						<form id="formListado" method="post" action="php/controladores/eliminar.php" onSubmit="return confirm('¿Está seguro de que desea borrar?')">
 							<input type="hidden" name="idColaborador" id="idColaborador" value="<?php echo $fila["IDCOLABORADORAUDIOVISUAL"];?>">
