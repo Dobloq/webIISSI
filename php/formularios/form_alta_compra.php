@@ -4,7 +4,6 @@ require_once("php/controladores/gestionarPrendas.php");
 $conexion = crearConexionBD();
 $clientes = consultaClientes($conexion, 1, contarClientes($conexion));
 $prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
-print_r($_POST);
 ?>
 <!--falta: <script type="text/javascript" src="js/validacion_alta_compra.js"></script>-->
 

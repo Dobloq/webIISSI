@@ -2,7 +2,7 @@
 
 session_start();
 if(!isset($_SESSION['datosUsuario'])){
-	HEADER("Location: index.php");
+	header("Location: index.php");
 }
 if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 	header("Location: "+$_SERVER['HTTP_REFERER']);
@@ -60,6 +60,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 		if($tipoObjeto == "colaboradorTextil") {
 			$id = $_GET['id'];
 			$nombre = $_GET['nombre'];
+			$calificacion = $_GET['calificacion'];
 		}
 		
 		if($tipoObjeto == "colaboradorAudiovisual") {
@@ -149,7 +150,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						cerrarConexionBD($conexion);
 					?>
 					<script type="text/javascript" src="js/validacion_alta_prenda.js"></script>
-					<div id="divFormAltaPrenda">
+					<div id="divFormEditarPrenda">
 						<form id="formEditarPrenda" class="altas-form" enctype="multipart/form-data" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
 							<input type="hidden" id="idPrenda" name="idPrenda" value="<?php echo $id ?>">
 							<label>Color:</label><br>
@@ -180,43 +181,43 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 							<div id="divRadio" name="divRadio">
 							
 								<?php if($_GET['talla'] == "S") { ?>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required checked> S<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="S" required checked> S<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XXL" required> XXL
 								<?php } ?>
 								
 								<?php if($_GET['talla'] == "M") { ?>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required checked> M<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="M" required checked> M<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XXL" required> XXL
 								<?php } ?>
 								
 								<?php if($_GET['talla'] == "L") { ?>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required checked> L<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="L" required checked> L<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XXL" required> XXL
 								<?php } ?>
 								
 								<?php if($_GET['talla'] == "XL") { ?>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required checked> XL<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required> XXL
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XL" required checked> XL<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XXL" required> XXL
 								<?php } ?>
 								
 								<?php if($_GET['talla'] == "XXL") { ?>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="M" required> M<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="L" required > L<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XL" required> XL<br>
-									<input type="radio" name="tallaPrenda" id="tipoPrenda" value="XXL" required checked> XXL
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="S" required> S<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="M" required> M<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="L" required > L<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XL" required> XL<br>
+									<input type="radio" name="tallaPrenda" id="tallaPrenda" value="XXL" required checked> XXL
 								<?php } ?>
 									
 							</div>
@@ -273,9 +274,17 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						<?php if(isset($_GET['oferta'])){ ?>
 							Oferta: <?php echo $oferta; ?> <br>
 						<?php } ?>					
-					
-						<?php if(isset($_GET['oferta'])){ ?>
-							Oferta: <?php echo $oferta; ?> <br>
+                        <?php 
+							require_once("php/controladores/gestionBD.php");
+							require_once("php/controladores/gestionarAlmacen.php");
+							$conexion = crearConexionBD();
+							$almacenes = consultaAlmacenPrenda($conexion, $id);
+							cerrarConexionBD($conexion);
+							foreach($almacenes as $fila){
+						?>
+                        	<div id="divListado" name="divListado">
+                            	<?php echo $fila["NOMBREALMACEN"];?>
+                            </div>
 						<?php } ?>
 							<form id="formEditaPrenda" action="<?php echo $urlActual; ?>" method="post">
 								<button id="editarPrenda" name="editarPrenda" value="true"> Editar </button>
@@ -350,7 +359,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 							<label>Nombre:</label><br>
 								<input type="text" name="nombreTemporada" id="nombreTemporada" required value="<?php echo $nombre; ?>" onBlur="nombreValidation()"><br>
 							<label>Fecha:</label><br>
-								<input type="date" name="fechaTemporada" id="fechaTemporada" value="<?php echo date("Y-m-d");?>" required value="<?php echo $fecha; ?>" onBlur="fechaValidation()"><br>
+								<input type="date" name="fechaTemporada" id="fechaTemporada" value="<?php echo $fecha; ?>" onBlur="fechaValidation()" required><br>
 							<button type="submit" id="modificarTemporada" name="modificarTemporada">Enviar</button>
 						</form>
 						
@@ -365,12 +374,15 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					
 						<?php
 						require_once("php/controladores/gestionBD.php");
-						require_once("php/controladores/gestionarTareas.php");
+						require_once("php/controladores/gestionarPrendas.php");
 						$conexion = crearConexionBD();
 						$prendasTemp = consultaPrendasTemporada($conexion,$id);
-						foreach($prendasTempo as $fila){ ?>
+						foreach($prendasTemp as $fila){ ?>
 						
-							<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php echo $temporadaPrenda; ?><?php echo $colaboradorTextil; ?><?php echo $ofertaPrenda; ?>">
+							<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?>
+							<?php if(isset($temporadaPrenda)) echo $temporadaPrenda; ?>
+							<?php if(isset($colaboradorTextil)) echo $colaboradorTextil; ?>
+							<?php if(isset($ofertaPrenda)) echo $ofertaPrenda; ?>">
 							<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
 							</a>
 						<?php } ?>
@@ -403,6 +415,21 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						<form id="formEditaProveedor" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarProveedor" name="editarProveedor" value="true"> Editar </button>
 						</form>
+                        <?php 
+							require_once("php/controladores/gestionBD.php");
+							require_once("php/controladores/gestionarPrendas.php");
+							$conexion = crearConexionBD();
+							$prendas = consultaPrendasProveedor($conexion, $id);
+							cerrarConexionBD($conexion);
+							foreach($prendas as $fila){
+						?>
+                        <a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?>
+							<?php if(isset($temporadaPrenda)) echo $temporadaPrenda; ?>
+							<?php if(isset($colaboradorTextil)) echo $colaboradorTextil; ?>
+							<?php if(isset($ofertaPrenda)) echo $ofertaPrenda; ?>">
+							<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+							</a>
+						<?php } ?>
 					<?php } ?>
 				<?php } ?>
 				
@@ -410,17 +437,58 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				
 				
 					<?php if(isset($_POST['editarCompra'])) { ?>
+                    <?php
+						require_once("php/controladores/gestionarCliente.php");
+						require_once("php/controladores/gestionarPrendas.php");
+						require_once("php/controladores/gestionBD.php");
+						$conexion = crearConexionBD();
+						$clientes = consultaClientes($conexion, 1, contarClientes($conexion));
+						$prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
+					?>
+						<div id="divFormEditarCompra"><br>
+							<form id="formEditarCompra" method="post">
+                            	<input type="text" id="idCompra" name="idCompra" hidden disabled>
+								<label>Cliente:</label><br>
+								<select name="selectClienteCompra" id="selectClienteCompra" required>
+									<?php foreach($clientes as $fila){?>
+									<option value="<?php echo $fila["IDCLIENTE"]; ?>"><?php echo $fila["NOMBRECLIENTE"]; ?> </option>
+									<?php }?>
+								</select><br>
+            					<input type="date" id="fechaCompra" name="fechaCompra" required value="<?php echo date("Y-m-d");?>">
+         						<br>
+         						<button type="button" id="modificarCompra" name="modificarCompra">Enviar</button>
+							</form>
+						</div>
+					<?php } else { ?>
+                    	<div id="divListado" name="divListado">
+							Nombre del cliente: <?php echo $nombreCliente;?><br>
+							Fecha de la compra: <?php echo $fecha;?><br>
+						</div>
 						<form id="formEditaCompra" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarCompra" name="editarCompra" value="true"> Editar </button>
 						</form>
-					<?php } else { ?>
-						
 					<?php } ?>
 					<!-- FALTA AÑADIR DETALLES DE LA COMPRA -->
+                     <div id="divListado" name="divListado">
+                    <?php
+					require_once("php/controladores/gestionBD.php");
+					require_once("php/controladores/gestionarItemCompra.php");
+					$conexion = crearConexionBD();
+					$itemsCompra = consultaItemDeCompra($conexion, $id);
+					foreach($itemsCompra as $fila){
+					?>
+                   <div id="divListado" name="divListado">
+                    Importe: <?php echo $fila["IMPORTETOTAL"] ?><br>
+                    Cantidad: <?php echo $fila["CANTIDAD"]?><br>
+                    <img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+                   	</div>
+                    <?php }?>
+                    </div>
 				<?php } ?>
 				
 				<?php  if($tipoObjeto == "colaboradorTextil") { ?>
 					Nombre: <?php echo $nombre; ?> <br>
+                    Calificacion: <?php echo $calificacion; ?> <br>
 					<!-- FALTA AÑADIR PRENDAS DEL COLABORADOR -->
 					
 				<?php } ?>
@@ -440,9 +508,22 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 							<button id="editarAlmacen" name="editarAlmacen" value="true"> Editar </button>
 						</form>
 					<?php } ?>
-					
+					<?php 
+					require_once("php/controladores/gestionBD.php");
+					require_once("php/controladores/gestionarPrendas.php");
+					$prendas = consultaPrendasAlmacen($conexion, $id);
+					foreach($prendas as $fila){
+					?>
+                    <a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php if(isset($temporadaPrenda)) echo $temporadaPrenda; ?>
+							<?php if(isset($colaboradorTextil)) echo $colaboradorTextil; ?>
+							<?php if(isset($ofertaPrenda)) echo $ofertaPrenda; ?>">
+						<img src="<?php echo $fila['URLIMAGEN'];?>" width="20%" ><br>
+					</a>
 					<!-- FALTA AÑADIR PRENDAS DEL ALMACÉN -->
-					
+					<?php }?>
+                    <?php 
+						
+					?>
 				<?php } ?>
 				
 				<?php if($tipoObjeto == "cliente") { ?>
@@ -474,9 +555,28 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						<form id="formEditaCliente" action="<?php echo $urlActual; ?>" method="post">
 							<button id="editarCliente" name="editarCliente" value="true"> Editar </button>
 						</form>
+                        
+                        <?php 
+						require_once("php/controladores/gestionBD.php");
+						require_once("php/controladores/gestionarCompras.php");
+						$conexion = crearConexionBD();
+						$compras = consultaComprasCliente($conexion, $id);
+						foreach($compras as $fila){
+						?>
+                        	<div id="divListado" name="divListado">
+							Nombre del cliente: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=cliente&id=<?php echo $fila["IDCLIENTE"]; ?>&nombre=<?php echo $fila["NOMBRECLIENTE"];?>&telefono=<?php echo $fila["TELEFONO"];?>&correo=<?php echo $fila["CORREO"];?>&anyoNacimiento=<?php echo $fila["ANYONACIMIENTO"];?>">
+								<?php echo $fila["NOMBRECLIENTE"];?> 
+							</a><br>
+							Fecha de la compra: <a href="vistaDetalle.php?toDetails=true&tipoObjeto=compra&id=<?php echo $fila["IDCOMPRA"]; ?>&fechaCompra=<?php echo $fila["FECHACOMPRA"]; ?>&idCliente=<?php echo $fila['IDCLIENTE']; ?>&nombreCliente=<?php echo $fila['NOMBRECLIENTE']; ?>">
+								<?php echo $fila["FECHACOMPRA"];?>
+							</a><br>
+						</div>
+                        <?php 
+						cerrarConexion($conexion);
+						} ?>
 					<?php } ?>
 				<?php } ?>
-				<?php //http://127.0.0.1:8081/ThreewGestion/vistaDetalle.php?toDetails=true&tipoObjeto="tarea"&id=10&nombre="Grabacion spot: dia 4"&tiempoEstimado=120 ?>
+                
 				<?php if($tipoObjeto == "tarea") { ?>
                 <script type="text/javascript">
 					var x = $(document);
@@ -513,12 +613,11 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 								<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()" value="<?php echo $nombre;?>"><br>
 							<label>Tiempo estimado en minutos:</label><br>
 								<input type="number" name="tiempoEstimado" min="1" id="tiempoEstimado" required onBlur="tiempoValidation()" value="<?php echo $tiempoEstimado;?>"><br>
-								<input type="hidden" id="idTarea2" name="idTarea2" value="<?php echo $id ?>">
 							<button type="submit" id="modificarTarea" name="modificarTarea">Enviar</button>
 						</form>
 					<?php } else { ?>
 						Nombre: <?php echo $nombre;?> <br>
-						Tiempo Estimado: <?php echo $tiempoEstimado;?> <br>
+						Tiempo Estimado: <?php echo $tiempoEstimado;?> minutos <br>
 						<?php if(isset($_GET['tiempoReal'])){ ?>
 							Tiempo Real: <?php echo $tiempoReal;?> <br>
 						<?php } ?>
@@ -544,7 +643,8 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					require_once("php/controladores/gestionarTrabajadores.php");
 					require_once("php/controladores/gestionBD.php");
 					$conexion = crearConexionBD();
-					$trabajadores = consultaTrabajadores($conexion, 1, 200);?>
+					$trabajadores = consultaTrabajadores($conexion, 1, 200);
+					cerrarConexion($conexion);?>
                     	<button type="button" name="asignarTarea" id="asignarTarea">Asignar tarea</button>
                     	<fieldset id="asignar" hidden>
                     		<label>Seleccione un trabajador</label>
@@ -563,7 +663,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 										
 					<?php if(isset($_POST['editaTrabajador'])) { ?>
 						<script type="text/javascript" src="js/validacion_alta_usuario.js"></script>
-						<div id="divFormAltaUsr">
+						<div id="divFormEditarUsr">
 							<form id="formEditarUsr" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
 								<input type="hidden" id="idTrabajador" name="idTrabajador" value="<?php echo $id ?>">
 								<label>Nombre:</label><br>
@@ -579,7 +679,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 										<input type="checkbox" name="esDirector" id="esDirector" value=1 checked><br>
 									<?php } else { ?>
 										<input type="checkbox" name="esDirector" id="esDirector" value=1 ><br>
-									<?php ?>
+									<?php } ?>
 								<button type="submit" id="modificarTrabajador" name="modificarTrabajador">Enviar</button>		
 							</form>
 						</div>
@@ -589,7 +689,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						Valoración: <?php echo $valoracion; ?> <br>
 						Nombre de usuario: <?php echo $usuario; ?> <br>
 						<form id="formEditaTrabajador" action="<?php echo $urlActual; ?>" method="post">
-							<button id="editarTrabajador" name="editarTrabajador" value="true"> Editar </button>
+							<button id="modificarTrabajador" name="modificarTrabajador" value="true"> Editar </button>
 						</form>
 					<?php } ?>
                  	<?php 
@@ -597,7 +697,9 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					require_once("/php/controladores/gestionarTareas.php");
 					$conexion = crearConexionBD();
 					if(contarTareasTrabaj($conexion, $id)>0){
-						$tareas = consultaTareasDeUnTrabajador($conexion, 1, 2000, $id);?>
+						$tareas = consultaTareasDeUnTrabajador($conexion, 1, 2000, $id);
+						cerrarConexion($conexion);
+						?>
                         <br>
                         Tareas del trabajador:<br>
                         <?php foreach($tareas as $fila){ 
@@ -629,7 +731,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
                         
 					<?php }?>
 				<?php } ?>
-				
+				</div>
 			</div>
 			<?php //include_once('php/formularios/form_comentario.php')?>
 		</section>

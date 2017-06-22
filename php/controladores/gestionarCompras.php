@@ -73,7 +73,7 @@
 	
 	function consultaComprasCliente($conexion, $idCliente){
 		try{
-			$consulta = "SELECT * FROM (ORDER BY FECHACOMPRA) WHERE IDCLIENTE = :idCliente";
+			$consulta = "SELECT * FROM (SELECT * FROM COMPRA ORDER BY FECHACOMPRA) NATURAL JOIN CLIENTE WHERE IDCLIENTE = :idCliente";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':idCliente', $idCliente );
 			$stmt->execute();

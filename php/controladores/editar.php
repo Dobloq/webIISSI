@@ -358,7 +358,7 @@ else if(isset($_POST["modificarPrenda"])){
 			$colaboradorPrenda = null;
 		}
 	} else {
-		$errorPrenda .= "Falta el collaborador. ";
+		$errorPrenda .= "Falta el colaborador. ";
 	}
 
 	$ventas = 0;
@@ -528,8 +528,8 @@ else if(isset($_POST['modificarTarea'])){
 	//proviene de Tarea
 	unset($_POST['modificarTarea']);
 	$errorTarea = "";
-	if(isset($_POST['idTarea'])) {
-		$id = limpiar($_POST['idTarea']);
+	if(isset($_POST['idTarea2'])) {
+		$id = limpiar($_POST['idTarea2']);
 	} else {
 		$errorTarea .= "Falta el id de la tarea. ";
 	}
@@ -671,8 +671,8 @@ else if(isset($_POST["modificarTrabajador"])){ //proviene de Usuario(trabajador)
 	} else {
 		$errorTrabajador .= "Falta la fecha. ";
 	}
-	if(isset($_POST["usuario"])) {
-		$usuario = limpiar($_POST["usuario"]);
+	if(isset($_POST["user"])) {
+		$usuario = limpiar($_POST["user"]);
 	} else {
 		$errorTrabajador .= "Falta la fecha. ";
 	}

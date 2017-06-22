@@ -197,7 +197,7 @@
 	
 	function consultaPrendasTemporada($conexion, $idTemporada){
 		try {
-			$consulta = "SELECT * FROM PRENDA WHERE IDTEMPORADA = :idTemporada";
+			$consulta = "SELECT * FROM PRENDA WHERE TEMPORADA = :idTemporada";
 			$stmt = $conexion->prepare( $consulta );
 			$stmt->bindParam( ':idTemporada', $idTemporada );
 			$stmt->execute();
