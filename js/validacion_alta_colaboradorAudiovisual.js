@@ -32,7 +32,6 @@
     	var valid2 = false;
     	valid2 = (cav <= 10) && (cav >= 0) && calificacion2.textLength != 0;
     	if (valid2==false) {
-			alert("cal no valida");
         	var errorC = "La calificación debe estar comprendida entre 0 y 10";
     	} else {
         	var errorC = "";

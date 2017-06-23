@@ -23,7 +23,7 @@ cerrarConexionBD($conexion);
 				<input type="radio" name="tipoPrenda" id="tipoPrenda" value="Headwear" required> Headwear
 			</div>
 		<label>Calidad: </label><br>
-			<input type="number" min="0" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required><br>
+			<input type="number" min="1" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required><br>
 		<label>Talla: </label><br>
 			<div id="divRadio" name="divRadio">
 				<input type="radio" name="tallaPrenda" id="tipoPrenda" value="S" required> S<br>
@@ -38,7 +38,7 @@ cerrarConexionBD($conexion);
         	<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
 			<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required><br>
 		<label>Cantidad: </label><br>
-			<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()"><br>
+			<input type="number" min="1" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()"><br>
 		<label>¿Pertenece a alguna de éstas temporadas? </label><br>
 			<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" required>
 				<option value="null">No</option>

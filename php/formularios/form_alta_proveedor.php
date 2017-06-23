@@ -6,7 +6,7 @@
 		<label>Nombre:</label><br>
 			<input type="text" name="nombreProveedor" id="nombreProveedor" onBlur="nombreValidation()" required><br>
 		<label>Calificación:</label><br>
-			<input type="number" step="1" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required><br>
+			<input type="number" step="1" min="0" max="10" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required><br>
 		<label>Serigrafía:</label><br>
 			<input type="checkbox" name="serigrafiaProveedor" id="serigrafiaProveedor"><br>
 		<label>Ciudad:</label><br>

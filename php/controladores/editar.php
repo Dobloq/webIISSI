@@ -71,19 +71,19 @@ else if(isset($_POST["modificarCliente"])){
 	}
 	
 	if(isset($_POST["nombreCliente"])) {
-		$nombreCliente = limpiar($_POST["nombreCliente"]);
+		$nombreCliente = "'".limpiar($_POST["nombreCliente"])."'";
 	} else {
 		$errorCliente .= "Falta el nombre. ";
 	}
 
 	if(isset($_POST["telefonoCliente"])) {
-		$telefonoCliente = $_POST["telefonoCliente"];
+		$telefonoCliente = "'".$_POST["telefonoCliente"]."'";
 	} else {
 		$errorCliente .= "Falta el telefono. ";
 	}
 
 	if(isset($_POST["mailCliente"])) {
-		$correoCliente = $_POST["mailCliente"];
+		$correoCliente = "'".$_POST["mailCliente"]."'";
 	} else {
 		$errorCliente .= "Falta el correo. ";
 	}
@@ -104,7 +104,7 @@ else if(isset($_POST["modificarCliente"])){
 	}
 	
 	try{
-		$query = "UPDATE CLIENTE SET NOMBRECLIENTE = :nombreCliente, TELEFONO = :telefonoCliente, CORREO = :correo, ANYONACIMIENTO = :anyoNacimiento WHERE IDCLIENTE = :idCliente;";
+		$query = "UPDATE CLIENTE SET NOMBRECLIENTE = ".$nombreCliente.", TELEFONO = ".$telefonoCliente.", CORREO = ".$correoCliente.", ANYONACIMIENTO = ".$anyoNacimiento." WHERE IDCLIENTE = ".$idCliente."";
 		$stmt = $conexion->prepare( $query );
 		$stmt->bindParam( ':nombreCliente', $nombreCliente );
 		$stmt->bindParam( ':telefonoCliente', $telefonoCliente );
@@ -113,11 +113,13 @@ else if(isset($_POST["modificarCliente"])){
 		$stmt->bindParam( ':idCliente', $idCliente );
 		$stmt->execute();
 	}catch(PDOException $e) {
+		/*$_SESSION['array'] = "c".$nombreCliente." ".$telefonoCliente." ".$correoCliente." ".$anyoNacimiento." ".$idCliente;
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
-		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}*/
+		header("Location: ../../datos.php");
 		exit();
     }
 	header("Location: ../../datos.php");
@@ -137,7 +139,7 @@ else if(isset($_POST["modificarCAV"])){
 	}
 	
 	if(isset($_POST["nombreCAV"])) {
-		$nombreColAu = limpiar($_POST["nombreCAV"]);
+		$nombreColAu = "'".limpiar($_POST["nombreCAV"])."'";
 	} else {
 		$errorColAU .= "Falta el nombre. ";
 	}
@@ -156,8 +158,11 @@ else if(isset($_POST["modificarCAV"])){
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
+	/*$_SESSION['array'] = $_POST;
+	header("Location: ../../excepcion.php");
+	exit();*/
 	try{
-	$query = "UPDATE COLABORADORAUDIOVISUAL SET NOMBRECOLABORADORAUDIOVISUAL = :nombreColAu CALIFICACION = :calColAu WHERE IDCOLABORADORAUDIOVISUAL = :idColAu;";
+	$query = "UPDATE COLABORADORAUDIOVISUAL SET NOMBRECOLABORADORAUDIOVISUAL = ".$nombreColAu.", CALIFICACION = :calColAu WHERE IDCOLABORADORAUDIOVISUAL = :idColAu;";
 	$stmt = $conexion->prepare($query);
 	$stmt->bindParam(':nombreColAu', $nombreColAu);
 	$stmt->bindParam(':calColAu', $calColAu);
@@ -206,9 +211,8 @@ else if(isset($_POST["modificarCT"])){
 		exit();
 	}
 	try{
-	$query = "BEGIN PROC_COLABORADORTEXTIL(:nombreColText,:calColText); END;";
 	$consulta = "UPDATE COLABORADORTEXTIL SET NOMBRECOLABORADORTEXTIL = :nombreColText, CALIFICACION =:calColText WHERE IDCOLABORADORTEXTIL = :idColText;";
-	$stmt = $conexion->prepare($query);
+	$stmt = $conexion->prepare($consulta);
 	$stmt->bindParam(':nombreColText', $nombreColText);
 	$stmt->bindParam(':calColText', $calColText);
 	$stmt->bindParam(':idColText', $idColText);
@@ -254,7 +258,7 @@ else if(isset($_POST["modificarCompra"])){ //proviene de Compra
 		exit();
 	}
 	try{
-	$query = "UPDATE COMPRA SET FECHACOMPRA = :fechaCompra, IDCLIENTE = :idCliente WHERE IDCOMPRA = :idCompra); END;";
+	$query = "UPDATE COMPRA SET FECHACOMPRA = :fechaCompra, IDCLIENTE = :idCliente WHERE IDCOMPRA = :idCompra";
 	$stmt = $conexion->prepare($query);
 	$stmt->bindParam(':fechaCompra', $fechaCompra);
 	$stmt->bindParam(':idCliente', $idCliente);
@@ -268,8 +272,7 @@ else if(isset($_POST["modificarCompra"])){ //proviene de Compra
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
     }
 	require_once("gestionarCompras.php");
-	return getUltimaCompra($conexion);
-	//header("Location: ../../datos.php");
+	header("Location: ../../datos.php");
 }
 
 /*-----------------------------------------------------------Prenda----------------------------------------------------------*/
@@ -376,7 +379,7 @@ else if(isset($_POST["modificarPrenda"])){
 	}
 
 	try{
-		$consulta = "UPDATE PRENDA SET COLOR = :color, TIPOPRENDA = :tipo, CALIDAD = :calidad, TALLA = :talla, VENTAS = :ventas, PRECIO = :precio, URLIMAGEN = :url, CANTIDAD = :cantidad, COLABORADORTEXTIL = :colTextil, TEMPORADA = :temporada, PROVEEDOR = :proveedor, IDOFERTA = :oferta)";
+		$consulta = "UPDATE PRENDA SET COLOR = :color, TIPOPRENDA = :tipo, CALIDAD = :calidad, TALLA = :talla, VENTAS = :ventas, PRECIO = :precio, URLIMAGEN = :url, CANTIDAD = :cantidad, COLABORADORTEXTIL = :colTextil, TEMPORADA = :temporada, PROVEEDOR = :proveedor, IDOFERTA = :oferta WHERE IDPRENDA = :idPrenda";
 		$stmt = $conexion->prepare($consulta);
 		$stmt->bindParam(':color', $colorPrenda);
 		$stmt->bindParam(':tipo',$tipoPrenda);
@@ -456,7 +459,7 @@ else if(isset($_POST['modificarProveedor'])){
 	}
 
 	try{
-		$query = "UPDATE PROVEEDOR SET NOMBREPROVEEDOR =:nombre, CALIFICACION = :calificacion, SERIGRAFIA = :serigrafia, CIUDAD = :ciudad, TECNICAS = :tecnicas WHERE IDPROVEEDOR = :id;";
+		$query = "UPDATE PROVEEDOR SET NOMBREPROVEEDOR ='".$nombre."', CALIFICACION = ".$calificacion.", SERIGRAFIA = ".$serigrafia.", CIUDAD = '".$ciudad."', TECNICAS = '".$tecnicas."' WHERE IDPROVEEDOR = ".$id;
 		$stmt = $conexion->prepare($query);
 		$stmt->bindParam(':nombre',$nombre);
 		$stmt->bindParam(':calificacion',$calificacion);
@@ -535,7 +538,7 @@ else if(isset($_POST['modificarTarea'])){
 	}
 	
 	if(isset($_POST['nombreTarea'])) {
-		$nombre = limpiar($_POST['nombreTarea']);
+		$nombre = "'".limpiar($_POST['nombreTarea'])."'";
 	} else {
 		$errorTarea .= "Falta el nombre de la tarea. ";
 	}
@@ -583,14 +586,14 @@ else if(isset($_POST['modificarTarea'])){
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
 	} catch(PDOException $e) {
-		echo $e->getMessage();
-		exit();
+		header("Location: ../../tareas.php");
+		/*$_SESSION['array'] = "abc".$proyecAud." ".$colabAud;
 		$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
-		exit();
+		exit();*/
     }
 	header("Location: ../../tareas.php");
 	exit();
@@ -635,11 +638,12 @@ else if(isset($_POST["modificarTemporada"])){
 		$stmt->bindParam(':id',$id);
 		$stmt->execute();
 	} catch(PDOException $e) {
-		$_SESSION['excepcion'] = $e->GetMessage();
+		/*$_SESSION['excepcion'] = $e->GetMessage();
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
 		if(file_exists("excepcion.php")){header("Location: excepcion.php");}
 		if(file_exists("../excepcion.php")){header("Location: ../excepcion.php");}
-		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
+		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}*/
+		header("Location: ../../productos.php");
 		exit();
     }
 	if(isset($_POST["mostrar"])){

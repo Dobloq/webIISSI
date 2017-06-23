@@ -1,5 +1,9 @@
 <?php
 	session_start();
+	if(!isset($_SESSION['datosUsuario'])){
+	header("Location: index.php");
+	exit();
+}
 	if(!isset($_SESSION["excepcion"])){
 		$mensaje = "Lo sentimos, ha ocurrido algún error desconocido.\nLe rogamos que se lo 
 			comunique al administrador de la web.\nDisculpe las molestias";

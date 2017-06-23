@@ -139,6 +139,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				
 					<?php if(isset($_POST['editarPrenda'])) { ?>
 					<?php 
+						require_once("php/controladores/gestionBD.php");
 						require_once("php/controladores/gestionarProyectoAudiovisual.php");
 						require_once("php/controladores/gestionarProveedor.php");
 						require_once("php/controladores/gestionarTemporadas.php");
@@ -176,7 +177,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 								<?php } ?>
 							</div>
 							<label>Calidad: </label><br>
-								<input type="number" min="0" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required value="<?php echo $calidad; ?>"><br>
+								<input type="number" min="1" max="10" name="calidadPrenda" id="calidadPrenda" onBlur="calidadValidation()" required value="<?php echo $calidad; ?>"><br>
 							<label>Talla: </label><br>
 							<div id="divRadio" name="divRadio">
 							
@@ -227,7 +228,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 								<input type="hidden" name="MAX_FILE_SIZE" value="30000000" >
 								<input type="file" name="imagenPrenda" id="imagenPrenda" accept="image/*" required value="<?php echo $urlImagen; ?>"><br>
 							<label>Cantidad: </label><br>
-								<input type="number" min="0" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()" required value="<?php echo $cantidad; ?>"><br>
+								<input type="number" min="1" name="cantidadPrenda" id="cantidadPrenda" onBlur="cantidadValidation()" required value="<?php echo $cantidad; ?>"><br>
 							<label>¿Pertenece a alguna de éstas temporadas? </label><br>
 								<select name="selectTemporadaPrenda" id="selectTemporadaPrenda" >
 									<option value="null">No</option>
@@ -302,7 +303,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 								<label> Nombre: </label><br>
 									<input type="text" name="nombreCAV" id="nombreCAV" required value="<?php echo $nombre; ?>" onBlur="nombreValidation()"><br>
 								<label> Calificación: </label><br>
-									<input type="number" step="1" name="calificacionCAV" id="calificacionCAV" required value="<?php echo $calificacion; ?>" onBlur="calificacionValidation()"><br>
+									<input type="number" step="1" min="0" max="10" name="calificacionCAV" id="calificacionCAV" required value="<?php echo $calificacion; ?>" onBlur="calificacionValidation()"><br>
 								<button type="submit" id="modificarCAV" name="modificarCAV" onClick="validationForm()">Enviar</button>
 							</form>
 						
@@ -319,6 +320,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						require_once("php/controladores/gestionarTareas.php");
 						$conexion = crearConexionBD();
 						$tareasColab = consultaTareaColaboradorAU($conexion,$id);
+						cerrarConexionBD($conexion);
 						?>
                         <?php foreach($tareasColab as $fila){ 
 							$tiempoReal = "";
@@ -377,6 +379,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						require_once("php/controladores/gestionarPrendas.php");
 						$conexion = crearConexionBD();
 						$prendasTemp = consultaPrendasTemporada($conexion,$id);
+						cerrarConexionBD($conexion);
 						foreach($prendasTemp as $fila){ ?>
 						
 							<a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?>
@@ -398,7 +401,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						<form id="formEditarProveedor" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
 							<input type="hidden" id="idProveedor" name="idProveedor" value="<?php echo $id ?>">
 							Nombre: <input type="text" name="nombreProveedor" id="nombreProveedor" onBlur="nombreValidation()" required value="<?php echo $nombre; ?>" > <br>
-							Calificación: <input type="number" step="1" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required value="<?php echo $calificacion; ?>"> <br>
+							Calificación: <input type="number" step="1" min="0" max="10" name="calificacionProveedor" id="calificacionProveedor" onBlur="calificacionValidation()" required value="<?php echo $calificacion; ?>"> <br>
 							Serigrafía: <input type="checkbox" name="serigrafiaProveedor" id="serigrafiaProveedor" value="<?php echo $serigrafia; ?>"> <br>
 							Ciudad: <input type="text" name="ciudadProveedor" id="ciudadProveedor" onBlur="ciudadValidation()" required value="<?php echo $ciudad; ?>"> <br>
 							Técnicas: <input type="text" name="tecnicasProveedor" id="tecnicasProveedor" onBlur="tecnicasValidation()" required value="<?php echo $tecnicas; ?>"> <br>
@@ -444,10 +447,11 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						$conexion = crearConexionBD();
 						$clientes = consultaClientes($conexion, 1, contarClientes($conexion));
 						$prendas = consultaPrendas($conexion, 1, contarPrendas($conexion));
+						cerrarConexionBD($conexion);
 					?>
 						<div id="divFormEditarCompra"><br>
-							<form id="formEditarCompra" method="post">
-                            	<input type="text" id="idCompra" name="idCompra" hidden disabled>
+							<form id="formEditarCompra" method="post" action='php/controladores/editar.php' >
+                            	<input type="hidden" id="idCompra" name="idCompra">
 								<label>Cliente:</label><br>
 								<select name="selectClienteCompra" id="selectClienteCompra" required>
 									<?php foreach($clientes as $fila){?>
@@ -456,7 +460,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 								</select><br>
             					<input type="date" id="fechaCompra" name="fechaCompra" required value="<?php echo date("Y-m-d");?>">
          						<br>
-         						<button type="button" id="modificarCompra" name="modificarCompra">Enviar</button>
+         						<button type="submit" id="modificarCompra" name="modificarCompra">Enviar</button>
 							</form>
 						</div>
 					<?php } else { ?>
@@ -476,6 +480,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					$conexion = crearConexionBD();
 					$itemsCompra = consultaItemDeCompra($conexion, $id);
 					foreach($itemsCompra as $fila){
+					cerrarConexionBD($conexion);
 					?>
                    <div id="divListado" name="divListado">
                     Importe: <?php echo $fila["IMPORTETOTAL"] ?><br>
@@ -511,7 +516,9 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					<?php 
 					require_once("php/controladores/gestionBD.php");
 					require_once("php/controladores/gestionarPrendas.php");
+					$conexion = crearConexionBD();
 					$prendas = consultaPrendasAlmacen($conexion, $id);
+					cerrarConexionBD($conexion);
 					foreach($prendas as $fila){
 					?>
                     <a href="vistaDetalle.php?toDetails=true&tipoObjeto=prenda&id=<?php echo $fila['IDPRENDA'];?>&urlImagen=<?php echo $fila['URLIMAGEN'];?>&color=<?php echo $fila['COLOR']; ?>&precio=<?php echo $fila['PRECIO'];?>&talla=<?php echo $fila['TALLA'];?>&tipoPrenda=<?php echo $fila['TIPOPRENDA'];?>&ventas=<?php echo $fila['VENTAS'];?>&cantidad=<?php echo $fila['CANTIDAD'];?>&calidad=<?php echo $fila['CALIDAD'];?><?php if(isset($temporadaPrenda)) echo $temporadaPrenda; ?>
@@ -529,12 +536,13 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				<?php if($tipoObjeto == "cliente") { ?>
 										
 					<?php if(isset($_POST['editarCliente'])) { ?>
+						<script src="js/validacion_alta_cliente.js" type="text/javascript"></script>
 						<form id="formEditarCliente" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
 							<input type="hidden" id="idCliente" name="idCliente" value="<?php echo $id ?>">
 							<label>Nombre:</label><br>
 								<input type="text" name="nombreCliente" id="nombreCliente"  onBlur="nombreValidation()" value="<?php  echo $nombre; ?>"><br>
 							<label>Teléfono:</label><br>
-								<input type="tel" name="telefonoCliente" id="telefonoCliente"  onBlur="telefonoValidation()" value="<?php  echo $telefono; ?>"><br>
+								<input type="tel" name="telefonoCliente" id="telefonoCliente"  onBlur="telefonoValidation()" value="<?php  echo "+".$telefono; ?>"><br>
 							<label>Mail:</label><br>
 								<input type="mail" name="mailCliente" id="mailCliente"  onBlur="mailValidation()" value="<?php  echo $correo; ?>"><br>
 							<label>Año de nacimiento:</label><br>
@@ -572,7 +580,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 							</a><br>
 						</div>
                         <?php 
-						cerrarConexion($conexion);
+						cerrarConexionBD($conexion);
 						} ?>
 					<?php } ?>
 				<?php } ?>
@@ -605,10 +613,24 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				</script>
                 	<input type="hidden" id="idTarea" name="idTarea" value="<?php echo $id ?>">
 										
-					<?php if(isset($_POST['editarTarea'])) { ?>
+					<?php if(isset($_POST['editarTarea'])) { 
+						$idProyecto = "null";
+						$idColaborador = "null";
+						?>
 						<script type="text/javascript" src="js/validacion_alta_tarea.js"></script>
 						<form id="formEditarTarea" method="post" action="../ThreewGestion/php/controladores/editar.php" onSubmit="validationForm()">
 							<input type="hidden" id="idTarea2" name="idTarea2" value="<?php echo $id ?>">
+							
+							<?php if(isset($_GET['proyecto']) && ($_GET['proyecto'] != "")){
+								 $idProyecto = $proyecto;
+							} ?>
+			
+							<?php if(isset($_GET['colaborador']) && ($_GET['colaborador'] != "")){ 
+								 $idColaborador = $colaborador; 
+							} ?>
+							<input type="hidden" id="selectProyecto" name="selectProyecto" value="<?php echo $idProyecto; ?>">
+							<input type="hidden" id="selectCompartir" name="selectCompartir" value="<?php echo $idColaborador; ?>">
+							
 							<label>Nombre:</label><br>
 								<input type="text" name="nombreTarea" id="nombreTarea" required onBlur="nombreValidation()" value="<?php echo $nombre;?>"><br>
 							<label>Tiempo estimado en minutos:</label><br>
@@ -644,7 +666,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 					require_once("php/controladores/gestionBD.php");
 					$conexion = crearConexionBD();
 					$trabajadores = consultaTrabajadores($conexion, 1, 200);
-					cerrarConexion($conexion);?>
+					cerrarConexionBD($conexion);?>
                     	<button type="button" name="asignarTarea" id="asignarTarea">Asignar tarea</button>
                     	<fieldset id="asignar" hidden>
                     		<label>Seleccione un trabajador</label>
@@ -661,7 +683,7 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 				
 				<?php if($tipoObjeto == "trabajador") { ?>
 										
-					<?php if(isset($_POST['editaTrabajador'])) { ?>
+					<?php if(isset($_POST['editarTrabajador'])) { ?>
 						<script type="text/javascript" src="js/validacion_alta_usuario.js"></script>
 						<div id="divFormEditarUsr">
 							<form id="formEditarUsr" action='php/controladores/editar.php' method="post" onSubmit="return validationForm()">
@@ -689,16 +711,16 @@ if($_SESSION["datosUsuario"]["ESDIRECTOR"]==0){
 						Valoración: <?php echo $valoracion; ?> <br>
 						Nombre de usuario: <?php echo $usuario; ?> <br>
 						<form id="formEditaTrabajador" action="<?php echo $urlActual; ?>" method="post">
-							<button id="modificarTrabajador" name="modificarTrabajador" value="true"> Editar </button>
+							<button id="editarTrabajador" name="editarTrabajador" value="true"> Editar </button>
 						</form>
 					<?php } ?>
                  	<?php 
-					require_once("/php/controladores/gestionBD.php");
-					require_once("/php/controladores/gestionarTareas.php");
+					require_once("php/controladores/gestionBD.php");
+					require_once("php/controladores/gestionarTareas.php");
 					$conexion = crearConexionBD();
 					if(contarTareasTrabaj($conexion, $id)>0){
 						$tareas = consultaTareasDeUnTrabajador($conexion, 1, 2000, $id);
-						cerrarConexion($conexion);
+						cerrarConexionBD($conexion);
 						?>
                         <br>
                         Tareas del trabajador:<br>

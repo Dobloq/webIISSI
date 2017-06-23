@@ -6,7 +6,7 @@
 		<label> Nombre: </label><br>
 			<input type="text" name="nombreCT" id="nombreCT" required onBlur="nombreValidation()"><br>
 		<label> Calificación: </label><br>
-			<input type="number" step="1" name="calificacionCT" id="calificacionCT" required onBlur="calificacionValidation()"><br>
+			<input type="number" step="1" min="0" max="10" name="calificacionCT" id="calificacionCT" required onBlur="calificacionValidation()"><br>
 		<button type="submit" id="botonSubirCT" name="botonSubirCT">Enviar</button>
 	</form>
 </div>

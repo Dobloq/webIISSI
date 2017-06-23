@@ -14,12 +14,16 @@ $stmt = null;
 if(isset($_POST["botonSubirAlmacen"])){
 	//proviene de Almacén
 	$errorAlmacen = "";
+	
 	if(isset($_POST["nombreAlmacen"])) {
 		$nombreAlmacen = limpiar($_POST["nombreAlmacen"]);
 	} else {
 		$errorAlmacen .= "Falta el nombre. ";
 	}
-
+	require_once("gestionarAlmacen.php");
+	if(comprobarAlmacen($conexion, $nombreAlmacen)!=""){
+		$errorAlmacen .= "Ya existe un almacén con ese nombre";
+	}
 	if ($errorAlmacen!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de almacen: " . $errorAlmacen;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -28,6 +32,7 @@ if(isset($_POST["botonSubirAlmacen"])){
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
 	}
+	
 
 	try{
 		$query = "BEGIN PROC_ALMACEN(:nombreAlmacen); END;";
@@ -42,6 +47,7 @@ if(isset($_POST["botonSubirAlmacen"])){
 		if(file_exists("../../excepcion.php")){header("Location: ../../excepcion.php");}
 		exit();
     }
+	
 
 	header("Location: ../../productos.php");
 	exit();
@@ -72,7 +78,10 @@ else if(isset($_POST["botonSubirCliente"])){
 	} else {
 		$errorCliente .= "Falta el año de nacimiento. ";
 	}
-
+	require_once("gestionarClientes.php");
+	if(comprobarCliente($conexion, $nombreCliente, $telefonoCliente, $correoCliente) != ""){
+		$errorCliente .= "Ya existe un cliente con esos datos";
+	}
 	if ($errorCliente!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de cliente: " . $errorCliente;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -115,7 +124,10 @@ else if(isset($_POST["botonSubirCAV"])){
 	} else {
 		$errorColAU .= "Falta la calificacion. ";
 	}
-	
+	require_once("gestionarColaboradores.php");
+	if(comprobarColaboradorAU($conexion, $nombreColAu) != ""){
+		$errorColAU .= "Ya existe un colaborador audiovisual con ese nombre";
+	}	
 	if ($errorColAU!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de colaborador audiovisual: " . $errorColAU;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -154,6 +166,9 @@ else if(isset($_POST["botonSubirCT"])){
 		$calColText = $_POST["calificacionCT"];
 	} else {
 		$errorColT .= "Falta la calificacion. ";
+	}
+	if(comprobarColaboradorT($conexion, $nombreColText) != ""){
+		$errorColT .= "Ya existe un colaborador textil con ese nombre";
 	}
 	
 	if ($errorColT!="") {
@@ -194,7 +209,11 @@ $errorCompra = "";
 	} else {
 		$errorCompra .= "Falta la fecha. ";
 	}
-
+	require_once("gestionarCompras.php");
+	if(comprobarCompras($conexion, $fechaCompra, $idCliente)!= ""){
+		$errorCompra .= "Ya existe una compra para ese cliente y fecha";
+	}
+	
 	if ($errorCompra!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de compra: " . $errorCompra;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -345,8 +364,10 @@ else if(isset($_POST["botonSubirPrenda"])){
 
 	$ventas = 0;
 	$oferta = null;
-
-
+	require_once("gestionarPrendas.php");
+	if(comprobarPrenda($conexion, $colorPrenda, $tipoPrenda, $calidadPrenda, $tallaPrenda, $precioPrenda, $imagenPrenda, $cantidadPrenda, $colaboradorPrenda, $temporadaPrenda, $proveedorPrenda, $oferta) != ""){
+		$errorPrenda .= "Ya existe una prenda con esos datos";
+	}
 	if ($errorPrenda!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de prenda: " . $errorPrenda;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -416,7 +437,11 @@ else if(isset($_POST['botonSubirProveedor'])){
 	} else {
 		$serigrafia = 1;
 	}
-
+	require_once("gestionarProveedor.php");
+	if(comprobarProveedor($conexion, $nombre) != ""){
+		$errorProveedor .= "Ya existe un proveedor con ese nombre";
+	}
+	
 	if ($errorProveedor!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de proveedor: " . $errorProveedor;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -453,6 +478,10 @@ else if(isset($_POST['botonSubirPAV'])){
 		$nombre = limpiar($_POST["nombreProyAudiovisual"]);
 	} else {
 		$errorPAV .= "Falta el nombre. ";
+	}
+	require_once("gestionarProyectoAudiovisual.php");
+	if(comprobarProyecto($conexion, $nombre) != ""){
+		$errorPAV .= "Ya existe un proyecto audiovisual con ese nombre";
 	}
 
 	if ($errorPAV!="") {
@@ -515,7 +544,11 @@ else if(isset($_POST['botonSubirTarea'])){
 	} else {
 		$errorTarea .= "Falta el colaborador audiovisual audiovisual. ";
 	}
-
+	require_once("gestionarTareas.php");
+	if(comprobarTarea($conexion, $nombre) != ""){
+		$errorTarea .= "Ya existe una tarea con ese nombre";
+	}
+	
 	if ($errorTarea!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de tarea: " . $errorTarea;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -559,7 +592,11 @@ else if(isset($_POST["botonSubirTemporada"])){
 	} else {
 		$errorTemporada .= "Falta la fecha. ";
 	}
-
+	require_once("gestionarTemporadas.php");
+	if(comprobarTemporada($conexion, $nombre) != ""){
+		$errorTemporada .= "Ya existe una temporada con ese nombre";
+	}
+	
 	if ($errorTemporada!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de temporada: " . $errorTemporada;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
@@ -603,12 +640,16 @@ else if(isset($_POST["botonSubirTrabajador"])){ //proviene de Usuario(trabajador
 	} else {
 		$errorTrabajador .= "Falta la fecha. ";
 	}
-	if(isset($_POST["usuario"])) {
-		$usuario = limpiar($_POST["usuario"]);
+	if(isset($_POST["user"])) {
+		$usuario = limpiar($_POST["user"]);
 	} else {
 		$errorTrabajador .= "Falta la fecha. ";
 	}
-
+	require_once("gestionarTrabajadores.php");
+	if(comprobarTrabajador($conexion, $nombre, $usuario) != ""){
+		$errorTrabajador .= "Ya existe un trabajador";
+	}
+	
 	if ($errorTrabajador!="") {
 		$_SESSION['excepcion'] = "Error(es) en formulario de trabajador: " . $errorTrabajador;
 		$_SESSION['destino'] = $_SERVER['HTTP_REFERER'];
